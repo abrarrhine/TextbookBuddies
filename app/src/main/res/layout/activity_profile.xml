@@ -6,4 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".Profile">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavView_Bar"
+        android:layout_width="420dp"
+        android:layout_height="90dp"
+        android:background="@color/maroon"
+        android:visibility="visible"
+        app:itemIconTint="?android:attr/colorActivatedHighlight"
+        app:itemTextColor="?android:attr/colorActivatedHighlight"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation_menu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
