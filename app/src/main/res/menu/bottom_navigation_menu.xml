@@ -4,11 +4,6 @@
     <!--code from https://github.com/mitchtabian/AppBarLayouts/blob/master/ActionBar%20Bottom%20Navigation/ActionBar/app/src/main/res/menu/bottom_navigation_menu.xml-->
     <!--with modifications-->
 
-    <item
-        android:id="@+id/ic_arrow"
-        android:icon="@drawable/ic_arrow"
-        android:title="Back"
-        />
 
     <item
         android:id="@+id/ic_search"
