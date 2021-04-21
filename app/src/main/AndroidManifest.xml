@@ -12,7 +12,8 @@
         <activity android:name=".DetailedBookListing"></activity>
         <activity android:name=".AddListing" />
         <activity android:name=".OtherPeopleProfile" />
-        <activity android:name=".Search" />
+        <activity android:name=".Search"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".FAQ" />
         <activity android:name=".Listings" />
         <activity android:name=".EditProfile" />
@@ -21,13 +22,18 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".ForgotPassword" />
-        <activity android:name=".HomeActivity"/>
+        <activity android:name=".HomeActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
     </application>
 
 </manifest>
