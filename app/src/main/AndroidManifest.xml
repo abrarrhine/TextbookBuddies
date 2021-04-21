@@ -12,7 +12,8 @@
         <activity android:name=".DetailedBookListing"></activity>
         <activity android:name=".AddListing" />
         <activity android:name=".OtherPeopleProfile" />
-        <activity android:name=".Search" />
+        <activity android:name=".Search"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".FAQ" />
         <activity android:name=".Listings" />
         <activity android:name=".EditProfile" />

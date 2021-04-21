@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".Search">
 
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="400dp"
+        android:layout_height="628dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavView_Bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ListView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView_Bar"
         android:layout_width="420dp"
