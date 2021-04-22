@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <EditText
                 android:id="@+id/enterLastNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
                 app:layout_constraintStart_toEndOf="@+id/enterFirstNameTV"
                 app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
-            <TextView
+            <EditText
                 android:id="@+id/enterFirstNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

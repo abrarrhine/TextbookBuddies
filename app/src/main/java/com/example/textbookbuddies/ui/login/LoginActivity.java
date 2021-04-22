@@ -1,18 +1,14 @@
 package com.example.textbookbuddies.ui.login;
 
 import android.app.Activity;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Parcel;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,7 +21,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.example.textbookbuddies.ForgotPassword;
 import com.example.textbookbuddies.HomeActivity;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.Signup;
@@ -49,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
     Button login;
     Button signup;
+    Button forgotPassword;
 
     EditText et_username;
     EditText et_password;
@@ -63,9 +60,9 @@ public class LoginActivity extends AppCompatActivity {
         et_username = (EditText) findViewById(R.id.et_username);
         et_password = (EditText) findViewById(R.id.et_password);
 
-
         login = (Button) findViewById(R.id.login);
         signup = (Button) findViewById(R.id.signup);
+        forgotPassword = (Button) findViewById(R.id.forgotPasswordButton);
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +94,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent signupIntent = new Intent(LoginActivity.this, Signup.class);
                 startActivity(signupIntent);
+            }
+        });
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent forgotpIntent = new Intent(LoginActivity.this, ForgotPassword.class);
+                startActivity(forgotpIntent);
             }
         });
     }
