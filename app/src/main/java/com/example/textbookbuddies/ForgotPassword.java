@@ -26,6 +26,7 @@ import com.example.textbookbuddies.ForgotPassword;
 import com.example.textbookbuddies.HomeActivity;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.Signup;
+import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.example.textbookbuddies.ui.login.LoginViewModel;
 import com.example.textbookbuddies.ui.login.LoginViewModelFactory;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -83,6 +84,8 @@ public class ForgotPassword extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
               if (task.isSuccessful()){
                   Toast.makeText(ForgotPassword.this, "Check your email to reset password!", Toast.LENGTH_LONG).show();
+                  Intent loginIntent = new Intent(ForgotPassword.this, LoginActivity.class);
+                  startActivity(loginIntent);
               }
               else {
                   Toast.makeText(ForgotPassword.this, "Password reset was unsuccessful! Please Try again!", Toast.LENGTH_LONG).show();
