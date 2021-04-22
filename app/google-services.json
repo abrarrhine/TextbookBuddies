@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "925299787605",
+    "project_id": "textbook-buddies-31189",
+    "storage_bucket": "textbook-buddies-31189.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:925299787605:android:607f9273c7245a792d51dc",
+        "android_client_info": {
+          "package_name": "com.example.textbookbuddies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "925299787605-i38rrkvtn8hu8vgbjq0m12913f579dbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsBXgAxdcA8GrNob--Yx6sBiHZuaA328g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "925299787605-i38rrkvtn8hu8vgbjq0m12913f579dbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

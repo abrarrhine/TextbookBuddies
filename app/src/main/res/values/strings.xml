@@ -11,4 +11,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="textbook_buddies">Textbook Buddies :)</string>
     <string name="logout">Logout</string>
+    <string name="someone">Someone!</string>
+    <string name="hello">Hello</string>
+    <string name="username">Username:</string>
 </resources>

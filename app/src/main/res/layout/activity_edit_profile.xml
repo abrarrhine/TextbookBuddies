@@ -6,9 +6,111 @@
     android:layout_height="match_parent"
     tools:context=".EditProfile">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/maroon">
+
+            <ImageView
+                android:id="@+id/iv_btn_back"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="40dp"
+                android:layout_weight="1"
+                app:srcCompat="@mipmap/ic_btn_back_foreground" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/hello"
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/tv_username_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/someone"
+                android:textSize="25sp"
+                android:textColor="@color/white"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="90dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp">
+            </TextView>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/ic_logoutsvg" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/username"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="140dp"/>
+
+            <TextView
+                android:id="@+id/tv_username_mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/someone"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_profile_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change profile photo"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="145dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_password_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Change password"
+                android:layout_marginTop="40dp"
+                android:layout_marginStart="155dp"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView_Bar"
-        android:layout_width="420dp"
+        android:layout_width="match_parent"
         android:layout_height="90dp"
         android:background="@color/maroon"
         android:visibility="visible"
