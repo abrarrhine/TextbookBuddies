@@ -13,6 +13,7 @@ import android.os.Parcel;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -35,7 +36,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.parceler.Parcels;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String TAG = "LoginActivity";
     private LoginViewModel loginViewModel;
@@ -47,8 +48,8 @@ public class LoginActivity extends AppCompatActivity {
     Button signup;
     Button forgotPassword;
 
-    EditText et_username;
-    EditText et_password;
+    private EditText et_usernamelogin;
+    private EditText et_passwordlogin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,18 +58,23 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        et_username = (EditText) findViewById(R.id.et_username);
-        et_password = (EditText) findViewById(R.id.et_password);
+        et_usernamelogin = (EditText) findViewById(R.id.et_username);
+        et_passwordlogin = (EditText) findViewById(R.id.et_password);
 
         login = (Button) findViewById(R.id.login);
         signup = (Button) findViewById(R.id.signup);
         forgotPassword = (Button) findViewById(R.id.forgotPasswordButton);
-
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userlogin();
+            } });
+            /**
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                email = et_username.getText().toString();
-                password = et_password.getText().toString();
+                email = et_usernamelogin.getText().toString();
+                password = et_passwordlogin.getText().toString();
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -89,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                         });
             }
         });
+         **/
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +111,63 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(forgotpIntent);
             }
         });
+    }
+
+    private void userlogin(){
+        email = et_usernamelogin.getText().toString().trim();
+        password = et_passwordlogin.getText().toString().trim();
+
+        if (email.isEmpty()){
+            et_usernamelogin.setError("Email is required!");
+            et_usernamelogin.requestFocus();
+            return;
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            et_usernamelogin.setError("Please provide a valid email!");
+            et_usernamelogin.requestFocus();
+            return;
+        }
+
+        if (password.isEmpty()){
+            et_passwordlogin.setError("Password is required!");
+            et_passwordlogin.requestFocus();
+            return;
+        }
+
+        if (password.length() < 6 || password.length() > 12){
+            et_passwordlogin.setError("Password should be between 6-12 characters!");
+            et_passwordlogin.requestFocus();
+            return;
+        }
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    if (user.isEmailVerified()){
+                        Toast.makeText(LoginActivity.this, "Successfully logged in!", Toast.LENGTH_LONG).show();
+
+                        //redirect to home page
+                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(i);
+                    }
+                    else {
+                        user.sendEmailVerification();
+                        Toast.makeText(LoginActivity.this, "Check your email to verify your account!", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+                else{
+                    Toast.makeText(LoginActivity.this, "Incorrect Email or Password!     Log in failed! Try again!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(LoginActivity.this, "Log in failed! Try again!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
     }
 
     private void updateUI(Object o) {
@@ -125,4 +189,8 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }
