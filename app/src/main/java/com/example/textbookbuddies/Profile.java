@@ -6,15 +6,75 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Profile extends AppCompatActivity {
+
+    private FirebaseUser user;
+    private Button editProfileButton;
+    private DatabaseReference reference;
+    private String userID;
+    TextView userEmail;
+    TextView userFullName;
+    TextView userPhoneNumber;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        userID = user.getUid();
+        final TextView userFullName = (TextView) findViewById(R.id.fullNameProfile);
+        final TextView userEmail = (TextView) findViewById(R.id.emailEditTextProfile);
+        final TextView userPhoneNumber = (TextView) findViewById(R.id.phoneNumberProfile);
+
+        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User userProfile = snapshot.getValue(User.class);
+
+                if (userProfile != null){
+                    String fullName = userProfile.firstname + " "+ userProfile.lastname;
+                    String email = userProfile.email;
+                    String phonen = userProfile.phonenumber;
+
+                    userFullName.setText(fullName);
+                    userEmail.setText(email);
+                    userPhoneNumber.setText(phonen);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(Profile.this, "Sorry! Something is wrong!", Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+        editProfileButton = (Button) findViewById(R.id.editProfileButton);
+        editProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent editProfileIntent = new Intent(Profile.this, EditProfile.class);
+                startActivity(editProfileIntent);
+            }
+        });
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);

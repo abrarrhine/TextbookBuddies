@@ -16,7 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HomeActivity extends AppCompatActivity {
 
     ImageView iv_logout;
-    TextView tv_logout;
+    TextView logout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +54,9 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         iv_logout = (ImageView) findViewById(R.id.iv_logout);
-        tv_logout = (TextView) findViewById(R.id.tv_logout);
+        logout = (TextView) findViewById(R.id.tv_logout);
 
-        iv_logout.setOnClickListener(new View.OnClickListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent5 = new Intent(HomeActivity.this, LoginActivity.class);
@@ -65,10 +65,10 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        tv_logout.setOnClickListener(new View.OnClickListener() {
+        iv_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent6 = new Intent(HomeActivity.this, LoginActivity.class);
+                Intent intent6 = new Intent(HomeActivity.this, Profile.class);
                 startActivity(intent6);
 
             }
