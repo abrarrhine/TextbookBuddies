@@ -47,6 +47,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button login;
     Button signup;
     Button forgotPassword;
+    ProgressBar progressBar;
 
     private EditText et_usernamelogin;
     private EditText et_passwordlogin;
@@ -64,9 +65,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         login = (Button) findViewById(R.id.login);
         signup = (Button) findViewById(R.id.signup);
         forgotPassword = (Button) findViewById(R.id.forgotPasswordButton);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarLogin);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressBar.setVisibility(View.VISIBLE);
                 userlogin();
             } });
             /**
@@ -144,8 +147,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.VISIBLE);
                 if (task.isSuccessful()){
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
 
                     if (user.isEmailVerified()){
                         Toast.makeText(LoginActivity.this, "Successfully logged in!", Toast.LENGTH_LONG).show();
@@ -158,6 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         user.sendEmailVerification();
                         Toast.makeText(LoginActivity.this, "Check your email to verify your account!", Toast.LENGTH_LONG).show();
                     }
+                    progressBar.setVisibility(View.GONE);
 
                 }
                 else{

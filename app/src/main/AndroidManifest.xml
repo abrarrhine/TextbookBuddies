@@ -14,10 +14,10 @@
         android:theme="@style/Theme.TextbookBuddies">
         <activity android:name=".DetailedBookListing"></activity>
         <activity android:name=".AddListing">
-            <intent-filter>-->
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>&ndash;&gt;-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".OtherPeopleProfile" />
         <activity android:name=".Search"
@@ -35,10 +35,10 @@
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/title_activity_login" >
-<!--            <intent-filter>&ndash;&gt;-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".ForgotPassword" />
         <activity android:name=".HomeActivity">
