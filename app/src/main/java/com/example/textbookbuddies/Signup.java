@@ -23,9 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+
 public class Signup extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
     private static final String TAG = "Signup";
+    Book book;
     String email;
     String password;
     String firstName;
@@ -34,6 +37,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener{
     String phoneNumber;
 
     Button signup;
+    ArrayList<Book> booklist;
 
     EditText et_email;
     EditText et_password;
@@ -129,7 +133,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener{
         lastName = et_lastName.getText().toString().trim();
         dob = et_dob.getText().toString().trim();
         phoneNumber = et_number.getText().toString().trim();
-
+        booklist = new ArrayList<Book>();
         if (email.isEmpty()){
             et_email.setError("Email is required");
             et_email.requestFocus();
@@ -177,7 +181,11 @@ public class Signup extends AppCompatActivity implements View.OnClickListener{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            User user = new User(firstName, lastName, dob, email, phoneNumber);
+                            book = new Book("title","isbn","author","classes", 50.80, Integer.parseInt(phoneNumber),email);
+                            booklist.add(book);
+                            User user = new User(firstName, lastName, dob, email, phoneNumber, booklist);
+                            //User user = new User(firstName, lastName, dob, email, phoneNumber);
+
 
                             FirebaseDatabase.getInstance().getReference("users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
