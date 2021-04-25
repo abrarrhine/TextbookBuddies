@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -60,6 +61,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent5 = new Intent(HomeActivity.this, LoginActivity.class);
+                FirebaseAuth.getInstance().signOut();
                 startActivity(intent5);
 
             }
@@ -69,6 +71,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent6 = new Intent(HomeActivity.this, Profile.class);
+                FirebaseAuth.getInstance().signOut();
                 startActivity(intent6);
 
             }

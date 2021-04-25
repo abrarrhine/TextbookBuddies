@@ -68,7 +68,7 @@ public class AddListing extends AppCompatActivity {
         btn_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.createUserWithEmailAndPassword(email,password)
+                /*mAuth.createUserWithEmailAndPassword(email,password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -104,7 +104,7 @@ public class AddListing extends AppCompatActivity {
 
                                 }
                             }
-                        });
+                        });*/
             }
         });
 
