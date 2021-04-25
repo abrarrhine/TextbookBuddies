@@ -67,12 +67,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/bottom_navigation_menu" >
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavView_Bar_profile"
+            android:layout_width="420dp"
+            android:layout_height="90dp"
+            android:background="@color/maroon"
+            android:visibility="visible"
+            app:itemIconTint="?android:attr/colorActivatedHighlight"
+            app:itemTextColor="?android:attr/colorActivatedHighlight"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_navigation_menu" />
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="213dp"
-        android:layout_height="197dp"
+        android:layout_width="171dp"
+        android:layout_height="128dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -127,30 +139,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cClassesText" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavView_Bar_profile"
-        android:layout_width="420dp"
-        android:layout_height="90dp"
-        android:background="@color/maroon"
-        android:visibility="visible"
-        app:itemIconTint="?android:attr/colorActivatedHighlight"
-        app:itemTextColor="?android:attr/colorActivatedHighlight"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.555"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
-
     <Button
         android:id="@+id/editProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="45dp"
+        android:layout_marginTop="16dp"
         android:text="Edit Profile"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavView_Bar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cClassesOtherPersonText" />
 
