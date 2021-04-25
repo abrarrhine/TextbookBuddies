@@ -58,6 +58,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, author, isbn, price, email, phonenumber;
+        TextView authorTitle, isbnTitle, priceTitle, contactTitle;
         RelativeLayout itemBook;
         public ViewHolder(View v) {
             super(v);
@@ -68,6 +69,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
             email = v.findViewById(R.id.bkEmail);
             phonenumber = v.findViewById(R.id.bkPhone);
             itemBook = v.findViewById(R.id.itembook);
+
+            authorTitle = v.findViewById(R.id.bkAuthorTitle);
+            isbnTitle = v.findViewById(R.id.bkIsbnTitle);
+            priceTitle = v.findViewById(R.id.bkPriceTitle);
+            contactTitle = v.findViewById(R.id.bkContactTitle);
         }
 
         public void bind(Book book) {
@@ -77,6 +83,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
             price.setText("$"+book.getPrice());
             email.setText(book.getEmail());
             phonenumber.setText(book.getNumber());
+
+            authorTitle.setText("Author: ");
+            isbnTitle.setText("ISBN: ");
+            priceTitle.setText("Price: ");
+            contactTitle.setText("Contact: ");
 
             itemBook.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -56,6 +56,7 @@ public class Listings extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         String Uid = firebaseUser.getUid();
+
         String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
         Log.d(TAG, HttpURL);
         AsyncHttpClient client = new AsyncHttpClient();
@@ -67,8 +68,8 @@ public class Listings extends AppCompatActivity {
                         try {
                             JSONArray booklist = jsonObject.getJSONArray("booklist");
                             Log.i(TAG, "Results: " + booklist.toString());
-//                            books.addAll(Book.fromJSONArray(booklist));
-//                            bookAdapter.notifyDataSetChanged();
+                            books.addAll(Book.fromJSONArray(booklist));
+                            bookAdapter.notifyDataSetChanged();
                             Log.i(TAG, "Books: " + books.size());
 
                         } catch (JSONException e) {
