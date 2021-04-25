@@ -20,17 +20,116 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="2dp"
         android:layout_toEndOf="@+id/bkImage"
-        android:textSize="18sp"
+        android:textSize="16sp"
         tools:text="Learning C# by Developing Games with Unity 2019" />
 
     <TextView
-        android:id="@+id/bkInfo"
-        android:layout_width="wrap_content"
+        android:id="@+id/bkAuthor"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkTitle"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="139dp"
+        android:layout_toEndOf="@+id/bkAuthorTitle"
+        android:textSize="14sp"
+        tools:text="Joe Smith" />
+
+    <TextView
+        android:id="@+id/bkAuthorTitle"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkTitle"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="1dp"
         android:layout_toEndOf="@+id/bkImage"
-        android:textSize="12sp"
-        tools:text="Understand the fundamentals of C# programming and get started with coding from ground up in an engaging and practical manner Key Features Beginner's guide to getting started with software development concepts from a macro level Leverage the power of the latest C# in solving the complex programming problems." />
+        android:textSize="14sp"
+        tools:text="Author: " />
+
+    <TextView
+        android:id="@+id/bkEmail"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkPrice"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="-3dp"
+        android:layout_marginEnd="1dp"
+        android:layout_toEndOf="@+id/bkContactTitle"
+        android:textSize="14sp"
+        tools:text="emilyrn18@vt.edu" />
+
+    <TextView
+        android:id="@+id/bkPhone"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkEmail"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="119dp"
+        android:layout_toEndOf="@+id/bkContactTitle"
+        android:textSize="14sp"
+        tools:text="434-555-0000" />
+
+    <TextView
+        android:id="@+id/bkContactTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkPriceTitle"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="-2dp"
+        android:layout_toEndOf="@+id/bkImage"
+        android:textSize="14sp"
+        tools:text="Contact:" />
+
+    <TextView
+        android:id="@+id/bkIsbn"
+        android:layout_width="61dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkAuthor"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="158dp"
+        android:layout_toEndOf="@+id/bkIsbnTitle"
+        android:textSize="14sp"
+        tools:text="123456" />
+
+    <TextView
+        android:id="@+id/bkPrice"
+        android:layout_width="78dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkIsbn"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="141dp"
+        android:layout_toEndOf="@+id/bkPriceTitle"
+        android:textSize="14sp"
+        tools:text="$45.99" />
+
+    <TextView
+        android:id="@+id/bkPriceTitle"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkIsbnTitle"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="-1dp"
+        android:layout_toEndOf="@+id/bkImage"
+        android:textSize="14sp"
+        tools:text="Price:" />
+
+    <TextView
+        android:id="@+id/bkIsbnTitle"
+        android:layout_width="49dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkAuthorTitle"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="1dp"
+        android:layout_toEndOf="@+id/bkImage"
+        android:textSize="14sp"
+        tools:text="ISBN:" />
+
 </RelativeLayout>

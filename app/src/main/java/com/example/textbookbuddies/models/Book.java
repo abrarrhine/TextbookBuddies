@@ -1,4 +1,11 @@
-package com.example.textbookbuddies;
+package com.example.textbookbuddies.models;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Book {
 
@@ -13,7 +20,18 @@ public class Book {
     public Book(){
 
     }
-    public Book( String title, String isbn, String author, String classes, double price, int number, String email){
+    public Book(JSONObject jsonObject) throws JSONException {
+        this.title = jsonObject.getString("title");
+        this.isbn = jsonObject.getString("isbn");
+        this.author = jsonObject.getString("author");
+        this.classes = jsonObject.getString("classes");
+        this.price = jsonObject.getDouble("price");
+        this.number = jsonObject.getInt("number");
+        this.email = jsonObject.getString("email");
+
+    }
+
+    public Book(String title, String isbn, String author, String classes, double price, int number, String email) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -21,7 +39,14 @@ public class Book {
         this.price = price;
         this.number = number;
         this.email = email;
+    }
 
+    public static List<Book> fromJSONArray(JSONArray movieJsonArray) throws JSONException {
+        List<Book> books = new ArrayList<>();
+        for (int i=0; i<movieJsonArray.length(); i++){
+            books.add(new Book(movieJsonArray.getJSONObject(i)));
+        }
+        return books;
     }
 
     public String getIsbn() {
@@ -48,16 +73,16 @@ public class Book {
         this.classes = classes;
     }
 
-    public double getPrice() {
-        return price;
+    public String getPrice() {
+        return String.valueOf(price);
     }
 
     public void setPrice(double price) {
         this.price = price;
     }
 
-    public int getNumber() {
-        return number;
+    public String getNumber() {
+        return String.valueOf(number);
     }
 
     public void setNumber(int number) {
