@@ -39,9 +39,9 @@ public class Profile extends AppCompatActivity {
         user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
-        final TextView userFullName = (TextView) findViewById(R.id.fullNameProfile);
-        final TextView userEmail = (TextView) findViewById(R.id.emailEditTextProfile);
-        final TextView userPhoneNumber = (TextView) findViewById(R.id.phoneNumberProfile);
+        userFullName = (TextView) findViewById(R.id.fullNameProfile);
+        userEmail = (TextView) findViewById(R.id.emailEditTextProfile);
+        userPhoneNumber = (TextView) findViewById(R.id.phoneNumberProfile);
 
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
