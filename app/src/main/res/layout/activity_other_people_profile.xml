@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cClassesOtherPersonText" />
 
     <TextView
-        android:id="@+id/yearText"
+        android:id="@+id/phoneNumberProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
@@ -40,10 +40,10 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailText" />
+        app:layout_constraintTop_toBottomOf="@+id/emailTextProfile" />
 
     <TextView
-        android:id="@+id/yearOtherPersonText"
+        android:id="@+id/phoneNumberTextProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -51,8 +51,8 @@
         android:text="Example year"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/yearText"
-        app:layout_constraintTop_toBottomOf="@+id/emailOtherPersonText" />
+        app:layout_constraintStart_toEndOf="@+id/phoneNumberProfile"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditTextProfile" />
 
     <TextView
         android:id="@+id/cClassesText"
@@ -65,10 +65,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yearText" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberProfile" />
 
     <TextView
-        android:id="@+id/emailOtherPersonText"
+        android:id="@+id/emailEditTextProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -76,8 +76,8 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.213"
-        app:layout_constraintStart_toEndOf="@+id/emailText"
-        app:layout_constraintTop_toBottomOf="@+id/usernameOtherPersonText" />
+        app:layout_constraintStart_toEndOf="@+id/emailTextProfile"
+        app:layout_constraintTop_toBottomOf="@+id/fullNameProfile" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView_Bar"
@@ -106,7 +106,7 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/usernameText"
+        android:id="@+id/nameProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
@@ -118,7 +118,7 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
-        android:id="@+id/emailText"
+        android:id="@+id/emailTextProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="28dp"
@@ -127,10 +127,10 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameText" />
+        app:layout_constraintTop_toBottomOf="@+id/nameProfile" />
 
     <TextView
-        android:id="@+id/usernameOtherPersonText"
+        android:id="@+id/fullNameProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -138,7 +138,7 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.24"
-        app:layout_constraintStart_toEndOf="@+id/usernameText"
+        app:layout_constraintStart_toEndOf="@+id/nameProfile"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Textbook Buddies</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login">Textbook Buddies</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -11,4 +11,7 @@
     <string name="login_failed">"Login failed"</string>
     <string name="textbook_buddies">Textbook Buddies :)</string>
     <string name="logout">Logout</string>
+    <string name="someone">Someone!</string>
+    <string name="hello">Hello</string>
+    <string name="username">Username:</string>
 </resources>
