@@ -5,14 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.textbookbuddies.models.User;
+import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -181,8 +181,8 @@ public class Signup extends AppCompatActivity implements View.OnClickListener{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            //book = new Book("title","isbn","author","classes", 50.80, Integer.parseInt(phoneNumber),email);
-                            //booklist.add(book);
+                            book = new Book("title","isbn","author","classes", 50.80, Integer.parseInt(phoneNumber),email);
+                            booklist.add(book);
                             User user = new User(firstName, lastName, dob, email, phoneNumber, booklist);
                             //User user = new User(firstName, lastName, dob, email, phoneNumber);
 

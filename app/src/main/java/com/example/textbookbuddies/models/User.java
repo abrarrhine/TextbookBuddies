@@ -1,4 +1,4 @@
-package com.example.textbookbuddies;
+package com.example.textbookbuddies.models;
 
 import java.util.ArrayList;
 
