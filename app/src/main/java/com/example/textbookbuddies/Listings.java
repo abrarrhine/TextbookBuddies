@@ -10,22 +10,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.textbookbuddies.adapters.BookAdapter;
+import com.example.textbookbuddies.models.Book;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.List;
 
 import okhttp3.Headers;
 
@@ -37,9 +36,9 @@ public class Listings extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     FirebaseDatabase firebaseDatabase;
-    ArrayList<Book> userBookListings;
-//    DatabaseReference listRef;
+    List<Book> books;
     String TAG;
+    BookAdapter bookAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +46,17 @@ public class Listings extends AppCompatActivity {
         setContentView(R.layout.activity_listings);
         TAG = "Listings";
         bkListings = findViewById(R.id.bkListings);
+        books = new ArrayList<>();
+        bookAdapter = new BookAdapter(this, books);
+        //set adapter on recycler view
+        bkListings.setAdapter(bookAdapter);
+        //set a layout manager on recycler view
         bkListings.setLayoutManager(new LinearLayoutManager(this));
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         String Uid = firebaseUser.getUid();
         String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
-// Create a storage reference from our app
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        StorageReference storageRef = storage.getReference();
-//        StorageReference bookListRef = storageRef.child(Uid + "/booklist");
         Log.d(TAG, HttpURL);
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(HttpURL, new JsonHttpResponseHandler() {
@@ -66,9 +67,9 @@ public class Listings extends AppCompatActivity {
                         try {
                             JSONArray booklist = jsonObject.getJSONArray("booklist");
                             Log.i(TAG, "Results: " + booklist.toString());
-//                            movies.addAll(Movie.fromJSONArray(results));
-//                            movieAdapter.notifyDataSetChanged();
-//                            Log.i(TAG, "Books: " + movies.size());
+//                            books.addAll(Book.fromJSONArray(booklist));
+//                            bookAdapter.notifyDataSetChanged();
+                            Log.i(TAG, "Books: " + books.size());
 
                         } catch (JSONException e) {
                             Log.e(TAG, "Hit json exception", e);
@@ -80,20 +81,6 @@ public class Listings extends AppCompatActivity {
                         Log.d(TAG, "onFailure");
                     }
                 });
-
-//                JSONObject bookList = curl 'https://dinosaur-facts.firebaseio.com/dinosaurs.json?orderBy="height"&startAt=3&print=pretty';
-
-
-//        userBookListings = booklist;
-
-//        FirebaseDatabase.getInstance().getReference("users")
-//                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                .getValue(firebaseUser)
-//        userBookListings = firebaseUser;
-//        listRef = firebaseDatabase.getReference().child(firebaseUser.getUid());
-//        Log.d(TAG, booklist.toString());
-
-//        https://textbook-buddies-31189-default-rtdb.firebaseio.com/users/
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);

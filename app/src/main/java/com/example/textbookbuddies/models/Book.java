@@ -1,4 +1,4 @@
-package com.example.textbookbuddies;
+package com.example.textbookbuddies.models;
 
 public class Book {
 
@@ -48,8 +48,8 @@ public class Book {
         this.classes = classes;
     }
 
-    public double getPrice() {
-        return price;
+    public String getPrice() {
+        return String.valueOf(price);
     }
 
     public void setPrice(double price) {
