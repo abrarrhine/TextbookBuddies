@@ -14,4 +14,86 @@
     <string name="someone">Someone!</string>
     <string name="hello">Hello</string>
     <string name="username">Username:</string>
+
+    <string name="value_any_category">All food</string>
+    <string name="value_any_city">Anywhere</string>
+    <string name="value_any_price">Any price</string>
+
+    <string name="price_1">$0 - $20</string>
+    <string name="price_2">$20 - $40</string>
+    <string name="price_3">$40 - $60</string>
+    <string name="price_4">$60+</string>
+
+    <string name="label_category">Subject</string>
+    <string name="label_city">Location</string>
+    <string name="label_price">Price</string>
+    <string name="label_sort_by">Sort By</string>
+
+    <string name="fmt_num_ratings" translatable="false">(%d)</string>
+    <string name="all_restaurants">All Restaurants</string>
+    <string name="header_filters">Filter</string>
+    <string name="search">Search</string>
+
+    <string name="sort_by_title">Sort by Title</string>
+    <string name="sort_by_price">Sort by Price</string>
+
+    <string name="sorted_by_title">sorted by title</string>
+    <string name="sorted_by_price">sorted by price</string>
+
+    <string name="add_random_items">Add Random Items</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="delete_all">Delete All</string>
+    <string name="divider_bullet">•</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="message_no_results">Oops, couldn\'t find any results\nthat matched your filter</string>
+    <string name="message_no_reviews">Be the first to leave a review!</string>
+    <string name="hint_review">How was your experience?</string>
+    <string name="submit">Submit</string>
+    <string name="filter_add_review">Add review</string>
+
+    <!-- Types of food I could think of in 5 minutes -->
+    <string-array name="categories">
+        <item>@string/value_any_category</item>
+
+        <item>Brunch</item>
+        <item>Burgers</item>
+        <item>Coffee</item>
+        <item>Deli</item>
+        <item>Dim Sum</item>
+        <item>Indian</item>
+        <item>Italian</item>
+        <item>Mediterranean</item>
+        <item>Mexican</item>
+        <item>Pizza</item>
+        <item>Ramen</item>
+        <item>Sushi</item>
+    </string-array>
+    ite
+
+    <!-- 50 most populous cities in the US -->
+    <string-array name="locations">
+        <item>@string/value_any_city</item>
+
+        <item>On Campus</item>
+        <item>Off Campus</item>
+        <item>Christiansburg</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- Price filters -->
+    <string-array name="prices">
+        <item>@string/value_any_price</item>
+
+        <item>@string/price_1</item>
+        <item>@string/price_2</item>
+        <item>@string/price_3</item>
+        <item>@string/price_4</item>
+    </string-array>
+
+    <!-- Ways you can sort restaurants -->
+    <string-array name="sort_by">
+        <item>@string/sort_by_price</item>
+        <item>@string/sort_by_title</item>
+    </string-array>
 </resources>

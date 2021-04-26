@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.textbookbuddies.search.Search;
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
