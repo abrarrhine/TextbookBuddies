@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.example.textbookbuddies.adapters.BookAdapter;
 import com.example.textbookbuddies.models.Book;
+import com.example.textbookbuddies.search.Search;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
