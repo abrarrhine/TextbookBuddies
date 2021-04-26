@@ -175,7 +175,7 @@ public class Search extends AppCompatActivity implements
         if (obj instanceof Map) {
             Map map = (HashMap<String, Object>) obj;
             return new Book((String) map.get("title"), (String) map.get("isbn"), (String) map.get("author"), (String) map.get("classes"),
-                    (double) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"));
+                    (String) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"));
         }
         return null;
     }
@@ -195,8 +195,12 @@ public class Search extends AppCompatActivity implements
 
                         while (iterator.hasNext()) {
                             DataSnapshot next = (DataSnapshot) iterator.next();
+                            Book book = next.getValue(Book.class);
                             Log.i(TAG, "Value = " + next.child("title").getValue());
+                            books.add(book);
                         }
+                        BookAdapter ba = new BookAdapter(Search.this, books);
+                        mBooksRecycler.setAdapter(ba);
                     }
                 }
 
