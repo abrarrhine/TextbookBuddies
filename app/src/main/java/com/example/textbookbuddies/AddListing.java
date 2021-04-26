@@ -106,9 +106,10 @@ public class AddListing extends AppCompatActivity {
                         isbn.getText().toString(),
                         author.getText().toString(),
                         classes.getText().toString(),
-                        Double.parseDouble(price.getText().toString()),
+                        price.getText().toString(),
                         phonenumber.getText().toString(),
-                        email.getText().toString(), Location.ON_CAMPUS);
+                        email.getText().toString(),
+                        Location.ON_CAMPUS);
 
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.get(HttpURL, new JsonHttpResponseHandler() {
