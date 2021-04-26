@@ -2,6 +2,8 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.Headers;
 
 import android.content.Intent;
@@ -15,11 +17,14 @@ import android.widget.TextView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.textbookbuddies.adapters.BookAdapter;
+import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,16 +33,68 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HomeActivity extends AppCompatActivity {
 
     String userId;
 
     private DatabaseReference mDatabase;
 
+    public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/";
+
+    RecyclerView bkListings;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    FirebaseDatabase firebaseDatabase;
+    List<Book> books;
+    String TAG = "HomeActivity";
+    BookAdapter bookAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        bkListings = findViewById(R.id.home_listings);
+        books = new ArrayList<>();
+        bookAdapter = new BookAdapter(this, books);
+        //set adapter on recycler view
+        bkListings.setAdapter(bookAdapter);
+        //set a layout manager on recycler view
+        bkListings.setLayoutManager(new LinearLayoutManager(this));
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        //String Uid = firebaseUser.getUid();
+
+        //String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
+        String HttpURL = USER_INFO_URL + ".json";
+        Log.d(TAG, HttpURL);
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(HttpURL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray booklist = jsonObject.getJSONArray("users");
+                    Log.i(TAG, "Results: " + booklist.toString());
+                    //books.addAll(Book.fromJSONArray(booklist));
+                    //bookAdapter.notifyDataSetChanged();
+                    //Log.i(TAG, "Books: " + books.size());
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure");
+            }
+        });
 
 
 
