@@ -17,8 +17,12 @@ import android.widget.TextView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+<<<<<<< HEAD
 import com.example.textbookbuddies.adapters.BookAdapter;
 import com.example.textbookbuddies.models.Book;
+=======
+import com.example.textbookbuddies.search.Search;
+>>>>>>> 2559380637cdaeb32025e7c9264b31b6d8e1fef3
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
