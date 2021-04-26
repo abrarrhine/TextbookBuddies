@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TextbookBuddies">
+        android:theme="@style/Theme.TextbookBuddies.NoActionBar">
         <activity android:name=".DetailedBookListing"></activity>
         <activity android:name=".AddListing">
 <!--            <intent-filter>&ndash;&gt;-->
@@ -20,7 +20,7 @@
 <!--            </intent-filter>-->
         </activity>
         <activity android:name=".OtherPeopleProfile" />
-        <activity android:name=".Search"
+        <activity android:name=".search.Search"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".FAQ" />
         <activity android:name=".Listings" />
@@ -44,6 +44,7 @@
             <!--                <category android:name="android.intent.category.LAUNCHER" />-->
             <!--            </intent-filter>-->
         </activity>
+        <activity android:name=".search.ListingDetailActivity"></activity>
     </application>
 
 </manifest>

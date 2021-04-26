@@ -9,11 +9,21 @@ import java.util.List;
 
 public class Book {
 
+    public static final String  FIELD_TITLE = "title";
+    public static final String  FIELD_ISBN = "isbn";
+    public static final String  FIELD_AUTHOR = "author";
+    public static final String  FIELD_CLASSES = "classes";
+    public static final String  FIELD_PRICE = "price";
+    public static final String FIELD_LOCATION = "location";
+    public static final String  FIELD_NUMBER = "number";
+    public static final String  FIELD_EMAIL = "email";
+
     private String title;
     private String isbn;
     private String author;
     private String classes;
     private double price;
+    private String location;
     private int number;
     private String email;
 
@@ -26,12 +36,12 @@ public class Book {
         this.author = jsonObject.getString("author");
         this.classes = jsonObject.getString("classes");
         this.price = jsonObject.getDouble("price");
-        this.number = jsonObject.getInt("number");
+        this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
 
     }
 
-    public Book(String title, String isbn, String author, String classes, double price, int number, String email) {
+    public Book(String title, String isbn, String author, String classes, double price, String number, String email) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -85,7 +95,7 @@ public class Book {
         return String.valueOf(number);
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -105,4 +115,11 @@ public class Book {
         this.title = title;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }
