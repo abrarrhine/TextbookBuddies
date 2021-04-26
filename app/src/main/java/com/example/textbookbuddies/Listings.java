@@ -67,6 +67,7 @@ public class Listings extends AppCompatActivity {
                         JSONObject jsonObject = json.jsonObject;
                         try {
                             JSONArray booklist = jsonObject.getJSONArray("booklist");
+//                            jsonObject.getString()
                             Log.i(TAG, "Results: " + booklist.toString());
                             books.addAll(Book.fromJSONArray(booklist));
                             bookAdapter.notifyDataSetChanged();
