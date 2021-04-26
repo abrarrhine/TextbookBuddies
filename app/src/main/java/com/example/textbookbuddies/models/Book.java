@@ -14,7 +14,7 @@ public class Book {
     private String author;
     private String classes;
     private double price;
-    private int number;
+    private String number;
     private String email;
 
     public Book(){
@@ -26,12 +26,12 @@ public class Book {
         this.author = jsonObject.getString("author");
         this.classes = jsonObject.getString("classes");
         this.price = jsonObject.getDouble("price");
-        this.number = jsonObject.getInt("number");
+        this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
 
     }
 
-    public Book(String title, String isbn, String author, String classes, double price, int number, String email) {
+    public Book(String title, String isbn, String author, String classes, double price, String number, String email) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -85,7 +85,7 @@ public class Book {
         return String.valueOf(number);
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

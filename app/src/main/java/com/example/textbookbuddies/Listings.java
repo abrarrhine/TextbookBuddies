@@ -9,10 +9,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.textbookbuddies.adapters.BookAdapter;
 import com.example.textbookbuddies.models.Book;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.codepath.asynchttpclient.AsyncHttpClient;
@@ -39,12 +41,14 @@ public class Listings extends AppCompatActivity {
     List<Book> books;
     String TAG;
     BookAdapter bookAdapter;
+    FloatingActionButton addBookButt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listings);
         TAG = "Listings";
+        addBookButt = findViewById(R.id.btAdd);
         bkListings = findViewById(R.id.bkListings);
         books = new ArrayList<>();
         bookAdapter = new BookAdapter(this, books);
@@ -83,6 +87,14 @@ public class Listings extends AppCompatActivity {
                         Log.d(TAG, "onFailure");
                     }
                 });
+
+        addBookButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addIntent = new Intent(Listings.this, AddListing.class);
+                startActivity(addIntent);
+            }
+        });
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
