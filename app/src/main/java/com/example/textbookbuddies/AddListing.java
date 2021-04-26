@@ -17,6 +17,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.models.Book;
+import com.example.textbookbuddies.search.*;
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,8 +27,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -56,6 +60,7 @@ public class AddListing extends AppCompatActivity {
     List<Book> oldbooklist;
 
     private DatabaseReference firebaseDatabase;
+    private DatabaseReference listingsRef;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
 
@@ -66,6 +71,7 @@ public class AddListing extends AppCompatActivity {
         setContentView(R.layout.activity_add_listing);
 
         firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+        listingsRef = FirebaseDatabase.getInstance().getReference().child("listings");
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         String userId = firebaseUser.getUid();
@@ -102,7 +108,7 @@ public class AddListing extends AppCompatActivity {
                         classes.getText().toString(),
                         Double.parseDouble(price.getText().toString()),
                         phonenumber.getText().toString(),
-                        email.getText().toString());
+                        email.getText().toString(), Location.ON_CAMPUS);
 
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.get(HttpURL, new JsonHttpResponseHandler() {
@@ -127,6 +133,21 @@ public class AddListing extends AppCompatActivity {
                         Log.d(TAG, "onFailure");
                     }
                 });
+                // trying to make listings section
+                listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String key = listingsRef.push().getKey();
+                        listingsRef.child(key).setValue(newbook);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                //end
 
                 Intent submitIntent = new Intent(AddListing.this, Listings.class);
                 startActivity(submitIntent);

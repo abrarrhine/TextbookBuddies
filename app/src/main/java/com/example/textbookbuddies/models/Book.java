@@ -1,11 +1,15 @@
 package com.example.textbookbuddies.models;
 
+import com.example.textbookbuddies.Location;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Book {
 
@@ -23,8 +27,8 @@ public class Book {
     private String author;
     private String classes;
     private double price;
-    private String location;
-    private int number;
+    private Location location;
+    private String number;
     private String email;
 
     public Book(){
@@ -41,7 +45,7 @@ public class Book {
 
     }
 
-    public Book(String title, String isbn, String author, String classes, double price, String number, String email) {
+    public Book(String title, String isbn, String author, String classes, double price, String number, String email, Location location) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -49,6 +53,7 @@ public class Book {
         this.price = price;
         this.number = number;
         this.email = email;
+        this.location = location;
     }
 
     public static List<Book> fromJSONArray(JSONArray movieJsonArray) throws JSONException {
@@ -115,11 +120,24 @@ public class Book {
         this.title = title;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("title", title);
+        result.put("author", author);
+        result.put("isbn", isbn);
+        result.put("classes", classes);
+        result.put("price", price);
+        result.put("number", number);
+        result.put("email", email);
+        result.put("location", location);
+        return result;
     }
 }
