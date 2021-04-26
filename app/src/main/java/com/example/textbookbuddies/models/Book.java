@@ -9,12 +9,22 @@ import java.util.List;
 
 public class Book {
 
+    public static final String  FIELD_TITLE = "title";
+    public static final String  FIELD_ISBN = "isbn";
+    public static final String  FIELD_AUTHOR = "author";
+    public static final String  FIELD_CLASSES = "classes";
+    public static final String  FIELD_PRICE = "price";
+    public static final String FIELD_LOCATION = "location";
+    public static final String  FIELD_NUMBER = "number";
+    public static final String  FIELD_EMAIL = "email";
+
     private String title;
     private String isbn;
     private String author;
     private String classes;
     private double price;
-    private String number;
+    private String location;
+    private int number;
     private String email;
 
     public Book(){
@@ -105,4 +115,11 @@ public class Book {
         this.title = title;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }
