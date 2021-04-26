@@ -2,20 +2,87 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.textbookbuddies.adapters.BookAdapter;
+import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.Search;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import okhttp3.Headers;
 
 public class Listings extends AppCompatActivity {
+
+    public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
+
+    RecyclerView bkListings;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    FirebaseDatabase firebaseDatabase;
+    List<Book> books;
+    String TAG;
+    BookAdapter bookAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listings);
+        TAG = "Listings";
+        bkListings = findViewById(R.id.bkListings);
+        books = new ArrayList<>();
+        bookAdapter = new BookAdapter(this, books);
+        //set adapter on recycler view
+        bkListings.setAdapter(bookAdapter);
+        //set a layout manager on recycler view
+        bkListings.setLayoutManager(new LinearLayoutManager(this));
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String Uid = firebaseUser.getUid();
+
+        String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
+        Log.d(TAG, HttpURL);
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(HttpURL, new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int i, Headers headers, JSON json) {
+                        Log.d(TAG, "onSuccess");
+                        JSONObject jsonObject = json.jsonObject;
+                        try {
+                            JSONArray booklist = jsonObject.getJSONArray("booklist");
+                            Log.i(TAG, "Results: " + booklist.toString());
+                            books.addAll(Book.fromJSONArray(booklist));
+                            bookAdapter.notifyDataSetChanged();
+                            Log.i(TAG, "Books: " + books.size());
+
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Hit json exception", e);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                        Log.d(TAG, "onFailure");
+                    }
+                });
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);

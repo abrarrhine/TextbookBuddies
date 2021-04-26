@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itembook"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/bkImage"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/bkTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_toEndOf="@+id/bkImage"
+        android:textSize="16sp"
+        tools:text="Learning C# by Developing Games with Unity 2019" />
+
+    <TextView
+        android:id="@+id/bkAuthor"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="139dp"
+        android:layout_toEndOf="@+id/bkAuthorTitle"
+        android:textSize="14sp"
+        tools:text="Joe Smith" />
+
+    <TextView
+        android:id="@+id/bkAuthorTitle"
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkTitle"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="1dp"
+        android:layout_toEndOf="@+id/bkImage"
+        android:textSize="14sp"
+        tools:text="Author: " />
+
+    <TextView
+        android:id="@+id/bkEmail"
+        android:layout_width="216dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkPrice"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="-3dp"
+        android:layout_marginEnd="1dp"
+        android:layout_toEndOf="@+id/bkContactTitle"
+        android:textSize="14sp"
+        tools:text="emilyrn18@vt.edu" />
+
+    <TextView
+        android:id="@+id/bkPhone"
+        android:layout_width="98dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkEmail"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="119dp"
+        android:layout_toEndOf="@+id/bkContactTitle"
+        android:textSize="14sp"
+        tools:text="434-555-0000" />
+
+    <TextView
+        android:id="@+id/bkContactTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkPriceTitle"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="-2dp"
+        android:layout_toEndOf="@+id/bkImage"
+        android:textSize="14sp"
+        tools:text="Contact:" />
+
+    <TextView
+        android:id="@+id/bkIsbn"
+        android:layout_width="61dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkAuthor"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="158dp"
+        android:layout_toEndOf="@+id/bkIsbnTitle"
+        android:textSize="14sp"
+        tools:text="123456" />
+
+    <TextView
+        android:id="@+id/bkPrice"
+        android:layout_width="78dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkIsbn"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="11dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginEnd="141dp"
+        android:layout_toEndOf="@+id/bkPriceTitle"
+        android:textSize="14sp"
+        tools:text="$45.99" />
+
+    <TextView
+        android:id="@+id/bkPriceTitle"
+        android:layout_width="57dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkIsbnTitle"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="-1dp"
+        android:layout_toEndOf="@+id/bkImage"
+        android:textSize="14sp"
+        tools:text="Price:" />
+
+    <TextView
+        android:id="@+id/bkIsbnTitle"
+        android:layout_width="49dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bkAuthorTitle"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="1dp"
+        android:layout_toEndOf="@+id/bkImage"
+        android:textSize="14sp"
+        tools:text="ISBN:" />
+
+</RelativeLayout>

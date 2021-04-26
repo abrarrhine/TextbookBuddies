@@ -3,14 +3,22 @@
     <style name="Theme.TextbookBuddies.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/maroon</item>
-        <item name="colorPrimaryVariant">@color/orange</item>
+        <item name="colorPrimaryVariant">@color/maroon</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/grey</item>
         <item name="colorSecondaryVariant">@color/black</item>
         <item name="colorOnSecondary">@color/black</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.AppCompat.Light.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+    </style>
+
 </resources>
