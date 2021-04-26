@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,20 +40,26 @@ import com.example.textbookbuddies.BottomNavigationViewHelper;
 import com.example.textbookbuddies.FAQ;
 import com.example.textbookbuddies.HomeActivity;
 import com.example.textbookbuddies.Listings;
+import com.example.textbookbuddies.Location;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.adapters.BookAdapter;
 import com.example.textbookbuddies.models.Book;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class Search extends AppCompatActivity implements
         View.OnClickListener,
@@ -100,23 +108,32 @@ public class Search extends AppCompatActivity implements
 
         mQuery = databaseReference.orderByChild("title");
 
-        mQuery.addValueEventListener(new ValueEventListener() {
+        ChildEventListener childEventListener = new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    books.clear();
-                    books.add(ds.getValue(Book.class));
-                }
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    books.add(snapshot.getValue(Book.class));
+            }
 
-                bookAdapter = new BookAdapter(Search.this, books);
-                mBooksRecycler.setAdapter(bookAdapter);
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                    books.remove(snapshot.getValue(Book.class));
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        };
 
         books = new ArrayList<>();
         mBooksRecycler = findViewById(R.id.recycler_books);
@@ -127,11 +144,11 @@ public class Search extends AppCompatActivity implements
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch(item.getItemId()) {
+                switch (item.getItemId()) {
                     case R.id.ic_search:
                         Intent intent1 = new Intent(Search.this, Search.class);
                         startActivity(intent1);
@@ -154,6 +171,16 @@ public class Search extends AppCompatActivity implements
         });
     }
 
+    private Book convertMapToBook(Object obj) {
+        if (obj instanceof Map) {
+            Map map = (HashMap<String, Object>) obj;
+            return new Book((String) map.get("title"), (String) map.get("isbn"), (String) map.get("author"), (String) map.get("classes"),
+                    (double) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"));
+        }
+        return null;
+    }
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -163,11 +190,13 @@ public class Search extends AppCompatActivity implements
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.exists()) {
-                        for (DataSnapshot ds : snapshot.getChildren()) {
-                            books.add(ds.getValue(Book.class));
+                        Iterable<DataSnapshot> snapshotIterator = snapshot.getChildren();
+                        Iterator<DataSnapshot> iterator = snapshotIterator.iterator();
+
+                        while (iterator.hasNext()) {
+                            DataSnapshot next = (DataSnapshot) iterator.next();
+                            Log.i(TAG, "Value = " + next.child("title").getValue());
                         }
-                        bookAdapter = new BookAdapter(Search.this, books);
-                        mBooksRecycler.setAdapter(bookAdapter);
                     }
                 }
 

@@ -63,10 +63,9 @@
                         android:id="@+id/text_current_search"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
-                        android:text="all_restaurants"
-                        android:textColor="@color/grey"
-                        tools:text="Search" />
+                        android:textSize="20dp"
+                        android:hint="Search"
+                        android:textColor="@color/grey"/>
 
 <!--                    <TextView-->
 <!--                        android:id="@+id/text_current_sort_by"-->
