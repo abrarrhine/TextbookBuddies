@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Profile extends AppCompatActivity {
 
-    private FirebaseUser user;
+    //private FirebaseUser user;
     private Button editProfileButton;
     private DatabaseReference reference;
     private String userID;
@@ -31,14 +31,21 @@ public class Profile extends AppCompatActivity {
     TextView userFullName;
     TextView userPhoneNumber;
 
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        //user = FirebaseAuth.getInstance().getCurrentUser();
         reference = FirebaseDatabase.getInstance().getReference("Users");
-        userID = user.getUid();
+        //userID = user.getUid();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
         userFullName = (TextView) findViewById(R.id.fullNameProfile);
         userEmail = (TextView) findViewById(R.id.emailEditTextProfile);
         userPhoneNumber = (TextView) findViewById(R.id.phoneNumberProfile);
@@ -49,11 +56,15 @@ public class Profile extends AppCompatActivity {
                 User userProfile = snapshot.getValue(User.class);
 
                 if (userProfile != null){
-                    String fullName = userProfile.firstname + " "+ userProfile.lastname;
-                    String email = userProfile.email;
-                    String phonen = userProfile.phonenumber;
+                    /** String fullName = userProfile.firstname + " "+ userProfile.lastname;
+                     *
+                     */
+                    //String fullName = firebaseUser.getDisplayName();
+                    String email = firebaseUser.getEmail();
+                    String phonen = firebaseUser.getPhoneNumber();
 
-                    userFullName.setText(fullName);
+
+                    //userFullName.setText(fullName);
                     userEmail.setText(email);
                     userPhoneNumber.setText(phonen);
 
