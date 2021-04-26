@@ -24,49 +24,31 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Profile extends AppCompatActivity {
 
-    private FirebaseUser user;
+//    private FirebaseUser user;
     private Button editProfileButton;
     private DatabaseReference reference;
-    private String userID;
+//    private String userID;
     TextView userEmail;
     TextView userFullName;
     TextView userPhoneNumber;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        reference = FirebaseDatabase.getInstance().getReference("Users");
-        userID = user.getUid();
-        final TextView userFullName = (TextView) findViewById(R.id.fullNameProfile);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+//        userID = firebaseUser.getUid();
+//        final TextView userFullName = (TextView) findViewById(R.id.fullNameProfile);
         final TextView userEmail = (TextView) findViewById(R.id.emailEditTextProfile);
-        final TextView userPhoneNumber = (TextView) findViewById(R.id.phoneNumberProfile);
+        final TextView userPhoneNumber = (TextView) findViewById(R.id.phoneNumberTextProfile);
 
-        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User userProfile = snapshot.getValue(User.class);
-
-                if (userProfile != null){
-                    String fullName = userProfile.firstname + " "+ userProfile.lastname;
-                    String email = userProfile.email;
-                    String phonen = userProfile.phonenumber;
-
-                    userFullName.setText(fullName);
-                    userEmail.setText(email);
-                    userPhoneNumber.setText(phonen);
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Profile.this, "Sorry! Something is wrong!", Toast.LENGTH_LONG).show();
-
-            }
-        });
+        userEmail.setText(firebaseUser.getEmail());
+        userPhoneNumber.setText(firebaseUser.getPhoneNumber());
 
         editProfileButton = (Button) findViewById(R.id.editProfileButton);
         editProfileButton.setOnClickListener(new View.OnClickListener() {
