@@ -24,12 +24,12 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder>{
+public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
     Context context;
     List<Book> books;
 
-    public BookAdapter(Context context, List<Book> books){
+    public BookAdapter(Context context, List<Book> books) {
         this.context = context;
         this.books = books;
     }

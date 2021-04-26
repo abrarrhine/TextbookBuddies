@@ -24,14 +24,14 @@
             style="@style/AppTheme.FilterIcon"
             android:layout_centerVertical="true"
             app:tint="@color/greySecondary"
-            app:srcCompat="@drawable/ic_fastfood_white_24px" />
+            app:srcCompat="@drawable/ic_baseline_menu_book_24" />
 
         <Spinner
-            android:id="@+id/spinner_category"
+            android:id="@+id/spinner_classes"
             style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/icon_category"
-            android:entries="@array/categories" />
+            android:entries="@array/classes" />
 
     </RelativeLayout>
 
@@ -41,17 +41,17 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/icon_city"
+            android:id="@+id/icon_location"
             style="@style/AppTheme.FilterIcon"
             android:layout_centerVertical="true"
             app:tint="@color/greySecondary"
             app:srcCompat="@drawable/ic_place_white_24px" />
 
         <Spinner
-            android:id="@+id/spinner_city"
+            android:id="@+id/spinner_location"
             style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/icon_city"
+            android:layout_toRightOf="@+id/icon_location"
             android:entries="@array/locations" />
 
     </RelativeLayout>

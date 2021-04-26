@@ -3,6 +3,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.example.textbookbuddies.R;
+import com.example.textbookbuddies.models.Book;
 import com.google.firebase.firestore.Query;
 
 /**
@@ -10,9 +11,9 @@ import com.google.firebase.firestore.Query;
  */
 public class Filters {
 
-    private String category = null;
-    private String city = null;
     private int price = -1;
+    private String classes = null;
+    private String location = null;
     private String sortBy = null;
     private Query.Direction sortDirection = null;
 
@@ -25,36 +26,21 @@ public class Filters {
         return filters;
     }
 
-    public boolean hasCategory() {
-        return !(TextUtils.isEmpty(category));
-    }
-
-    public boolean hasCity() {
-        return !(TextUtils.isEmpty(city));
-    }
 
     public boolean hasPrice() {
         return (price > 0);
     }
 
+    public boolean hasClasses() {
+        return classes == null;
+    }
+
+    public boolean hasLocation() {
+        return location == null;
+    }
+
     public boolean hasSortBy() {
         return !(TextUtils.isEmpty(sortBy));
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public int getPrice() {
@@ -63,6 +49,22 @@ public class Filters {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public String getClasses() {
+        return classes;
+    }
+
+    public void setClasses(String classes) {
+        this.classes = classes;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getSortBy() {
@@ -81,47 +83,4 @@ public class Filters {
         this.sortDirection = sortDirection;
     }
 
-    public String getSearchDescription(Context context) {
-        StringBuilder desc = new StringBuilder();
-
-        if (category == null && city == null) {
-            desc.append("<b>");
-            desc.append(context.getString(R.string.all_restaurants));
-            desc.append("</b>");
-        }
-
-        if (category != null) {
-            desc.append("<b>");
-            desc.append(category);
-            desc.append("</b>");
-        }
-
-        if (category != null && city != null) {
-            desc.append(" in ");
-        }
-
-        if (city != null) {
-            desc.append("<b>");
-            desc.append(city);
-            desc.append("</b>");
-        }
-
-        if (price > 0) {
-            desc.append(" for ");
-            desc.append("<b>");
-            desc.append(ListingUtil.getPriceString(price));
-            desc.append("</b>");
-        }
-
-        return desc.toString();
-    }
-
-    public String getOrderDescription(Context context) {
-        if (Listing.FIELD_PRICE.equals(sortBy)) {
-            return context.getString(R.string.sorted_by_price);
-        }
-        else {
-            return "sorted by title";
-        }
-    }
 }

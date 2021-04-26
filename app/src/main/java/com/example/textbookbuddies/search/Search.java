@@ -17,17 +17,17 @@ package com.example.textbookbuddies.search;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -39,52 +39,41 @@ import com.example.textbookbuddies.FAQ;
 import com.example.textbookbuddies.HomeActivity;
 import com.example.textbookbuddies.Listings;
 import com.example.textbookbuddies.R;
-import com.firebase.ui.auth.AuthUI;
+import com.example.textbookbuddies.adapters.BookAdapter;
+import com.example.textbookbuddies.models.Book;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.database.Query;
-import com.google.firebase.firestore.auth.User;
+import com.google.firebase.database.ValueEventListener;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Search extends AppCompatActivity implements
         View.OnClickListener,
-        FilterDialogFragment.FilterListener,
-        ListingAdapter.OnListingSelectedListener {
+        FilterDialogFragment.FilterListener {
 
-    private static final String TAG = "MainActivity";
+    private static final String TAG = "Search";
 
-    private static final int RC_SIGN_IN = 9001;
     private static final int LIMIT = 50;
 
     private Toolbar mToolbar;
-    private TextView mCurrentSearchView;
+    private EditText mCurrentSearch;
     private TextView mCurrentSortByView;
-    private RecyclerView mRestaurantsRecycler;
+    private RecyclerView mBooksRecycler;
     private ViewGroup mEmptyView;
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseUser firebaseUser;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private Query query;
+    private Query mQuery;
 
     private FilterDialogFragment mFilterDialog;
-    private ListingAdapter mAdapter;
+    private BookAdapter bookAdapter;
+    private List<Book> books;
 
     private SearchViewModel mViewModel;
 
@@ -96,9 +85,8 @@ public class Search extends AppCompatActivity implements
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        mCurrentSearchView = findViewById(R.id.text_current_search);
-        mCurrentSortByView = findViewById(R.id.text_current_sort_by);
-        mRestaurantsRecycler = findViewById(R.id.recycler_restaurants);
+        mCurrentSearch = (EditText) findViewById(R.id.text_current_search);
+        mBooksRecycler = findViewById(R.id.recycler_books);
         mEmptyView = findViewById(R.id.view_empty);
 
         findViewById(R.id.filter_bar).setOnClickListener(this);
@@ -107,15 +95,32 @@ public class Search extends AppCompatActivity implements
         // View model
         mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
-        String uid = firebaseUser.getUid();
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("listings");
+        databaseReference = firebaseDatabase.getReference().child("listings");
 
-        query = databaseReference.orderByChild("title");
+        mQuery = databaseReference.orderByChild("title");
 
-        initRecyclerView();
+        mQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    books.clear();
+                    books.add(ds.getValue(Book.class));
+                }
+
+                bookAdapter = new BookAdapter(Search.this, books);
+                mBooksRecycler.setAdapter(bookAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        books = new ArrayList<>();
+        mBooksRecycler = findViewById(R.id.recycler_books);
+        mBooksRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         // Filter Dialog
         mFilterDialog = new FilterDialogFragment();
@@ -149,137 +154,93 @@ public class Search extends AppCompatActivity implements
         });
     }
 
-    private void initRecyclerView() {
-
-        mAdapter = new ListingAdapter(query, this) {
-
-            @Override
-            protected void onDataChanged() {
-                // Show/hide content if the query returns empty.
-                if (getItemCount() == 0) {
-                    mRestaurantsRecycler.setVisibility(View.GONE);
-                    mEmptyView.setVisibility(View.VISIBLE);
-                } else {
-                    mRestaurantsRecycler.setVisibility(View.VISIBLE);
-                    mEmptyView.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            protected void onError(FirebaseFirestoreException e) {
-                // Show a snackbar on errors
-                Snackbar.make(findViewById(android.R.id.content),
-                        "Error: check logs for info.", Snackbar.LENGTH_LONG).show();
-            }
-        };
-
-        mRestaurantsRecycler.setLayoutManager(new LinearLayoutManager(this));
-        mRestaurantsRecycler.setAdapter(mAdapter);
-    }
-
     @Override
     public void onStart() {
         super.onStart();
 
-        // Start sign in if necessary
-        if (shouldStartSignIn()) {
-            startSignIn();
-            return;
+        if (databaseReference != null) {
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.exists()) {
+                        for (DataSnapshot ds : snapshot.getChildren()) {
+                            books.add(ds.getValue(Book.class));
+                        }
+                        bookAdapter = new BookAdapter(Search.this, books);
+                        mBooksRecycler.setAdapter(bookAdapter);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(Search.this, error + TAG, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
-        // Apply filters
-        onFilter(mViewModel.getFilters());
+        mCurrentSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        // Start listening for Firestore updates
-        if (mAdapter != null) {
-            mAdapter.startListening();
-        }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                search(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAdapter != null) {
-            mAdapter.stopListening();
+    public void search(String s) {
+        ArrayList<Book> myList = new ArrayList<>();
+        for (Book object : books) {
+            if (object.getTitle().toLowerCase().contains(s.toLowerCase())) {
+                myList.add(object);
+            }
         }
+        BookAdapter ba = new BookAdapter(this, myList);
+        mBooksRecycler.setAdapter(ba);
     }
 
     public String getUid() {
         return FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
-    private void onAddItemsClicked() {
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
-        for (int i = 0; i < 10; i++) {
-            String title = "test";
-            String location = "";
-            double price = 0;
-            final String userId = getUid();
-
-            // Disable button so there are no multi-posts
-            mDatabase.child("users").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    FirebaseUser user = firebaseAuth.getCurrentUser();
-                    if (user == null) {
-                        Toast.makeText(Search.this, "Error: could not fetch user.", Toast.LENGTH_LONG).show();
-                    } else {
-                        String key = mDatabase.child("posts").push().getKey();
-                        Listing post = new Listing("Example", location, "CS", "", price, location, "clairetaylor");
-
-                        Map<String, Object> childUpdates = new HashMap<>();
-                        childUpdates.put("/posts/" + key, post);
-                        childUpdates.put("/user-posts/" + userId + "/" + key, post);
-
-                        mDatabase.updateChildren(childUpdates);
-                    }
-                    finish();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Toast.makeText(Search.this, "onCancelled: " + databaseError.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    }
-
     @Override
     public void onFilter(Filters filters) {
         // Construct query basic query
-        Query query = mFirestore.collection("restaurants");
+        Query query = databaseReference.orderByChild("listings");
 
-        // Category (equality filter)
-        if (filters.hasCategory()) {
-            query = query.whereEqualTo("category", filters.getCategory());
+        // Classes
+        if (filters.hasClasses()) {
+            query = query.equalTo(filters.getClasses());
         }
 
-        // City (equality filter)
-        if (filters.hasCity()) {
-            query = query.whereEqualTo("city", filters.getCity());
-        }
-
-        // Price (equality filter)
+        // Price
         if (filters.hasPrice()) {
-            query = query.whereEqualTo("price", filters.getPrice());
+            query = query.equalTo(filters.getPrice());
         }
 
-        // Sort by (orderBy with direction)
+        // Price
+        if (filters.hasLocation()) {
+            query = query.equalTo(filters.getLocation());
+        }
+
+        // Sort by
         if (filters.hasSortBy()) {
-            query = query.orderBy(filters.getSortBy(), filters.getSortDirection());
+            query = query.orderByChild(filters.getSortBy());
         }
 
         // Limit items
-        query = query.limit(LIMIT);
+        query = query.limitToFirst(LIMIT);
 
         // Update the query
         mQuery = query;
-        mAdapter.setQuery(query);
-
-        // Set header
-        mCurrentSearchView.setText(Html.fromHtml(filters.getSearchDescription(this)));
-        mCurrentSortByView.setText(filters.getOrderDescription(this));
 
         // Save filters
         mViewModel.setFilters(filters);
@@ -292,29 +253,8 @@ public class Search extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_add_items:
-                onAddItemsClicked();
-                break;
-            case R.id.menu_sign_out:
-                FirebaseUtil.getAuthUI().signOut(this);
-                startSignIn();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            mViewModel.setIsSigningIn(false);
-
-            if (resultCode != RESULT_OK && shouldStartSignIn()) {
-                startSignIn();
-            }
-        }
     }
 
     @Override
@@ -335,38 +275,16 @@ public class Search extends AppCompatActivity implements
 
     public void onClearFilterClicked() {
         mFilterDialog.resetFilters();
-
+        mCurrentSearch.setText("");
         onFilter(Filters.getDefault());
     }
 
-    @Override
-    public void onRestaurantSelected(DocumentSnapshot restaurant) {
+    public void onBookSelected(DataSnapshot book) {
         // Go to the details page for the selected restaurant
         Intent intent = new Intent(this, ListingDetailActivity.class);
-        intent.putExtra(ListingDetailActivity.KEY_RESTAURANT_ID, restaurant.getId());
+        intent.putExtra(ListingDetailActivity.KEY_BOOK_ID, ((Book) book.getValue()).getIsbn());
 
         startActivity(intent);
-    }
-
-    private boolean shouldStartSignIn() {
-        return (!mViewModel.getIsSigningIn() && FirebaseUtil.getAuth().getCurrentUser() == null);
-    }
-
-    private void startSignIn() {
-        // Sign in with FirebaseUI
-        Intent intent = FirebaseUtil.getAuthUI()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(Collections.singletonList(
-                        new AuthUI.IdpConfig.EmailBuilder().build()))
-                .setIsSmartLockEnabled(false)
-                .build();
-
-        startActivityForResult(intent, RC_SIGN_IN);
-        mViewModel.setIsSigningIn(true);
-    }
-
-    private void showTodoToast() {
-        Toast.makeText(this, "TODO: Implement", Toast.LENGTH_SHORT).show();
     }
 
 

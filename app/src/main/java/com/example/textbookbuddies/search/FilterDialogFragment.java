@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.textbookbuddies.R;
+import com.example.textbookbuddies.models.Book;
 import com.google.firebase.firestore.Query;
 
 /**
@@ -28,8 +29,8 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
 
     private View mRootView;
 
-    private Spinner mCategorySpinner;
-    private Spinner mCitySpinner;
+    private Spinner mClassesSpinner;
+    private Spinner mLocationSpinner;
     private Spinner mSortSpinner;
     private Spinner mPriceSpinner;
 
@@ -42,8 +43,8 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
                              @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.dialog_filters, container, false);
 
-        mCategorySpinner = mRootView.findViewById(R.id.spinner_category);
-        mCitySpinner = mRootView.findViewById(R.id.spinner_city);
+        mClassesSpinner = mRootView.findViewById(R.id.spinner_classes);
+        mLocationSpinner = mRootView.findViewById(R.id.spinner_location);
         mSortSpinner = mRootView.findViewById(R.id.spinner_sort);
         mPriceSpinner = mRootView.findViewById(R.id.spinner_price);
 
@@ -95,9 +96,9 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
     }
 
     @Nullable
-    private String getSelectedCategory() {
-        String selected = (String) mCategorySpinner.getSelectedItem();
-        if (getString(R.string.value_any_category).equals(selected)) {
+    private String getSelectedClasses() {
+        String selected = (String) mClassesSpinner.getSelectedItem();
+        if (getString(R.string.value_any_classes).equals(selected)) {
             return null;
         } else {
             return selected;
@@ -105,9 +106,9 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
     }
 
     @Nullable
-    private String getSelectedCity() {
-        String selected = (String) mCitySpinner.getSelectedItem();
-        if (getString(R.string.value_any_city).equals(selected)) {
+    private String getSelectedLocation() {
+        String selected = (String) mLocationSpinner.getSelectedItem();
+        if (getString(R.string.value_any_location).equals(selected)) {
             return null;
         } else {
             return selected;
@@ -131,10 +132,10 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
     private String getSelectedSortBy() {
         String selected = (String) mSortSpinner.getSelectedItem();
         if (getString(R.string.sort_by_price).equals(selected)) {
-            return Listing.FIELD_PRICE;
+            return Book.FIELD_PRICE;
         }
         if (getString(R.string.sort_by_title).equals(selected)) {
-            return Listing.FIELD_TITLE;
+            return Book.FIELD_TITLE;
         }
 
         return null;
@@ -155,8 +156,8 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
 
     public void resetFilters() {
         if (mRootView != null) {
-            mCategorySpinner.setSelection(0);
-            mCitySpinner.setSelection(0);
+            mClassesSpinner.setSelection(0);
+            mLocationSpinner.setSelection(0);
             mPriceSpinner.setSelection(0);
             mSortSpinner.setSelection(0);
         }
@@ -166,8 +167,8 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
         Filters filters = new Filters();
 
         if (mRootView != null) {
-            filters.setCategory(getSelectedCategory());
-            filters.setCity(getSelectedCity());
+            //filters.setClasses(getSelectedClasses());
+            //filters.setLocation(getSelectedLocation());
             filters.setPrice(getSelectedPrice());
             filters.setSortBy(getSelectedSortBy());
             filters.setSortDirection(getSortDirection());
