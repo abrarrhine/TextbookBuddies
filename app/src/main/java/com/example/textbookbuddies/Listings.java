@@ -2,18 +2,21 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.textbookbuddies.adapters.BookAdapter;
 import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.Search;
+import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,10 +47,16 @@ public class Listings extends AppCompatActivity {
     BookAdapter bookAdapter;
     FloatingActionButton addBookButt;
 
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listings);
+
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
         TAG = "Listings";
         addBookButt = findViewById(R.id.btAdd);
         bkListings = findViewById(R.id.bkListings);
@@ -124,5 +133,25 @@ public class Listings extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home_page, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            // do something here
+            Intent intent5 = new Intent(Listings.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent5);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

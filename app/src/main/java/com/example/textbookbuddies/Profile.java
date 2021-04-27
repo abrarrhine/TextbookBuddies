@@ -2,11 +2,13 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import okhttp3.Headers;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.textbookbuddies.models.User;
 import com.example.textbookbuddies.search.Search;
+import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,16 +48,20 @@ public class Profile extends AppCompatActivity {
 
     public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
 
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-//        userID = firebaseUser.getUid();
-//        final TextView userFullName = (TextView) findViewById(R.id.fullNameProfile);
         final TextView userEmail = (TextView) findViewById(R.id.emailEditTextProfile);
         userPhoneNumber = (TextView) findViewById(R.id.phoneNumberTextProfile);
 
@@ -132,5 +139,25 @@ public class Profile extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home_page, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            // do something here
+            Intent intent5 = new Intent(Profile.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent5);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

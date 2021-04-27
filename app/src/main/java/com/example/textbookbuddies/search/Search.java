@@ -332,10 +332,6 @@ public class Search extends AppCompatActivity implements
             FirebaseAuth.getInstance().signOut();
             startActivity(intent5);
         }
-        /*else if (id == R.id.action_profile){
-            Intent intent6 = new Intent(Search.this, Profile.class);
-            startActivity(intent6);
-        }*/
         return super.onOptionsItemSelected(item);
     }
 

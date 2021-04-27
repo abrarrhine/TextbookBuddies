@@ -2,7 +2,9 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import okhttp3.Headers;
 
 import android.content.Intent;
@@ -10,11 +12,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +28,7 @@ import com.example.textbookbuddies.adapters.BookAdapter;
 import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.models.User;
 import com.example.textbookbuddies.search.Search;
+import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,6 +54,7 @@ public class EditProfile extends AppCompatActivity {
     TextView tv_password_link;
     TextView tv_username_top;
     TextView tv_username_mid;
+    TextView tv_logout;
 
     //private FirebaseDatabase firebaseDatabase;
     //private DatabaseReference databaseReference;
@@ -59,10 +65,16 @@ public class EditProfile extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
     public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
 
+    private Toolbar mToolbar;
+    LinearLayout ll_logout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         tv_username_top = (TextView) findViewById(R.id.tv_username_top);
         tv_username_mid = (TextView) findViewById(R.id.tv_username_mid);
@@ -120,6 +132,27 @@ public class EditProfile extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+
+        ll_logout = (LinearLayout) findViewById(R.id.ll_logout);
+        ll_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditProfile.this, LoginActivity.class);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(intent);
+            }
+        });
+
+        tv_logout = (TextView) findViewById(R.id.tv_logout);
+        tv_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditProfile.this, LoginActivity.class);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(intent);
+            }
+        });
+
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener(){
@@ -171,4 +204,24 @@ public class EditProfile extends AppCompatActivity {
 
 
     }*/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_home_page, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            // do something here
+            Intent intent5 = new Intent(EditProfile.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent5);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
