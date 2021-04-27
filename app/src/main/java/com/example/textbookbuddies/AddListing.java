@@ -167,7 +167,7 @@ public class AddListing extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case R.id.ic_home:
-                        Intent intent2 = new Intent(AddListing.this, HomeActivity.class);
+                        Intent intent2 = new Intent(AddListing.this, Profile.class);
                         startActivity(intent2);
                         break;
                     case R.id.ic_listings:

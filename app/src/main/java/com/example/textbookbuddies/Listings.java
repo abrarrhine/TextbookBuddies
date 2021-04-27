@@ -109,7 +109,7 @@ public class Listings extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case R.id.ic_home:
-                        Intent intent2 = new Intent(Listings.this, HomeActivity.class);
+                        Intent intent2 = new Intent(Listings.this, Profile.class);
                         startActivity(intent2);
                         break;
                     case R.id.ic_listings:

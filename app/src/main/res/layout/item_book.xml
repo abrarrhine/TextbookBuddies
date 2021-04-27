@@ -31,7 +31,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="2dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="139dp"
+        android:layout_marginEnd="11dp"
         android:layout_toEndOf="@+id/bkAuthorTitle"
         android:textSize="14sp"
         tools:text="Joe Smith" />
@@ -62,14 +62,14 @@
 
     <TextView
         android:id="@+id/bkPhone"
-        android:layout_width="wrap_content"
+        android:layout_width="206dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkEmail"
+        android:layout_alignStart="@+id/bkEmail"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="18dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="1dp"
-        android:layout_marginEnd="119dp"
-        android:layout_toEndOf="@+id/bkContactTitle"
+        android:layout_marginEnd="11dp"
         android:textSize="14sp"
         tools:text="434-555-0000" />
 
@@ -86,26 +86,27 @@
 
     <TextView
         android:id="@+id/bkIsbn"
-        android:layout_width="wrap_content"
+        android:layout_width="196dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkAuthor"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="158dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="22dp"
         android:layout_toEndOf="@+id/bkIsbnTitle"
         android:textSize="14sp"
         tools:text="123456" />
 
     <TextView
         android:id="@+id/bkPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="209dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkIsbn"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="11dp"
         android:layout_marginTop="-1dp"
-        android:layout_marginEnd="141dp"
+        android:layout_marginEnd="10dp"
         android:layout_toEndOf="@+id/bkPriceTitle"
         android:textSize="14sp"
         tools:text="$45.99" />

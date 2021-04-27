@@ -26,6 +26,7 @@ import com.example.textbookbuddies.ForgotPassword;
 import com.example.textbookbuddies.HomeActivity;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.Signup;
+import com.example.textbookbuddies.search.Search;
 import com.example.textbookbuddies.ui.login.LoginViewModel;
 import com.example.textbookbuddies.ui.login.LoginViewModelFactory;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -156,7 +157,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(LoginActivity.this, "Successfully logged in!", Toast.LENGTH_LONG).show();
 
                         //redirect to home page
-                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                        Intent i = new Intent(LoginActivity.this, Search.class);
                         startActivity(i);
                     }
                     else {

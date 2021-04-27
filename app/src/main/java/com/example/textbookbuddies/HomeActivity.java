@@ -15,19 +15,25 @@ import android.widget.TextView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.Search;
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -35,10 +41,85 @@ public class HomeActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
+    private static final String TAG = "HomeActivity";
+    public static final String BASE_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/listings";
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    FirebaseDatabase firebaseDatabase;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        // Get a reference to our posts
+        /*final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("https://textbook-buddies-31189-default-rtdb.firebaseio.com/listings");
+
+        // Attach a listener to read the data at our posts reference
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Book book = dataSnapshot.getValue(Book.class);
+                //System.out.println(book);
+                Log.i(TAG, "Results: " + book.toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });*/
+
+        /*//firebaseAuth = FirebaseAuth.getInstance();
+        //String name = firebaseDatabase.getReference().getKey();
+        //String name = mDatabase.child("listings").child(userId).getKey();
+        //Log.d(TAG, name);
+        //firebaseUser = firebaseAuth.getCurrentUser();
+        //String Uid = firebaseUser.getUid();
+
+        //String HttpURL = BASE_URL + ".json";
+        String HttpURL = BASE_URL + ".json";
+        Log.d(TAG, HttpURL);
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(HttpURL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                Log.i(TAG, "Results: " + jsonObject.toString());
+                try {
+                    String title = jsonObject.getString("author");
+                    Log.i(TAG, "Results2: " + title);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "Hit json exception", e);
+                }
+                //String content = jsonObject.getString("content");
+
+
+
+                //JSONArray booklist = jsonObject.getJSONArray("author");
+                //jsonObject.getJSONArray("author");
+
+                //JSONArray booklist = jsonObject.getJSONArray();
+//                            jsonObject.getString()
+                //Log.i(TAG, "Results: " + booklist.toString());
+                //books.addAll(Book.fromJSONArray(booklist));
+                //bookAdapter.notifyDataSetChanged();
+                //Log.i(TAG, "Books: " + books.size());
+
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure");
+            }
+        });*/
+
+
 
 
 
@@ -87,30 +168,5 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    // create an action bar button
-    //@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // R.menu.mymenu is a reference to an xml file named mymenu.xml which should be inside your res/menu directory.
-        // If you don't have res/menu, just create a directory named "menu" inside res
-        getMenuInflater().inflate(R.menu.menu_home_page, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
-    // handle button activities
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_logout) {
-            // do something here
-            Intent intent5 = new Intent(HomeActivity.this, LoginActivity.class);
-            FirebaseAuth.getInstance().signOut();
-            startActivity(intent5);
-        }
-        else if (id == R.id.action_profile){
-            Intent intent6 = new Intent(HomeActivity.this, Profile.class);
-            startActivity(intent6);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
