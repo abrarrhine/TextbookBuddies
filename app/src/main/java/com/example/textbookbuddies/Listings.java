@@ -46,6 +46,7 @@ public class Listings extends AppCompatActivity {
     String TAG;
     BookAdapter bookAdapter;
     FloatingActionButton addBookButt;
+    String HttpURL;
 
     private Toolbar mToolbar;
 
@@ -71,33 +72,10 @@ public class Listings extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         String Uid = firebaseUser.getUid();
 
-        String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
+        HttpURL = USER_INFO_URL + "/" + Uid + ".json";
         Log.d(TAG, HttpURL);
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(HttpURL, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int i, Headers headers, JSON json) {
-                        Log.d(TAG, "onSuccess");
-                        JSONObject jsonObject = json.jsonObject;
-                        try {
-                            JSONArray booklist = jsonObject.getJSONArray("booklist");
-//                            jsonObject.getString()
-                            Log.i(TAG, "Results: " + booklist.toString());
-                            books.addAll(Book.fromJSONArray(booklist));
-                            bookAdapter.notifyDataSetChanged();
-                            Log.i(TAG, "Books: " + books.size());
 
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Hit json exception", e);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                        Log.d(TAG, "onFailure");
-                    }
-                });
-
+        refresh();
         addBookButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +115,7 @@ public class Listings extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_home_page, menu);
+        getMenuInflater().inflate(R.menu.menu_listings, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -152,6 +130,38 @@ public class Listings extends AppCompatActivity {
             FirebaseAuth.getInstance().signOut();
             startActivity(intent5);
         }
+
+        if (id == R.id.refresh) {
+            // do something here
+            refresh();
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void refresh(){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(HttpURL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray booklist = jsonObject.getJSONArray("booklist");
+//                            jsonObject.getString()
+                    Log.i(TAG, "Results: " + booklist.toString());
+                    books.addAll(Book.fromJSONArray(booklist));
+                    bookAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Books: " + books.size());
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure");
+            }
+        });
     }
 }
