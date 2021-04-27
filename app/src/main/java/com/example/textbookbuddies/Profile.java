@@ -2,15 +2,19 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.Headers;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.textbookbuddies.models.User;
 import com.example.textbookbuddies.search.Search;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,9 +26,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Profile extends AppCompatActivity {
 
-//    private FirebaseUser user;
+    private static final String TAG = "Profile";
+    //    private FirebaseUser user;
     private Button editProfileButton;
     private DatabaseReference reference;
 //    private String userID;
@@ -35,6 +43,8 @@ public class Profile extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
 
+    public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +52,11 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+
 //        userID = firebaseUser.getUid();
 //        final TextView userFullName = (TextView) findViewById(R.id.fullNameProfile);
         final TextView userEmail = (TextView) findViewById(R.id.emailEditTextProfile);
-        final TextView userPhoneNumber = (TextView) findViewById(R.id.phoneNumberTextProfile);
+        userPhoneNumber = (TextView) findViewById(R.id.phoneNumberTextProfile);
 
         userEmail.setText(firebaseUser.getEmail());
         userPhoneNumber.setText(firebaseUser.getPhoneNumber());
@@ -56,6 +67,41 @@ public class Profile extends AppCompatActivity {
             public void onClick(View v) {
                 Intent editProfileIntent = new Intent(Profile.this, EditProfile.class);
                 startActivity(editProfileIntent);
+            }
+        });
+
+        userFullName = (TextView) findViewById(R.id.fullNameProfile);
+        userPhoneNumber = (TextView) findViewById(R.id.phoneNumberTextProfile);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String Uid = firebaseUser.getUid();
+
+        String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
+        Log.d(TAG, HttpURL);
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(HttpURL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    String firstName = jsonObject.getString("firstname");
+                    String lastName = jsonObject.getString("lastname");
+                    String phoneNumber = jsonObject.getString("phonenumber");
+                    Log.i(TAG, "Results: " + firstName);
+                    userFullName.setText(firstName + " " + lastName);
+                    userFullName.setText(firstName + " " + lastName);
+                    userPhoneNumber.setText(phoneNumber);
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure");
             }
         });
 

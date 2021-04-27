@@ -97,38 +97,6 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
-        /*firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("users");
-
-        ChildEventListener childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                users.add(snapshot.getValue(User.class));
-                Log.i(TAG, String.valueOf(users));
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                //users.remove(snapshot.getValue(User.class));
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };*/
-
-
         tv_password_link = (TextView)findViewById(R.id.tv_password_link);
 
         tv_password_link.setOnClickListener(new View.OnClickListener() {
