@@ -29,7 +29,7 @@ public class DetailedBookListing extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case R.id.ic_home:
-                        Intent intent2 = new Intent(DetailedBookListing.this, HomeActivity.class);
+                        Intent intent2 = new Intent(DetailedBookListing.this, Profile.class);
                         startActivity(intent2);
                         break;
                     case R.id.ic_listings:

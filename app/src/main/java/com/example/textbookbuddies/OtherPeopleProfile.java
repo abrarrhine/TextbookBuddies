@@ -29,7 +29,7 @@ public class OtherPeopleProfile extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case R.id.ic_home:
-                        Intent intent2 = new Intent(OtherPeopleProfile.this, HomeActivity.class);
+                        Intent intent2 = new Intent(OtherPeopleProfile.this, Profile.class);
                         startActivity(intent2);
                         break;
                     case R.id.ic_listings:

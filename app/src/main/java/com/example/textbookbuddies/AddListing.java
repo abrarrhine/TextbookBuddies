@@ -106,9 +106,10 @@ public class AddListing extends AppCompatActivity {
                         isbn.getText().toString(),
                         author.getText().toString(),
                         classes.getText().toString(),
-                        Double.parseDouble(price.getText().toString()),
+                        price.getText().toString(),
                         phonenumber.getText().toString(),
-                        email.getText().toString(), Location.ON_CAMPUS);
+                        email.getText().toString(),
+                        Location.ON_CAMPUS);
 
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.get(HttpURL, new JsonHttpResponseHandler() {
@@ -166,7 +167,7 @@ public class AddListing extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case R.id.ic_home:
-                        Intent intent2 = new Intent(AddListing.this, HomeActivity.class);
+                        Intent intent2 = new Intent(AddListing.this, Profile.class);
                         startActivity(intent2);
                         break;
                     case R.id.ic_listings:

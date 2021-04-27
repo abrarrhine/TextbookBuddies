@@ -38,12 +38,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.textbookbuddies.BottomNavigationViewHelper;
 import com.example.textbookbuddies.FAQ;
-import com.example.textbookbuddies.HomeActivity;
 import com.example.textbookbuddies.Listings;
 import com.example.textbookbuddies.Location;
+import com.example.textbookbuddies.Profile;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.adapters.BookAdapter;
 import com.example.textbookbuddies.models.Book;
+import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -51,7 +52,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -154,7 +154,7 @@ public class Search extends AppCompatActivity implements
                         startActivity(intent1);
                         break;
                     case R.id.ic_home:
-                        Intent intent2 = new Intent(Search.this, HomeActivity.class);
+                        Intent intent2 = new Intent(Search.this, Profile.class);
                         startActivity(intent2);
                         break;
                     case R.id.ic_listings:
@@ -175,7 +175,7 @@ public class Search extends AppCompatActivity implements
         if (obj instanceof Map) {
             Map map = (HashMap<String, Object>) obj;
             return new Book((String) map.get("title"), (String) map.get("isbn"), (String) map.get("author"), (String) map.get("classes"),
-                    (double) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"));
+                    (String) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"));
         }
         return null;
     }
@@ -195,8 +195,12 @@ public class Search extends AppCompatActivity implements
 
                         while (iterator.hasNext()) {
                             DataSnapshot next = (DataSnapshot) iterator.next();
+                            Book book = next.getValue(Book.class);
                             Log.i(TAG, "Value = " + next.child("title").getValue());
+                            books.add(book);
                         }
+                        BookAdapter ba = new BookAdapter(Search.this, books);
+                        mBooksRecycler.setAdapter(ba);
                     }
                 }
 
@@ -277,7 +281,7 @@ public class Search extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_home_page, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -314,6 +318,25 @@ public class Search extends AppCompatActivity implements
         intent.putExtra(ListingDetailActivity.KEY_BOOK_ID, ((Book) book.getValue()).getIsbn());
 
         startActivity(intent);
+    }
+
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            // do something here
+            Intent intent5 = new Intent(Search.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent5);
+        }
+        /*else if (id == R.id.action_profile){
+            Intent intent6 = new Intent(Search.this, Profile.class);
+            startActivity(intent6);
+        }*/
+        return super.onOptionsItemSelected(item);
     }
 
 
