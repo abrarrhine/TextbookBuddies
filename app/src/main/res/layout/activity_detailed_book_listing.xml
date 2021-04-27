@@ -10,9 +10,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/orange"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        android:background="@color/orange">
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavView_Bar"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,10 +24,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="80dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:layout_marginStart="80dp"
-                android:layout_gravity="center"
                 android:text="Detailed Book Listing"
                 android:textColor="@color/white"
                 android:textSize="25sp" />
@@ -52,124 +53,132 @@
 
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="85dp"
-            android:background="@color/white"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:background="@color/white">
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="249dp"
                 android:layout_marginTop="10dp"
                 app:srcCompat="@drawable/ic_book" />
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/lightOrange"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            android:background="@color/lightOrange"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="80dp"
                 android:text="Title:"
+                android:textColor="@color/black"
                 android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="10dp"
                 android:text="title"
+                android:textColor="@color/black"
                 android:textSize="30sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/lightOrange">
+            android:background="@color/lightOrange"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="80dp"
                 android:text="ISBN:"
+                android:textColor="@color/black"
                 android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/tv_isbn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="10dp"
                 android:text="isbn"
+                android:textColor="@color/black"
                 android:textSize="30sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/lightOrange">
+            android:background="@color/lightOrange"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="80dp"
                 android:text="@string/class_"
+                android:textColor="@color/black"
                 android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/tv_class"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="10dp"
                 android:text="@string/label_classes"
+                android:textColor="@color/black"
                 android:textSize="30sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/lightOrange">
+            android:background="@color/lightOrange"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="80dp"
                 android:text="@string/contact_"
+                android:textColor="@color/black"
                 android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/tv_contact"
-                android:layout_width="wrap_content"
+                android:layout_width="175dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_gravity="center"
+                android:layout_marginStart="10dp"
                 android:text="@string/contact"
+                android:textColor="@color/black"
                 android:textSize="30sp" />
         </LinearLayout>
 

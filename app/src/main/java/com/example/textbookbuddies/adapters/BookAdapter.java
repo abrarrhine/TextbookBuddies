@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.textbookbuddies.DetailedBookListing;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.models.Book;
 
@@ -93,8 +94,16 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, book.getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(context, DetailedBookListing.class);
+                    i.putExtra("book", Parcels.wrap(book));
+                    context.startActivity(i);
                 }
             });
+
+            //Glide.with(context).load(movie.getPosterPath()).into(ivPoster);
+            //Glide.with(context).load(imageURL).into(ivPoster);
+
+
         }
     }
 }
