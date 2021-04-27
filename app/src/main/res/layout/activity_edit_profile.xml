@@ -52,7 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/ic_profile" />
+            app:srcCompat="@drawable/ic_profile_orange" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -62,15 +62,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/username"
+                android:text="@string/name"
+                android:textSize="20sp"
                 android:layout_marginTop="20dp"
-                android:layout_marginStart="140dp"/>
+                android:layout_marginStart="130dp"/>
 
             <TextView
                 android:id="@+id/tv_username_mid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/someone"
+                android:textSize="20sp"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"/>
         </LinearLayout>
@@ -84,9 +86,11 @@
                 android:id="@+id/tv_profile_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Change profile photo"
+                android:text="@string/change_profile_photo"
+                android:textColor="@color/blueLink"
+                android:textSize="20sp"
                 android:layout_marginTop="40dp"
-                android:layout_marginStart="145dp"/>
+                android:layout_marginStart="115dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -98,9 +102,11 @@
                 android:id="@+id/tv_password_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Change password"
+                android:text="@string/change_password"
+                android:textColor="@color/blueLink"
+                android:textSize="20sp"
                 android:layout_marginTop="40dp"
-                android:layout_marginStart="155dp"/>
+                android:layout_marginStart="125dp"/>
         </LinearLayout>
 
 
