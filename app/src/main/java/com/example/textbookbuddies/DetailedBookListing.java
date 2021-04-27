@@ -8,6 +8,7 @@ import android.graphics.Movie;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class DetailedBookListing extends AppCompatActivity {
     TextView tv_contact;
     TextView tv_email;
     TextView tv_price;
+    ImageView btn_back;
 
     TextView tv_logout;
     LinearLayout ll_logout;
@@ -42,6 +44,14 @@ public class DetailedBookListing extends AppCompatActivity {
         tv_contact = (TextView)findViewById(R.id.tv_contact);
         tv_email = (TextView)findViewById(R.id.tv_email);
         tv_price = (TextView)findViewById(R.id.tv_price);
+        btn_back = (ImageView) findViewById(R.id.btn_back);
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         ll_logout = (LinearLayout) findViewById(R.id.ll_logout);
         tv_logout = (TextView) findViewById(R.id.tv_logout);
