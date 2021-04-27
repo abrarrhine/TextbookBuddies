@@ -48,6 +48,9 @@
     <string name="change_profile_photo"><u>Change profile photo</u></string>
     <string name="name">Name</string>
     <string name="name_">Name:</string>
+    <string name="contact">contact</string>
+    <string name="contact_">Contact:</string>
+    <string name="class_">Class:</string>
 
     <!-- Types of food I could think of in 5 minutes -->
     <string-array name="classes">

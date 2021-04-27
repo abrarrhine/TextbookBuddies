@@ -5,12 +5,14 @@ import com.example.textbookbuddies.Location;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Parcel
 public class Book {
 
     public static final String  FIELD_TITLE = "title";
