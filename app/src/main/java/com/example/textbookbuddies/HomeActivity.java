@@ -2,6 +2,8 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import okhttp3.Headers;
 
 import android.content.Intent;
@@ -15,8 +17,16 @@ import android.widget.TextView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+<<<<<<< HEAD
 import com.example.textbookbuddies.models.Book;
+=======
+<<<<<<< HEAD
+import com.example.textbookbuddies.adapters.BookAdapter;
+import com.example.textbookbuddies.models.Book;
+=======
+>>>>>>> 67680b3bb1c22a234577c859bffce01299c5a636
 import com.example.textbookbuddies.search.Search;
+>>>>>>> 2559380637cdaeb32025e7c9264b31b6d8e1fef3
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +43,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+>>>>>>> 67680b3bb1c22a234577c859bffce01299c5a636
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
@@ -41,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private DatabaseReference mDatabase;
 
+<<<<<<< HEAD
     private static final String TAG = "HomeActivity";
     public static final String BASE_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/listings";
     FirebaseAuth firebaseAuth;
@@ -48,12 +63,24 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase;
 
 
+=======
+    public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/";
+
+    RecyclerView bkListings;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
+    FirebaseDatabase firebaseDatabase;
+    List<Book> books;
+    String TAG = "HomeActivity";
+    BookAdapter bookAdapter;
+>>>>>>> 67680b3bb1c22a234577c859bffce01299c5a636
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+<<<<<<< HEAD
         // Get a reference to our posts
         /*final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("https://textbook-buddies-31189-default-rtdb.firebaseio.com/listings");
@@ -82,6 +109,22 @@ public class HomeActivity extends AppCompatActivity {
 
         //String HttpURL = BASE_URL + ".json";
         String HttpURL = BASE_URL + ".json";
+=======
+        bkListings = findViewById(R.id.home_listings);
+        books = new ArrayList<>();
+        bookAdapter = new BookAdapter(this, books);
+        //set adapter on recycler view
+        bkListings.setAdapter(bookAdapter);
+        //set a layout manager on recycler view
+        bkListings.setLayoutManager(new LinearLayoutManager(this));
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        //String Uid = firebaseUser.getUid();
+
+        //String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
+        String HttpURL = USER_INFO_URL + ".json";
+>>>>>>> 67680b3bb1c22a234577c859bffce01299c5a636
         Log.d(TAG, HttpURL);
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(HttpURL, new JsonHttpResponseHandler() {
@@ -89,6 +132,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onSuccess(int i, Headers headers, JSON json) {
                 Log.d(TAG, "onSuccess");
                 JSONObject jsonObject = json.jsonObject;
+<<<<<<< HEAD
                 Log.i(TAG, "Results: " + jsonObject.toString());
                 try {
                     String title = jsonObject.getString("author");
@@ -111,15 +155,31 @@ public class HomeActivity extends AppCompatActivity {
                 //bookAdapter.notifyDataSetChanged();
                 //Log.i(TAG, "Books: " + books.size());
 
+=======
+                try {
+                    JSONArray booklist = jsonObject.getJSONArray("users");
+                    Log.i(TAG, "Results: " + booklist.toString());
+                    //books.addAll(Book.fromJSONArray(booklist));
+                    //bookAdapter.notifyDataSetChanged();
+                    //Log.i(TAG, "Books: " + books.size());
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+>>>>>>> 67680b3bb1c22a234577c859bffce01299c5a636
             }
 
             @Override
             public void onFailure(int i, Headers headers, String s, Throwable throwable) {
                 Log.d(TAG, "onFailure");
             }
+<<<<<<< HEAD
         });*/
 
 
+=======
+        });
+>>>>>>> 67680b3bb1c22a234577c859bffce01299c5a636
 
 
 
