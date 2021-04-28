@@ -1,8 +1,17 @@
 package com.example.textbookbuddies.models;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.textbookbuddies.Location;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +26,7 @@ import java.util.Map;
 @Parcel
 public class Book {
 
+    public static final String TAG = "Book";
     public static final String  FIELD_TITLE = "title";
     public static final String  FIELD_ISBN = "isbn";
     public static final String  FIELD_AUTHOR = "author";
@@ -27,15 +37,17 @@ public class Book {
     public static final String  FIELD_EMAIL = "email";
     public static final String FIELD_IMAGE = "image";
 
-    private String title;
-    private String isbn;
-    private String author;
-    private String classes;
-    private String price;
-    private Location location;
-    private String number;
-    private String email;
-    private String image;
+    String title;
+    String isbn;
+    String author;
+    String classes;
+    String price;
+    Location location;
+    String number;
+    String email;
+    String image;
+    FirebaseAuth firebaseAuth;
+    FirebaseUser firebaseUser;
 
     public Book(){
 
@@ -167,5 +179,43 @@ public class Book {
         result.put("location", location);
         result.put("image", image);
         return result;
+    }
+
+    public void delete(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        String Uid = firebaseUser.getUid();
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        Query listingsQuery = ref.child("listings").orderByChild("title").equalTo(this.getTitle());
+        Query userListingsQuery = ref.child("users").child(Uid).child("booklist").orderByChild("title").equalTo(this.getTitle());
+
+        listingsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                    appleSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+            }
+        });
+
+        userListingsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
+                    appleSnapshot.getRef().removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled", databaseError.toException());
+            }
+        });
     }
 }
