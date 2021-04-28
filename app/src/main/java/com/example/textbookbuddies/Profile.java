@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import okhttp3.Headers;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -61,7 +63,7 @@ public class Profile extends AppCompatActivity {
     ImageView profileImage;
     ImageView iv_btn_back;
     TextView tv_logout;
-    LinearLayout ll_logout;
+
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
@@ -194,15 +196,35 @@ public class Profile extends AppCompatActivity {
             }
         });
 
-        ll_logout = (LinearLayout) findViewById(R.id.ll_logout);
-        ll_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Profile.this, LoginActivity.class);
-                FirebaseAuth.getInstance().signOut();
-                startActivity(intent);
-            }
-        });
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // In landscape
+            ConstraintLayout ll_logout;
+            ll_logout = (ConstraintLayout) findViewById(R.id.ll_logout);
+            ll_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Profile.this, LoginActivity.class);
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(intent);
+                }
+            });
+        } else {
+            // In portrait
+            LinearLayout ll_logout;
+            ll_logout = (LinearLayout) findViewById(R.id.ll_logout);
+            ll_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Profile.this, LoginActivity.class);
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(intent);
+                }
+            });
+        }
+
+
+
 
         tv_logout = (TextView) findViewById(R.id.tv_logout);
         tv_logout.setOnClickListener(new View.OnClickListener() {
