@@ -12,19 +12,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.example.textbookbuddies.R;
 
-@Parcel
-public class Book {
+
+public class Book implements Comparable<Book>, Parcelable {
 
     public static final String TAG = "Book";
     public static final String  FIELD_TITLE = "title";
@@ -37,15 +41,14 @@ public class Book {
     public static final String  FIELD_EMAIL = "email";
 
     String bookId;
-    String title;
-    String isbn;
-    String author;
-    String classes;
-    String price;
-    Location location;
-    String number;
-    String email;
-    FirebaseUser firebaseUser;
+    private String title;
+    private String isbn;
+    private String author;
+    private String classes;
+    private double priceDouble;
+    private String priceString;
+    private String number;
+    private String email;
 
     public Book(){
 
@@ -59,10 +62,12 @@ public class Book {
         this.price = jsonObject.getString("price");
         this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
+
     }
 
     public Book(String bookId, String title, String isbn, String author, String classes, String price, String number, String email, Location onCampus) {
         this.bookId = bookId;
+    public Book(String title, String isbn, String author, String classes, double price, String number, String email) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -113,12 +118,20 @@ public class Book {
         this.classes = classes;
     }
 
-    public String getPrice() {
-        return price;
+    public String getPriceString() {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        return formatter.format(priceDouble);
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setPriceString(String priceString) {
+        this.priceString = priceString;
+    }
+
+    public double getPriceDouble() {
+        return priceDouble;
+    }
+    public void setPriceDouble(double price) {
+        this.priceDouble = price;
     }
 
     public String getNumber() {
@@ -149,6 +162,23 @@ public class Book {
         return location;
     }
 
+    protected Book(Parcel in) {
+        title = in.readString();
+        isbn = in.readString();
+        author = in.readString();
+        classes = in.readString();
+        priceDouble = in.readDouble();
+        priceString = in.readString();
+        number = in.readString();
+        email = in.readString();
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
     public void setLocation(Location location) {
         this.location = location;
     }
@@ -162,5 +192,20 @@ public class Book {
         DatabaseReference userListings = ref.child("users").child(Uid).child("booklist").child(bookId);
         listings.removeValue();
         userListings.removeValue();
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(isbn);
+        dest.writeString(author);
+        dest.writeString(classes);
+        dest.writeDouble(priceDouble);
+        dest.writeString(priceString);
+        dest.writeString(number);
+        dest.writeString(email);
     }
 }

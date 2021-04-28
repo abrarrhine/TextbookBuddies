@@ -8,8 +8,6 @@ import java.util.UUID;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -68,12 +66,14 @@ import okhttp3.Headers;
 public class AddListing extends AppCompatActivity {
 
     private static final String TAG = "AddListing";
+    public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
 
     TextView title, author, classes,isbn, price, email, phonenumber;
     Button cancel, submit, uploadimg;
     List<Book> oldbooklist;
     String userId;
 
+    private DatabaseReference firebaseDatabase;
     private DatabaseReference listingsRef;
     private DatabaseReference userBookListRef;
     FirebaseAuth firebaseAuth;
@@ -85,6 +85,8 @@ public class AddListing extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_listing);
+
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         listingsRef = FirebaseDatabase.getInstance().getReference().child("listings");
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -100,6 +102,7 @@ public class AddListing extends AppCompatActivity {
         phonenumber = findViewById(R.id.bkAddphonenumber);
         cancel = findViewById(R.id.btcancel);
         submit = findViewById(R.id.btsubmit);
+
         email.setText(firebaseUser.getEmail());
         phonenumber.setText(firebaseUser.getPhoneNumber());
 
@@ -132,6 +135,7 @@ public class AddListing extends AppCompatActivity {
                                 Location.ON_CAMPUS);
                         listingsRef.child(key).setValue(newbook);
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) { }
                 });
@@ -141,10 +145,13 @@ public class AddListing extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         userBookListRef.child(key).setValue(newbook);
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) { }
                 });
+
                 //end
+
                 Intent submitIntent = new Intent(AddListing.this, Listings.class);
                 startActivity(submitIntent);
             }
@@ -175,6 +182,25 @@ public class AddListing extends AppCompatActivity {
                         break;
                 }
                 return false;
+            }
+        });
+    }
+
+    public void addBookList(Book newbook){
+        firebaseDatabase.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    HashMap oldUser = (HashMap) task.getResult().getValue();
+                    ArrayList<Book> newBookList = new ArrayList<Book>();
+                    newBookList.add(newbook);
+                    oldUser.put("booklist", newBookList);
+                    firebaseDatabase.child("users").child(userId).setValue(oldUser);
+                }
             }
         });
     }

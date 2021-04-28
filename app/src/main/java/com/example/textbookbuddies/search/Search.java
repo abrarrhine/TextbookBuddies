@@ -26,11 +26,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -40,27 +38,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.textbookbuddies.BottomNavigationViewHelper;
 import com.example.textbookbuddies.FAQ;
 import com.example.textbookbuddies.Listings;
-import com.example.textbookbuddies.Location;
 import com.example.textbookbuddies.Profile;
 import com.example.textbookbuddies.R;
-import com.example.textbookbuddies.adapters.BookAdapter;
-import com.example.textbookbuddies.models.Book;
-import com.example.textbookbuddies.ui.login.LoginActivity;
+import com.example.textbookbuddies.adapters.*;
+import com.example.textbookbuddies.models.*;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 public class Search extends AppCompatActivity implements
         View.OnClickListener,
@@ -70,18 +62,16 @@ public class Search extends AppCompatActivity implements
 
     private static final int LIMIT = 50;
 
-    private Toolbar mToolbar;
-    private EditText mCurrentSearch;
-    private TextView mCurrentSortByView;
-    private RecyclerView mBooksRecycler;
-    private ViewGroup mEmptyView;
+    private Toolbar toolbar;
+    private EditText currentSearch;
+    private RecyclerView booksRecycler;
+    private ViewGroup emptyView;
 
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private Query mQuery;
 
     private FilterDialogFragment mFilterDialog;
     private BookAdapter bookAdapter;
+
     private List<Book> books;
 
     private SearchViewModel mViewModel;
@@ -91,51 +81,24 @@ public class Search extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        mToolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        mCurrentSearch = (EditText) findViewById(R.id.text_current_search);
-        mBooksRecycler = findViewById(R.id.recycler_books);
-        mEmptyView = findViewById(R.id.view_empty);
+        currentSearch = (EditText) findViewById(R.id.text_current_search);
+        booksRecycler = findViewById(R.id.recycler_books);
+        booksRecycler.setLayoutManager(new LinearLayoutManager(this));
+        emptyView = findViewById(R.id.view_empty);
 
         findViewById(R.id.filter_bar).setOnClickListener(this);
         findViewById(R.id.button_clear_filter).setOnClickListener(this);
 
         // View model
         mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference().child("listings");
-
-        mQuery = databaseReference.orderByChild("title");
-
-        ChildEventListener childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    books.add(snapshot.getValue(Book.class));
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                    books.remove(snapshot.getValue(Book.class));
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-
+        Filters f = new Filters();
+        f.setSearchBy("title");
+        f.setSortBy("title");
+        mViewModel.setFilters(f);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("listings");
         books = new ArrayList<>();
         mBooksRecycler = findViewById(R.id.recycler_books);
         mBooksRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -193,15 +156,18 @@ public class Search extends AppCompatActivity implements
                     if(snapshot.exists()) {
                         Iterable<DataSnapshot> snapshotIterator = snapshot.getChildren();
                         Iterator<DataSnapshot> iterator = snapshotIterator.iterator();
-
+                        books.clear();
                         while (iterator.hasNext()) {
                             DataSnapshot next = (DataSnapshot) iterator.next();
                             Book book = next.getValue(Book.class);
                             Log.i(TAG, "Value = " + next.child("title").getValue());
                             books.add(book);
                         }
+                        BookTitleCompare btc = new BookTitleCompare();
+                        Collections.sort(books, btc);
+
                         BookAdapter ba = new BookAdapter(Search.this, books);
-                        mBooksRecycler.setAdapter(ba);
+                        booksRecycler.setAdapter(ba);
                     }
                 }
 
@@ -212,7 +178,7 @@ public class Search extends AppCompatActivity implements
             });
         }
 
-        mCurrentSearch.addTextChangedListener(new TextWatcher() {
+        currentSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -220,7 +186,7 @@ public class Search extends AppCompatActivity implements
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                search(s.toString());
+                search(s.toString(), mViewModel.getFilters());
             }
 
             @Override
@@ -228,54 +194,47 @@ public class Search extends AppCompatActivity implements
 
             }
         });
+
+        onFilter(mViewModel.getFilters());
     }
 
-    public void search(String s) {
+    public void onStop() {
+        super.onStop();
+    }
+
+    public void search(String s, Filters filters) {
         ArrayList<Book> myList = new ArrayList<>();
         for (Book object : books) {
-            if (object.getTitle().toLowerCase().contains(s.toLowerCase())) {
-                myList.add(object);
+            if (filters.hasSearchBy()) {
+                if (filters.getSearchBy().equals("title") && object.getTitle().toLowerCase().contains(s.toLowerCase())) {
+                    myList.add(object);
+                }
+                if (filters.getSearchBy().equals("isbn") && object.getIsbn().toLowerCase().contains(s.toLowerCase())) {
+                    myList.add(object);
+                }
+                if (filters.getSearchBy().equals("classes") && object.getClasses().toLowerCase().contains(s.toLowerCase())) {
+                    myList.add(object);
+                }
+            }
+
+        }
+        if (filters.hasSortBy()) {
+            if (filters.getSortBy().equals("price")) {
+                BookPriceCompare bpc = new BookPriceCompare();
+                Collections.sort(myList, bpc);
+
+            } else {
+                BookTitleCompare btc = new BookTitleCompare();
+                Collections.sort(myList, btc);
             }
         }
         BookAdapter ba = new BookAdapter(this, myList);
-        mBooksRecycler.setAdapter(ba);
-    }
-
-    public String getUid() {
-        return FirebaseAuth.getInstance().getCurrentUser().getUid();
+        booksRecycler.setAdapter(ba);
     }
 
     @Override
     public void onFilter(Filters filters) {
-        // Construct query basic query
-        Query query = databaseReference.orderByChild("listings");
-
-        // Classes
-        if (filters.hasClasses()) {
-            query = query.equalTo(filters.getClasses());
-        }
-
-        // Price
-        if (filters.hasPrice()) {
-            query = query.equalTo(filters.getPrice());
-        }
-
-        // Price
-        if (filters.hasLocation()) {
-            query = query.equalTo(filters.getLocation());
-        }
-
-        // Sort by
-        if (filters.hasSortBy()) {
-            query = query.orderByChild(filters.getSortBy());
-        }
-
-        // Limit items
-        query = query.limitToFirst(LIMIT);
-
-        // Update the query
-        mQuery = query;
-
+        search(currentSearch.getText().toString(), filters);
         // Save filters
         mViewModel.setFilters(filters);
     }
@@ -298,7 +257,10 @@ public class Search extends AppCompatActivity implements
                 onFilterClicked();
                 break;
             case R.id.button_clear_filter:
-                onClearFilterClicked();
+                Filters f = new Filters();
+                f.setSearchBy("title");
+                f.setSortBy("title");
+                onFilter(f);
         }
     }
 
@@ -307,34 +269,6 @@ public class Search extends AppCompatActivity implements
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
     }
 
-    public void onClearFilterClicked() {
-        mFilterDialog.resetFilters();
-        mCurrentSearch.setText("");
-        onFilter(Filters.getDefault());
-    }
-
-    public void onBookSelected(DataSnapshot book) {
-        // Go to the details page for the selected restaurant
-        Intent intent = new Intent(this, ListingDetailActivity.class);
-        intent.putExtra(ListingDetailActivity.KEY_BOOK_ID, ((Book) book.getValue()).getIsbn());
-
-        startActivity(intent);
-    }
-
-
-    // handle button activities
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_logout) {
-            // do something here
-            Intent intent5 = new Intent(Search.this, LoginActivity.class);
-            FirebaseAuth.getInstance().signOut();
-            startActivity(intent5);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
 }

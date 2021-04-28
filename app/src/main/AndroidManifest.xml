@@ -25,9 +25,6 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".FAQ" />
         <activity android:name=".Listings" />
-        <activity android:name=".EditProfile" >
-
-        </activity>
         <activity android:name=".Profile" />
         <activity android:name=".Signup" />
         <activity
@@ -40,6 +37,7 @@
         </activity>
         <activity android:name=".ForgotPassword" />
         <activity android:name=".ChangePassword" />
+        <activity android:name=".ChangePhoneNumber" />
         <activity android:name=".search.ListingDetailActivity"></activity>
 
     </application>

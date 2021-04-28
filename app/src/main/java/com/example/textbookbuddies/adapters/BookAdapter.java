@@ -106,14 +106,9 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             isbn.setText(book.getIsbn());
-            price.setText("$"+book.getPrice());
+            price.setText(book.getPriceString());
             email.setText(book.getEmail());
             phonenumber.setText(book.getNumber());
-
-            authorTitle.setText("Author: ");
-            isbnTitle.setText("ISBN: ");
-            priceTitle.setText("Price: ");
-            contactTitle.setText("Contact: ");
 
             itemBook.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -134,3 +129,54 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         }
     }
 }
+
+
+//    public class ViewHolder extends RecyclerView.ViewHolder{
+//
+//        TextView tvTitle;
+//        TextView tvOverview;
+//        ImageView ivPoster;
+//        RelativeLayout itemmovie;
+//
+//        public ViewHolder(@NonNull View itemView) {
+//            super(itemView);
+//            tvTitle = itemView.findViewById(R.id.tvTitle);
+//            tvOverview = itemView.findViewById(R.id.tvOverview);
+//            ivPoster = itemView.findViewById(R.id.ivPoster);
+//            itemmovie = itemView.findViewById(R.id.itemmovie);
+//            setMode(isDark);
+//        }
+//
+//        public void bind(Movie movie) {
+//            tvTitle.setText(movie.getTitle());
+//            tvOverview.setText(movie.getOverview());
+//
+//            String imageUrl;
+//            //if phone is in landscape mode
+//            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+//                //then imageUrl = backdrop img
+//
+//                imageUrl = movie.getBackdropPath();
+//            }else{
+//                //else imageUrl = poster images
+//
+//                imageUrl = movie.getPosterPath();
+//            }
+//            Glide.with(context).load(imageUrl).into(ivPoster);
+//
+//            //set click listener to whole movie item
+//            itemmovie.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //navigate to a new activity by tapping on movie
+//                    Intent i = new Intent(context, DetailActivity.class);
+//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    i.putExtra("movie", Parcels.wrap(movie));
+//                    i.putExtra("isDark", isDark);
+//                    context.startActivity(i);
+//                    Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
+//    }
+//}

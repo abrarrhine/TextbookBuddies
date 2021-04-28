@@ -108,14 +108,14 @@ public class ListingDetailActivity extends AppCompatActivity implements
             return;
         }
 
-        onRestaurantLoaded(snapshot.toObject(Book.class));
+        onBookLoaded(snapshot.toObject(Book.class));
     }
 
-    private void onRestaurantLoaded(Book book) {
+    private void onBookLoaded(Book book) {
         mNameView.setText(book.getTitle());
         mCityView.setText(book.getAuthor());
         mCategoryView.setText(book.getClasses());
-        mPriceView.setText(book.getPrice());
+        mPriceView.setText(book.getPriceString());
 
         // Background image
 //        Glide.with(mImageView.getContext())
