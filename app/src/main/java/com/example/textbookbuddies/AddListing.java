@@ -58,8 +58,7 @@ public class AddListing extends AppCompatActivity {
     private static final String TAG = "AddListing";
     public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
 
-    TextView title, author,isbn, price, email, phonenumber;
-    Spinner classes;
+    TextView title, author,isbn, price, email, phonenumber, classes;
     Button cancel, submit;
     List<Book> oldbooklist;
     String userId;
@@ -110,7 +109,7 @@ public class AddListing extends AppCompatActivity {
                         title.getText().toString(),
                         isbn.getText().toString(),
                         author.getText().toString(),
-                        classes.getSelectedItem().toString(),
+                        classes.getText().toString(),
                         Double.parseDouble(price.getText().toString()),
                         phonenumber.getText().toString(),
                         email.getText().toString());

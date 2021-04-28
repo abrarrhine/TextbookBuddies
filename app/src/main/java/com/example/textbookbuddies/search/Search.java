@@ -22,7 +22,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -87,18 +86,6 @@ public class Search extends AppCompatActivity implements
         currentSearch = (EditText) findViewById(R.id.text_current_search);
         booksRecycler = findViewById(R.id.recycler_books);
         booksRecycler.setLayoutManager(new LinearLayoutManager(this));
-//        booksRecycler.addOnItemTouchListener(new RecyclerItemClickListener(Search.this, booksRecycler ,new RecyclerItemClickListener.OnItemClickListener() {
-//            @Override public void onItemClick(View view, int position) {
-//                Intent intent = new Intent(Search.this, ListingDetailActivity.class);
-//                intent.putExtra(ListingDetailActivity.KEY_BOOK_ID, book.getId());
-//
-//                startActivity(intent);
-//            }
-//
-//            @Override public void onLongItemClick(View view, int position) {
-//                // do whatever
-//            }
-//        }));
         emptyView = findViewById(R.id.view_empty);
 
         findViewById(R.id.filter_bar).setOnClickListener(this);
@@ -157,7 +144,7 @@ public class Search extends AppCompatActivity implements
                     if(snapshot.exists()) {
                         Iterable<DataSnapshot> snapshotIterator = snapshot.getChildren();
                         Iterator<DataSnapshot> iterator = snapshotIterator.iterator();
-
+                        books.clear();
                         while (iterator.hasNext()) {
                             DataSnapshot next = (DataSnapshot) iterator.next();
                             Book book = next.getValue(Book.class);
@@ -222,11 +209,12 @@ public class Search extends AppCompatActivity implements
         if (filters.hasSortBy()) {
             if (filters.getSortBy().equals("price")) {
                 BookPriceCompare bpc = new BookPriceCompare();
-                Collections.sort(books, bpc);
+                Collections.sort(myList, bpc);
+
+            } else {
+                BookTitleCompare btc = new BookTitleCompare();
+                Collections.sort(myList, btc);
             }
-        } else {
-            BookTitleCompare btc = new BookTitleCompare();
-            Collections.sort(books, btc);
         }
         BookAdapter ba = new BookAdapter(this, myList);
         booksRecycler.setAdapter(ba);

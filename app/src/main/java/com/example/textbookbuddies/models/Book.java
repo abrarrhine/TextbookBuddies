@@ -1,9 +1,11 @@
 package com.example.textbookbuddies.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcel;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import java.util.Map;
 import com.example.textbookbuddies.R;
 
 
-public class Book implements Comparable<Book>{
+public class Book implements Comparable<Book>, Parcelable {
 
     public static final String  FIELD_TITLE = "title";
     public static final String  FIELD_ISBN = "isbn";
@@ -130,5 +132,45 @@ public class Book implements Comparable<Book>{
 
     public int compareTo(Book book) {
         return this.title.compareTo(book.getTitle());
+    }
+
+    protected Book(Parcel in) {
+        title = in.readString();
+        isbn = in.readString();
+        author = in.readString();
+        classes = in.readString();
+        priceDouble = in.readDouble();
+        priceString = in.readString();
+        number = in.readString();
+        email = in.readString();
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(isbn);
+        dest.writeString(author);
+        dest.writeString(classes);
+        dest.writeDouble(priceDouble);
+        dest.writeString(priceString);
+        dest.writeString(number);
+        dest.writeString(email);
     }
 }

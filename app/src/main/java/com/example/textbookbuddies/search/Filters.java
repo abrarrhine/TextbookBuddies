@@ -41,7 +41,7 @@ public class Filters {
         return sortBy;
     }
 
-    public void setSortBy(String sortBY) {
+    public void setSortBy(String sortBy) {
         this.sortBy = sortBy;
     }
 }
