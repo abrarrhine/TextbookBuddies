@@ -131,32 +131,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int bookIndex = books.indexOf(book);
-                    String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
-
-                    AsyncHttpClient client = new AsyncHttpClient();
-                    client.get(HttpURL, new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int i, Headers headers, JSON json) {
-                            Log.d(TAG, "onSuccess");
-                            JSONObject jsonObject = json.jsonObject;
-                            try {
-                                JSONArray booklist = jsonObject.getJSONArray("booklist");
-                                Log.i(TAG, "Results: " + booklist.toString());
-                                booklist.remove(bookIndex);
-                                firebaseDatabase.child("users").child(Uid).child("booklist").setValue(booklist);
-                                Log.i(TAG, "Books: " + books.size());
-
-                            } catch (JSONException e) {
-                                Log.e(TAG, "Hit json exception", e);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                            Log.d(TAG, "onFailure");
-                        }
-                    });
+                    book.delete();
                 }
             });
             //Glide.with(context).load(movie.getPosterPath()).into(ivPoster);
