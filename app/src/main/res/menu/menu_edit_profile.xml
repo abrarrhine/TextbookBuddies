@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:name="android:windowActionBar"
-        android:title="TODO">false</item>
-    <item android:name="android:windowNoTitle"
-        android:title="TODO">true</item>
-</menu>

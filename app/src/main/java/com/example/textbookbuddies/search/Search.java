@@ -37,7 +37,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.textbookbuddies.BottomNavigationViewHelper;
 import com.example.textbookbuddies.FAQ;
-import com.example.textbookbuddies.HomeActivity;
 import com.example.textbookbuddies.Listings;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.adapters.*;
@@ -128,7 +127,7 @@ public class Search extends AppCompatActivity implements
                         startActivity(intent1);
                         break;
                     case R.id.ic_home:
-                        Intent intent2 = new Intent(Search.this, HomeActivity.class);
+                        Intent intent2 = new Intent(Search.this, Profile.class);
                         startActivity(intent2);
                         break;
                     case R.id.ic_listings:
@@ -241,7 +240,7 @@ public class Search extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_home_page, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -269,6 +268,21 @@ public class Search extends AppCompatActivity implements
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
     }
 
+
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            // do something here
+            Intent intent5 = new Intent(Search.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent5);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 
 }

@@ -44,6 +44,14 @@
     <string name="cancel">Cancel</string>
     <string name="message_no_results">Oops, couldn\'t find any results\nthat matched your filter</string>
     <string name="submit">Submit</string>
+    <string name="change_password"><u>Change password</u></string>
+    <string name="change_profile_photo"><u>Change profile photo</u></string>
+    <string name="name">Name</string>
+    <string name="name_">Name:</string>
+    <string name="contact">contact</string>
+    <string name="contact_">Contact:</string>
+    <string name="class_">Class:</string>
+    <string name="change_email"><u>Change email</u></string>
 
     <!-- Types of food I could think of in 5 minutes -->
     <string-array name="classes">

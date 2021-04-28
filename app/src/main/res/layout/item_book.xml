@@ -68,7 +68,7 @@
 
     <TextView
         android:id="@+id/bkPhone"
-        android:layout_width="wrap_content"
+        android:layout_width="206dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkEmail"
         android:layout_marginLeft="16dp"
@@ -90,7 +90,7 @@
 
     <TextView
         android:id="@+id/bkIsbn"
-        android:layout_width="wrap_content"
+        android:layout_width="196dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkAuthor"
         android:layout_marginLeft="16dp"
@@ -100,7 +100,7 @@
 
     <TextView
         android:id="@+id/bkPrice"
-        android:layout_width="wrap_content"
+        android:layout_width="209dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkIsbn"
         android:layout_marginLeft="16dp"

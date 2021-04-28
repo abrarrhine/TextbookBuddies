@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.textbookbuddies.models.User;
 import com.example.textbookbuddies.models.Book;
+import com.example.textbookbuddies.search.Search;
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -99,7 +100,7 @@ public class Signup extends AppCompatActivity implements View.OnClickListener{
 
     private void updateUI(Object o) {
         if(o == mAuth.getCurrentUser()){
-            Intent i = new Intent(Signup.this, HomeActivity.class);
+            Intent i = new Intent(Signup.this, Search.class);
             i.putExtra("userobject", Parcels.wrap(o));
             startActivity(i);
         }
@@ -184,7 +185,6 @@ public class Signup extends AppCompatActivity implements View.OnClickListener{
                             book = new Book("title","isbn","author","classes", 50.80, phoneNumber,email);
                             booklist.add(book);
                             User user = new User(firstName, lastName, dob, email, phoneNumber, booklist);
-                            //User user = new User(firstName, lastName, dob, email, phoneNumber);
 
 
                             FirebaseDatabase.getInstance().getReference("users")

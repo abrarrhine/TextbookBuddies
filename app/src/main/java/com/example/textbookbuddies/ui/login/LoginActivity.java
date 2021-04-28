@@ -1,33 +1,22 @@
 package com.example.textbookbuddies.ui.login;
 
-import android.app.Activity;
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
+
 import androidx.appcompat.app.AppCompatActivity;
-import android.os.Parcel;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
+
 import android.util.Patterns;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.example.textbookbuddies.ForgotPassword;
-import com.example.textbookbuddies.HomeActivity;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.Signup;
-import com.example.textbookbuddies.ui.login.LoginViewModel;
-import com.example.textbookbuddies.ui.login.LoginViewModelFactory;
+import com.example.textbookbuddies.search.Search;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -156,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(LoginActivity.this, "Successfully logged in!", Toast.LENGTH_LONG).show();
 
                         //redirect to home page
-                        Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                        Intent i = new Intent(LoginActivity.this, Search.class);
                         startActivity(i);
                     }
                     else {
@@ -178,7 +167,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void updateUI(Object o) {
         if(o == mAuth.getCurrentUser()){
-            Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+            Intent i = new Intent(LoginActivity.this, Search.class);
             i.putExtra("userobject", Parcels.wrap(o));
             startActivity(i);
         }

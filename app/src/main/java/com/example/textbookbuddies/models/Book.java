@@ -3,6 +3,7 @@ package com.example.textbookbuddies.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.example.textbookbuddies.R;
+
 
 public class Book implements Comparable<Book>{
 

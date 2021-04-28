@@ -2,18 +2,21 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.textbookbuddies.adapters.BookAdapter;
 import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.Search;
+import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,11 +46,18 @@ public class Listings extends AppCompatActivity {
     String TAG;
     BookAdapter bookAdapter;
     FloatingActionButton addBookButt;
+    String HttpURL;
+
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listings);
+
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
         TAG = "Listings";
         addBookButt = findViewById(R.id.btAdd);
         bkListings = findViewById(R.id.bkListings);
@@ -62,33 +72,10 @@ public class Listings extends AppCompatActivity {
         firebaseUser = firebaseAuth.getCurrentUser();
         String Uid = firebaseUser.getUid();
 
-        String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
+        HttpURL = USER_INFO_URL + "/" + Uid + ".json";
         Log.d(TAG, HttpURL);
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(HttpURL, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int i, Headers headers, JSON json) {
-                        Log.d(TAG, "onSuccess");
-                        JSONObject jsonObject = json.jsonObject;
-                        try {
-                            JSONArray booklist = jsonObject.getJSONArray("booklist");
-//                            jsonObject.getString()
-                            Log.i(TAG, "Results: " + booklist.toString());
-                            books.addAll(Book.fromJSONArray(booklist));
-                            bookAdapter.notifyDataSetChanged();
-                            Log.i(TAG, "Books: " + books.size());
 
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Hit json exception", e);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                        Log.d(TAG, "onFailure");
-                    }
-                });
-
+        refresh();
         addBookButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +96,7 @@ public class Listings extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case R.id.ic_home:
-                        Intent intent2 = new Intent(Listings.this, HomeActivity.class);
+                        Intent intent2 = new Intent(Listings.this, Profile.class);
                         startActivity(intent2);
                         break;
                     case R.id.ic_listings:
@@ -122,6 +109,58 @@ public class Listings extends AppCompatActivity {
                         break;
                 }
                 return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_listings, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // handle button activities
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            // do something here
+            Intent intent5 = new Intent(Listings.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent5);
+        }
+
+        if (id == R.id.refresh) {
+            // do something here
+            refresh();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void refresh(){
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(HttpURL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONArray booklist = jsonObject.getJSONArray("booklist");
+//                            jsonObject.getString()
+                    Log.i(TAG, "Results: " + booklist.toString());
+                    books.addAll(Book.fromJSONArray(booklist));
+                    bookAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Books: " + books.size());
+
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure");
             }
         });
     }

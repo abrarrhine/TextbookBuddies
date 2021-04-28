@@ -18,6 +18,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.models.Book;
+import com.example.textbookbuddies.models.User;
 import com.example.textbookbuddies.search.*;
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -61,6 +62,7 @@ public class AddListing extends AppCompatActivity {
     Spinner classes;
     Button cancel, submit;
     List<Book> oldbooklist;
+    String userId;
 
     private DatabaseReference firebaseDatabase;
     private DatabaseReference listingsRef;
@@ -77,7 +79,7 @@ public class AddListing extends AppCompatActivity {
         listingsRef = FirebaseDatabase.getInstance().getReference().child("listings");
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
-        String userId = firebaseUser.getUid();
+        userId = firebaseUser.getUid();
         String HttpURL = USER_INFO_URL + "/" + userId + ".json";
         oldbooklist = new ArrayList<>();
         title = findViewById(R.id.bkAddtitle);
@@ -128,6 +130,7 @@ public class AddListing extends AppCompatActivity {
                             firebaseDatabase.child("users").child(userId).child("booklist").setValue(oldbooklist);
                         } catch (JSONException e) {
                             Log.e(TAG, "Hit json exception", e);
+                            addBookList(newbook);
                         }
                     }
 
@@ -167,7 +170,7 @@ public class AddListing extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case R.id.ic_home:
-                        Intent intent2 = new Intent(AddListing.this, HomeActivity.class);
+                        Intent intent2 = new Intent(AddListing.this, Profile.class);
                         startActivity(intent2);
                         break;
                     case R.id.ic_listings:
@@ -180,6 +183,25 @@ public class AddListing extends AppCompatActivity {
                         break;
                 }
                 return false;
+            }
+        });
+    }
+
+    public void addBookList(Book newbook){
+        firebaseDatabase.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("firebase", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                    HashMap oldUser = (HashMap) task.getResult().getValue();
+                    ArrayList<Book> newBookList = new ArrayList<Book>();
+                    newBookList.add(newbook);
+                    oldUser.put("booklist", newBookList);
+                    firebaseDatabase.child("users").child(userId).setValue(oldUser);
+                }
             }
         });
     }
