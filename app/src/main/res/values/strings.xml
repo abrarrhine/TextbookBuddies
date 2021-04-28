@@ -15,7 +15,7 @@
     <string name="hello">Hello</string>
     <string name="username">Username:</string>
 
-    <string name="value_any_classes">All Classes</string>
+    <string name="value_any_classes">Any Subject</string>
     <string name="value_any_location">Anywhere</string>
     <string name="value_any_price">Any price</string>
 
@@ -57,44 +57,163 @@
     <string-array name="classes">
         <item>@string/value_any_classes</item>
 
-        <item>Brunch</item>
-        <item>Burgers</item>
-        <item>Coffee</item>
-        <item>Deli</item>
-        <item>Dim Sum</item>
-        <item>Indian</item>
-        <item>Italian</item>
-        <item>Mediterranean</item>
-        <item>Mexican</item>
-        <item>Pizza</item>
-        <item>Ramen</item>
-        <item>Sushi</item>
+        <item>AAEC</item>
+        <item>ACIS</item>
+        <item>AFST</item>
+        <item>AHRM</item>
+        <item>AINS</item>
+        <item>ALCE</item>
+        <item>ALS</item>
+        <item>AOE</item>
+        <item>APS</item>
+        <item>APSC</item>
+        <item>ARBC</item>
+        <item>ARCH</item>
+        <item>AS</item>
+        <item>ASPT</item>
+        <item>AT</item>
+        <item>BC</item>
+        <item>BCHM</item>
+        <item>BDS</item>
+        <item>BIOL</item>
+        <item>BIT</item>
+        <item>BMES</item>
+        <item>BMSP</item>
+        <item>BMVS</item>
+        <item>BSE</item>
+        <item>BTDM</item>
+        <item>C21S</item>
+        <item>CAUS</item>
+        <item>CEE</item>
+        <item>CEM</item>
+        <item>CHE</item>
+        <item>CHEM</item>
+        <item>CHN</item>
+        <item>CINE</item>
+        <item>CLA</item>
+        <item>CMDA</item>
+        <item>CMST</item>
+        <item>CNST</item>
+        <item>COMM</item>
+        <item>CONS</item>
+        <item>COS</item>
+        <item>CRIM</item>
+        <item>CS</item>
+        <item>CSES</item>
+        <item>DANC</item>
+        <item>DASC</item>
+        <item>ECE</item>
+        <item>ECON</item>
+        <item>EDCI</item>
+        <item>EDCO</item>
+        <item>EDCT</item>
+        <item>EDEL</item>
+        <item>EDEP</item>
+        <item>EDHE</item>
+        <item>EDIT</item>
+        <item>EDP</item>
+        <item>EDRE</item>
+        <item>ENGE</item>
+        <item>ENGL</item>
+        <item>ENSC</item>
+        <item>ENT</item>
+        <item>ESM</item>
+        <item>FA</item>
+        <item>FCS</item>
+        <item>FIN</item>
+        <item>FIW</item>
+        <item>FL</item>
+        <item>FMD</item>
+        <item>FR</item>
+        <item>FREC</item>
+        <item>FST</item>
+        <item>GBCB</item>
+        <item>GEOG</item>
+        <item>GEOS</item>
+        <item>GER</item>
+        <item>GIA</item>
+        <item>GR</item>
+        <item>GRAD</item>
+        <item>HD</item>
+        <item>HEB</item>
+        <item>HIST</item>
+        <item>HNFE</item>
+        <item>HORT</item>
+        <item>HTM</item>
+        <item>HUM</item>
+        <item>IDS</item>
+        <item>IS</item>
+        <item>ISC</item>
+        <item>ISE</item>
+        <item>ITAL</item>
+        <item>ITDS</item>
+        <item>JMC</item>
+        <item>JPN</item>
+        <item>JUD</item>
+        <item>LAHS</item>
+        <item>LAR</item>
+        <item>LAT</item>
+        <item>LDRS</item>
+        <item>MACR</item>
+        <item>MATH</item>
+        <item>ME</item>
+        <item>MGT</item>
+        <item>MINE</item>
+        <item>MKTG</item>
+        <item>MN</item>
+        <item>MS</item>
+        <item>MSE</item>
+        <item>MTRG</item>
+        <item>MUS</item>
+        <item>NANO</item>
+        <item>NEUR</item>
+        <item>NR</item>
+        <item>NSEG</item>
+        <item>PAPA</item>
+        <item>PHIL</item>
+        <item>PHS</item>
+        <item>PHYS</item>
+        <item>PM</item>
+        <item>PORT</item>
+        <item>PPWS</item>
+        <item>PR</item>
+        <item>PSCI</item>
+        <item>PSVP</item>
+        <item>PSYC</item>
+        <item>REAL</item>
+        <item>RED</item>
+        <item>RLCL</item>
+        <item>RTM</item>
+        <item>RUS</item>
+        <item>SBIO</item>
+        <item>SOC</item>
+        <item>SPAN</item>
+        <item>SPES</item>
+        <item>SPIA</item>
+        <item>STAT</item>
+        <item>STL</item>
+        <item>STS</item>
+        <item>SYSB</item>
+        <item>TA</item>
+        <item>TBMH</item>
+        <item>UAP</item>
+        <item>UH</item>
+        <item>UNIV</item>
+        <item>VM</item>
+        <item>WATR</item>
+        <item>WGS</item>
+
     </string-array>
-    ite
 
-    <!-- 50 most populous cities in the US -->
-    <string-array name="locations">
-        <item>@string/value_any_location</item>
-
-        <item>On Campus</item>
-        <item>Off Campus</item>
-        <item>Christiansburg</item>
-        <item>Other</item>
+    <string-array name="search_by">
+        <item>title</item>
+        <item>isbn</item>
+        <item>class code eg. CS 3714</item>
     </string-array>
 
-    <!-- Price filters -->
-    <string-array name="prices">
-        <item>@string/value_any_price</item>
-
-        <item>@string/price_1</item>
-        <item>@string/price_2</item>
-        <item>@string/price_3</item>
-        <item>@string/price_4</item>
-    </string-array>
-
-    <!-- Ways you can sort restaurants -->
     <string-array name="sort_by">
-        <item>@string/sort_by_price</item>
-        <item>@string/sort_by_title</item>
+        <item>title</item>
+        <item>price</item>
     </string-array>
+
 </resources>

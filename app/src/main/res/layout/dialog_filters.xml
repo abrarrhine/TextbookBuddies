@@ -14,70 +14,27 @@
         android:layout_marginBottom="8dp"
         android:text="@string/header_filters" />
 
-    <!-- Food Type -->
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/icon_category"
-            style="@style/AppTheme.FilterIcon"
-            android:layout_centerVertical="true"
-            app:tint="@color/greySecondary"
-            app:srcCompat="@drawable/ic_baseline_menu_book_24" />
-
-        <Spinner
-            android:id="@+id/spinner_classes"
-            style="@style/AppTheme.FilterSpinner"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/icon_category"
-            android:entries="@array/classes" />
-
-    </RelativeLayout>
-
-    <!-- Location -->
+    <!-- Search by -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/icon_location"
+            android:id="@+id/icon_search"
             style="@style/AppTheme.FilterIcon"
             android:layout_centerVertical="true"
             app:tint="@color/greySecondary"
-            app:srcCompat="@drawable/ic_place_white_24px" />
+            app:srcCompat="@drawable/ic_search" />
 
         <Spinner
-            android:id="@+id/spinner_location"
+            android:id="@+id/spinner_search"
             style="@style/AppTheme.FilterSpinner"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/icon_location"
-            android:entries="@array/locations" />
-
+            android:layout_toRightOf="@+id/icon_search"
+            android:entries="@array/search_by" />
     </RelativeLayout>
 
-    <!-- Price -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/icon_price"
-            style="@style/AppTheme.FilterIcon"
-            android:layout_centerVertical="true"
-            app:tint="@color/greySecondary"
-            app:srcCompat="@drawable/ic_monetization_on_white_24px" />
-
-        <Spinner
-            android:id="@+id/spinner_price"
-            style="@style/AppTheme.FilterSpinner"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/icon_price"
-            android:entries="@array/prices" />
-
-    </RelativeLayout>
-
-    <!-- Sort by -->
+    !-- Sort by -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
