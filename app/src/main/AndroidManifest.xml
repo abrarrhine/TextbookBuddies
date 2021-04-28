@@ -3,6 +3,7 @@
     package="com.example.textbookbuddies">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
     <application
@@ -40,6 +41,7 @@
         <activity android:name=".ForgotPassword" />
         <activity android:name=".ChangePassword" />
         <activity android:name=".search.ListingDetailActivity"></activity>
+
     </application>
 
 </manifest>

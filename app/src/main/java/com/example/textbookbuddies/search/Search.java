@@ -16,6 +16,7 @@
 package com.example.textbookbuddies.search;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -175,7 +176,7 @@ public class Search extends AppCompatActivity implements
         if (obj instanceof Map) {
             Map map = (HashMap<String, Object>) obj;
             return new Book((String) map.get("title"), (String) map.get("isbn"), (String) map.get("author"), (String) map.get("classes"),
-                    (String) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"));
+                    (String) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"), (String) map.get("image"));
         }
         return null;
     }

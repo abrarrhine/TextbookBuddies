@@ -1,5 +1,7 @@
 package com.example.textbookbuddies.models;
 
+import android.net.Uri;
+
 import com.example.textbookbuddies.Location;
 
 import org.json.JSONArray;
@@ -23,6 +25,7 @@ public class Book {
     public static final String FIELD_LOCATION = "location";
     public static final String  FIELD_NUMBER = "number";
     public static final String  FIELD_EMAIL = "email";
+    public static final String FIELD_IMAGE = "image";
 
     private String title;
     private String isbn;
@@ -32,6 +35,7 @@ public class Book {
     private Location location;
     private String number;
     private String email;
+    private String image;
 
     public Book(){
 
@@ -44,10 +48,22 @@ public class Book {
         this.price = jsonObject.getString("price");
         this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
-
+        this.image = jsonObject.getString("image");
     }
 
-    public Book(String title, String isbn, String author, String classes, String price, String number, String email, Location location) {
+//    public Book(String title, String isbn, String author, String classes, String price, String number, String email, Location location, int image) {
+//        this.title = title;
+//        this.isbn = isbn;
+//        this.author = author;
+//        this.classes = classes;
+//        this.price = price;
+//        this.number = number;
+//        this.email = email;
+//        this.location = location;
+//        this.image = image;
+//    }
+
+    public Book(String title, String isbn, String author, String classes, String price, String number, String email, Location onCampus, String image) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -56,6 +72,7 @@ public class Book {
         this.number = number;
         this.email = email;
         this.location = location;
+        this.image = image;
     }
 
     public static List<Book> fromJSONArray(JSONArray movieJsonArray) throws JSONException {
@@ -64,6 +81,14 @@ public class Book {
             books.add(new Book(movieJsonArray.getJSONObject(i)));
         }
         return books;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getIsbn() {
@@ -140,6 +165,7 @@ public class Book {
         result.put("number", number);
         result.put("email", email);
         result.put("location", location);
+        result.put("image", image);
         return result;
     }
 }

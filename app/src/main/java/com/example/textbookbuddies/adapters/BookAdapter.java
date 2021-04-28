@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,22 +19,43 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.textbookbuddies.DetailedBookListing;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.models.Book;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.util.List;
 
+import okhttp3.Headers;
+
 public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
-    Context context;
-    List<Book> books;
-
+    public Context context;
+    public List<Book> books;
+    public FirebaseAuth firebaseAuth;
+    public FirebaseUser firebaseUser;
+    public DatabaseReference firebaseDatabase;
+    public String Uid;
+    public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users/";
+    public static final String TAG = "BookAdapter";
     public BookAdapter(Context context, List<Book> books) {
         this.context = context;
         this.books = books;
+
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        Uid = firebaseUser.getUid();
     }
 
     @NonNull
@@ -60,6 +83,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, author, isbn, price, email, phonenumber;
         TextView authorTitle, isbnTitle, priceTitle, contactTitle;
+        ImageView bookimg;
+        Button delete;
         RelativeLayout itemBook;
         public ViewHolder(View v) {
             super(v);
@@ -70,6 +95,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             email = v.findViewById(R.id.bkEmail);
             phonenumber = v.findViewById(R.id.bkPhone);
             itemBook = v.findViewById(R.id.itembook);
+            bookimg = v.findViewById(R.id.bkImage);
+            delete = v.findViewById(R.id.btdelete);
 
             authorTitle = v.findViewById(R.id.bkAuthorTitle);
             isbnTitle = v.findViewById(R.id.bkIsbnTitle);
@@ -84,6 +111,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             price.setText("$"+book.getPrice());
             email.setText(book.getEmail());
             phonenumber.setText(book.getNumber());
+            Glide.with(context).load(book.getImage()).into(bookimg);
 
             authorTitle.setText("Author: ");
             isbnTitle.setText("ISBN: ");
@@ -100,6 +128,37 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                 }
             });
 
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int bookIndex = books.indexOf(book);
+                    String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
+
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    client.get(HttpURL, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int i, Headers headers, JSON json) {
+                            Log.d(TAG, "onSuccess");
+                            JSONObject jsonObject = json.jsonObject;
+                            try {
+                                JSONArray booklist = jsonObject.getJSONArray("booklist");
+                                Log.i(TAG, "Results: " + booklist.toString());
+                                booklist.remove(bookIndex);
+                                firebaseDatabase.child("users").child(Uid).child("booklist").setValue(booklist);
+                                Log.i(TAG, "Books: " + books.size());
+
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Hit json exception", e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                            Log.d(TAG, "onFailure");
+                        }
+                    });
+                }
+            });
             //Glide.with(context).load(movie.getPosterPath()).into(ivPoster);
             //Glide.with(context).load(imageURL).into(ivPoster);
 
@@ -107,54 +166,3 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         }
     }
 }
-
-
-//    public class ViewHolder extends RecyclerView.ViewHolder{
-//
-//        TextView tvTitle;
-//        TextView tvOverview;
-//        ImageView ivPoster;
-//        RelativeLayout itemmovie;
-//
-//        public ViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            tvTitle = itemView.findViewById(R.id.tvTitle);
-//            tvOverview = itemView.findViewById(R.id.tvOverview);
-//            ivPoster = itemView.findViewById(R.id.ivPoster);
-//            itemmovie = itemView.findViewById(R.id.itemmovie);
-//            setMode(isDark);
-//        }
-//
-//        public void bind(Movie movie) {
-//            tvTitle.setText(movie.getTitle());
-//            tvOverview.setText(movie.getOverview());
-//
-//            String imageUrl;
-//            //if phone is in landscape mode
-//            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-//                //then imageUrl = backdrop img
-//
-//                imageUrl = movie.getBackdropPath();
-//            }else{
-//                //else imageUrl = poster images
-//
-//                imageUrl = movie.getPosterPath();
-//            }
-//            Glide.with(context).load(imageUrl).into(ivPoster);
-//
-//            //set click listener to whole movie item
-//            itemmovie.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //navigate to a new activity by tapping on movie
-//                    Intent i = new Intent(context, DetailActivity.class);
-//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    i.putExtra("movie", Parcels.wrap(movie));
-//                    i.putExtra("isDark", isDark);
-//                    context.startActivity(i);
-//                    Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-//    }
-//}
