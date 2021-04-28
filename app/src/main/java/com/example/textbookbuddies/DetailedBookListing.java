@@ -79,7 +79,7 @@ public class DetailedBookListing extends AppCompatActivity {
         tv_class.setText(book.getClasses());
         tv_contact.setText(book.getNumber());
         tv_email.setText(book.getEmail());
-        tv_price.setText("$" + book.getPrice());
+        tv_price.setText(book.getPriceString());
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavView_Bar);
         BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);

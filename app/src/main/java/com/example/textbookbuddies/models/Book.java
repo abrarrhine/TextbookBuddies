@@ -1,26 +1,27 @@
 package com.example.textbookbuddies.models;
 
-import com.example.textbookbuddies.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcel;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.example.textbookbuddies.R;
 
-@Parcel
-public class Book {
+
+public class Book implements Comparable<Book>, Parcelable {
 
     public static final String  FIELD_TITLE = "title";
     public static final String  FIELD_ISBN = "isbn";
     public static final String  FIELD_AUTHOR = "author";
     public static final String  FIELD_CLASSES = "classes";
     public static final String  FIELD_PRICE = "price";
-    public static final String FIELD_LOCATION = "location";
     public static final String  FIELD_NUMBER = "number";
     public static final String  FIELD_EMAIL = "email";
 
@@ -28,8 +29,8 @@ public class Book {
     private String isbn;
     private String author;
     private String classes;
-    private String price;
-    private Location location;
+    private double priceDouble;
+    private String priceString;
     private String number;
     private String email;
 
@@ -41,21 +42,20 @@ public class Book {
         this.isbn = jsonObject.getString("isbn");
         this.author = jsonObject.getString("author");
         this.classes = jsonObject.getString("classes");
-        this.price = jsonObject.getString("price");
+        this.priceDouble = jsonObject.getDouble("priceDouble");
         this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
 
     }
 
-    public Book(String title, String isbn, String author, String classes, String price, String number, String email, Location location) {
+    public Book(String title, String isbn, String author, String classes, double price, String number, String email) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
         this.classes = classes;
-        this.price = price;
+        this.priceDouble = price;
         this.number = number;
         this.email = email;
-        this.location = location;
     }
 
     public static List<Book> fromJSONArray(JSONArray movieJsonArray) throws JSONException {
@@ -90,12 +90,20 @@ public class Book {
         this.classes = classes;
     }
 
-    public String getPrice() {
-        return price;
+    public String getPriceString() {
+        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+        return formatter.format(priceDouble);
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setPriceString(String priceString) {
+        this.priceString = priceString;
+    }
+
+    public double getPriceDouble() {
+        return priceDouble;
+    }
+    public void setPriceDouble(double price) {
+        this.priceDouble = price;
     }
 
     public String getNumber() {
@@ -122,24 +130,47 @@ public class Book {
         this.title = title;
     }
 
-    public Location getLocation() {
-        return location;
+    public int compareTo(Book book) {
+        return this.title.compareTo(book.getTitle());
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    protected Book(Parcel in) {
+        title = in.readString();
+        isbn = in.readString();
+        author = in.readString();
+        classes = in.readString();
+        priceDouble = in.readDouble();
+        priceString = in.readString();
+        number = in.readString();
+        email = in.readString();
     }
 
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("title", title);
-        result.put("author", author);
-        result.put("isbn", isbn);
-        result.put("classes", classes);
-        result.put("price", price);
-        result.put("number", number);
-        result.put("email", email);
-        result.put("location", location);
-        return result;
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(isbn);
+        dest.writeString(author);
+        dest.writeString(classes);
+        dest.writeDouble(priceDouble);
+        dest.writeString(priceString);
+        dest.writeString(number);
+        dest.writeString(email);
     }
 }

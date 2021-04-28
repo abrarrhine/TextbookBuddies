@@ -29,10 +29,8 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
 
     private View mRootView;
 
-    private Spinner mClassesSpinner;
-    private Spinner mLocationSpinner;
-    private Spinner mSortSpinner;
-    private Spinner mPriceSpinner;
+    private Spinner spinnerSearch;
+    private Spinner spinnerSort;
 
     private FilterListener mFilterListener;
 
@@ -43,10 +41,8 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
                              @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.dialog_filters, container, false);
 
-        mClassesSpinner = mRootView.findViewById(R.id.spinner_classes);
-        mLocationSpinner = mRootView.findViewById(R.id.spinner_location);
-        mSortSpinner = mRootView.findViewById(R.id.spinner_sort);
-        mPriceSpinner = mRootView.findViewById(R.id.spinner_price);
+        spinnerSearch = mRootView.findViewById(R.id.spinner_search);
+        spinnerSort = mRootView.findViewById(R.id.spinner_sort);
 
         mRootView.findViewById(R.id.button_search).setOnClickListener(this);
         mRootView.findViewById(R.id.button_cancel).setOnClickListener(this);
@@ -95,71 +91,20 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
         dismiss();
     }
 
-    @Nullable
-    private String getSelectedClasses() {
-        String selected = (String) mClassesSpinner.getSelectedItem();
-        if (getString(R.string.value_any_classes).equals(selected)) {
-            return null;
-        } else {
-            return selected;
-        }
+    private String getSelectedSearch() {
+        String selected = (String) spinnerSearch.getSelectedItem();
+        return selected;
     }
 
-    @Nullable
-    private String getSelectedLocation() {
-        String selected = (String) mLocationSpinner.getSelectedItem();
-        if (getString(R.string.value_any_location).equals(selected)) {
-            return null;
-        } else {
-            return selected;
-        }
-    }
-
-    private int getSelectedPrice() {
-        String selected = (String) mPriceSpinner.getSelectedItem();
-        if (selected.equals(getString(R.string.price_1))) {
-            return 1;
-        } else if (selected.equals(getString(R.string.price_2))) {
-            return 2;
-        } else if (selected.equals(getString(R.string.price_3))) {
-            return 3;
-        } else {
-            return -1;
-        }
-    }
-
-    @Nullable
-    private String getSelectedSortBy() {
-        String selected = (String) mSortSpinner.getSelectedItem();
-        if (getString(R.string.sort_by_price).equals(selected)) {
-            return Book.FIELD_PRICE;
-        }
-        if (getString(R.string.sort_by_title).equals(selected)) {
-            return Book.FIELD_TITLE;
-        }
-
-        return null;
-    }
-
-    @Nullable
-    private Query.Direction getSortDirection() {
-        String selected = (String) mSortSpinner.getSelectedItem();
-        if (getString(R.string.sort_by_price).equals(selected)) {
-            return Query.Direction.ASCENDING;
-        }
-        if (getString(R.string.sort_by_title).equals(selected)) {
-            return Query.Direction.ASCENDING;
-        }
-
-        return null;
+    private String getSelectedSort() {
+        String selected = (String) spinnerSort.getSelectedItem();
+        return selected;
     }
 
     public void resetFilters() {
         if (mRootView != null) {
-            mClassesSpinner.setSelection(0);
-            mLocationSpinner.setSelection(0);
-            mPriceSpinner.setSelection(0);
-            mSortSpinner.setSelection(0);
+            spinnerSearch.setSelection(0);
+            spinnerSort.setSelection(0);
         }
     }
 
@@ -167,13 +112,9 @@ public class FilterDialogFragment extends DialogFragment implements View.OnClick
         Filters filters = new Filters();
 
         if (mRootView != null) {
-            //filters.setClasses(getSelectedClasses());
-            //filters.setLocation(getSelectedLocation());
-            filters.setPrice(getSelectedPrice());
-            filters.setSortBy(getSelectedSortBy());
-            filters.setSortDirection(getSortDirection());
+            filters.setSearchBy(getSelectedSearch());
+            filters.setSortBy(getSelectedSort());
         }
-
         return filters;
     }
 }

@@ -182,8 +182,8 @@ public class Signup extends AppCompatActivity implements View.OnClickListener{
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-//                            book = new Book("title","isbn","author","classes", "50.80", phoneNumber,email, Location.ON_CAMPUS);
-//                            booklist.add(book);
+                            book = new Book("title","isbn","author","classes", 50.80, phoneNumber,email);
+                            booklist.add(book);
                             User user = new User(firstName, lastName, dob, email, phoneNumber, booklist);
 
 
