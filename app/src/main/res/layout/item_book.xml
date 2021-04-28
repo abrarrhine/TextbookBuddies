@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/itembook"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/bkImage"
@@ -17,9 +19,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/bkImage"
         android:layout_toEndOf="@+id/bkImage"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:textSize="16sp"
         tools:text="Learning C# by Developing Games with Unity 2019" />
 
@@ -29,35 +34,36 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkTitle"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="139dp"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/bkAuthorTitle"
         android:layout_toEndOf="@+id/bkAuthorTitle"
         android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         tools:text="Joe Smith" />
 
     <TextView
         android:id="@+id/bkAuthorTitle"
-        android:layout_width="64dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkTitle"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="1dp"
-        android:layout_toEndOf="@+id/bkImage"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/bkImage"
         android:textSize="14sp"
-        tools:text="Author: " />
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Author: " />
 
     <TextView
         android:id="@+id/bkEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkPrice"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="-3dp"
-        android:layout_marginEnd="1dp"
-        android:layout_toEndOf="@+id/bkContactTitle"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/bkAuthorTitle"
         android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         tools:text="emilyrn18@vt.edu" />
 
     <TextView
@@ -65,12 +71,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkEmail"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="119dp"
-        android:layout_toEndOf="@+id/bkContactTitle"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/bkAuthorTitle"
         android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         tools:text="434-555-0000" />
 
     <TextView
@@ -78,22 +83,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkPriceTitle"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="-2dp"
-        android:layout_toEndOf="@+id/bkImage"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/bkImage"
         android:textSize="14sp"
-        tools:text="Contact:" />
+        android:text="Contact:" />
 
     <TextView
         android:id="@+id/bkIsbn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkAuthor"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="158dp"
-        android:layout_toEndOf="@+id/bkIsbnTitle"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/bkAuthorTitle"
         android:textSize="14sp"
         tools:text="123456" />
 
@@ -102,34 +103,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkIsbn"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="-1dp"
-        android:layout_marginEnd="141dp"
-        android:layout_toEndOf="@+id/bkPriceTitle"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/bkAuthorTitle"
         android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="1"
         tools:text="$45.99" />
 
     <TextView
         android:id="@+id/bkPriceTitle"
-        android:layout_width="57dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkIsbnTitle"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="-1dp"
-        android:layout_toEndOf="@+id/bkImage"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/bkImage"
         android:textSize="14sp"
-        tools:text="Price:" />
+        android:text="Price:" />
 
     <TextView
         android:id="@+id/bkIsbnTitle"
-        android:layout_width="49dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkAuthorTitle"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="1dp"
-        android:layout_toEndOf="@+id/bkImage"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@+id/bkImage"
         android:textSize="14sp"
-        tools:text="ISBN:" />
+        android:text="ISBN:" />
 
 </RelativeLayout>

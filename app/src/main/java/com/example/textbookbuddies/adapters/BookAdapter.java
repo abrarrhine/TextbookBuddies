@@ -69,25 +69,15 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             email = v.findViewById(R.id.bkEmail);
             phonenumber = v.findViewById(R.id.bkPhone);
             itemBook = v.findViewById(R.id.itembook);
-
-            authorTitle = v.findViewById(R.id.bkAuthorTitle);
-            isbnTitle = v.findViewById(R.id.bkIsbnTitle);
-            priceTitle = v.findViewById(R.id.bkPriceTitle);
-            contactTitle = v.findViewById(R.id.bkContactTitle);
         }
 
         public void bind(Book book) {
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             isbn.setText(book.getIsbn());
-            price.setText("$"+book.getPrice());
+            price.setText(book.getPriceString());
             email.setText(book.getEmail());
             phonenumber.setText(book.getNumber());
-
-            authorTitle.setText("Author: ");
-            isbnTitle.setText("ISBN: ");
-            priceTitle.setText("Price: ");
-            contactTitle.setText("Contact: ");
 
             itemBook.setOnClickListener(new View.OnClickListener() {
                 @Override

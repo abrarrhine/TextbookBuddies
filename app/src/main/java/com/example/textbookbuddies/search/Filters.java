@@ -11,76 +11,37 @@ import com.google.firebase.firestore.Query;
  */
 public class Filters {
 
-    private int price = -1;
-    private String classes = null;
-    private String location = null;
+    private String searchBy = null;
     private String sortBy = null;
-    private Query.Direction sortDirection = null;
 
     public Filters() {}
 
     public static Filters getDefault() {
         Filters filters = new Filters();
-        filters.setSortDirection(Query.Direction.DESCENDING);
-
         return filters;
     }
 
 
-    public boolean hasPrice() {
-        return (price > 0);
+    public boolean hasSearchBy() {
+        return (searchBy != null);
     }
-
-    public boolean hasClasses() {
-        return classes == null;
+    public String getSearchBy() {
+        if (searchBy.contains("class")) {
+            return "classes";
+        }
+        return searchBy;
     }
-
-    public boolean hasLocation() {
-        return location == null;
-    }
+    public void setSearchBy(String str) { this.searchBy = str;}
 
     public boolean hasSortBy() {
-        return !(TextUtils.isEmpty(sortBy));
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public String getClasses() {
-        return classes;
-    }
-
-    public void setClasses(String classes) {
-        this.classes = classes;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
+        return (sortBy != null);
     }
 
     public String getSortBy() {
         return sortBy;
     }
 
-    public void setSortBy(String sortBy) {
+    public void setSortBy(String sortBY) {
         this.sortBy = sortBy;
     }
-
-    public Query.Direction getSortDirection() {
-        return sortDirection;
-    }
-
-    public void setSortDirection(Query.Direction sortDirection) {
-        this.sortDirection = sortDirection;
-    }
-
 }

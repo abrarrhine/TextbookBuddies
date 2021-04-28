@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -55,7 +57,8 @@ public class AddListing extends AppCompatActivity {
     private static final String TAG = "AddListing";
     public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
 
-    TextView title, author, classes,isbn, price, email, phonenumber;
+    TextView title, author,isbn, price, email, phonenumber;
+    Spinner classes;
     Button cancel, submit;
     List<Book> oldbooklist;
 
@@ -105,11 +108,10 @@ public class AddListing extends AppCompatActivity {
                         title.getText().toString(),
                         isbn.getText().toString(),
                         author.getText().toString(),
-                        classes.getText().toString(),
-                        price.getText().toString(),
+                        classes.getSelectedItem().toString(),
+                        Double.parseDouble(price.getText().toString()),
                         phonenumber.getText().toString(),
-                        email.getText().toString(),
-                        Location.ON_CAMPUS);
+                        email.getText().toString());
 
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.get(HttpURL, new JsonHttpResponseHandler() {
@@ -134,7 +136,7 @@ public class AddListing extends AppCompatActivity {
                         Log.d(TAG, "onFailure");
                     }
                 });
-                // trying to make listings section
+                // make listings section
                 listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -147,9 +149,7 @@ public class AddListing extends AppCompatActivity {
 
                     }
                 });
-
                 //end
-
                 Intent submitIntent = new Intent(AddListing.this, Listings.class);
                 startActivity(submitIntent);
             }
