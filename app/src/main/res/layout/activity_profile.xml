@@ -75,8 +75,7 @@
                         android:layout_marginBottom="10dp"
                         android:text="@string/someone"
                         android:textColor="@color/white"
-                        android:textSize="25sp">
-                    </TextView>
+                        android:textSize="25sp"></TextView>
 
                     <LinearLayout
                         android:id="@+id/ll_logout"
@@ -92,8 +91,7 @@
                             android:layout_marginEnd="10dp"
                             android:text="@string/logout"
                             android:textColor="@color/white"
-                            android:textSize="15sp">
-                        </TextView>
+                            android:textSize="15sp"></TextView>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -111,7 +109,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailTextProfile" />
 
-
             <TextView
                 android:id="@+id/phoneNumberTextProfile"
                 android:layout_width="149dp"
@@ -123,22 +120,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/emailEditTextProfile" />
 
             <TextView
-                android:id="@+id/cClassesText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="Current Classes: "
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phoneNumberProfile" />
-
-            <TextView
                 android:id="@+id/emailEditTextProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:text="exampleemail@vt.edu"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -150,7 +134,7 @@
                 android:id="@+id/profilePic"
                 android:layout_width="171dp"
                 android:layout_height="128dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ll_name_plate"
@@ -173,7 +157,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
                 android:text="Email: "
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -192,26 +175,16 @@
                 app:layout_constraintStart_toEndOf="@+id/nameProfile"
                 app:layout_constraintTop_toBottomOf="@+id/profilePic" />
 
-            <TextView
-                android:id="@+id/cClassesOtherPersonText"
-                android:layout_width="110dp"
-                android:layout_height="29dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/cClassesText"
-                app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextProfile" />
-
             <Button
                 android:id="@+id/editPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/change_password_"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.048"
+                app:layout_constraintHorizontal_bias="0.07"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cClassesOtherPersonText" />
+                app:layout_constraintTop_toBottomOf="@+id/phoneNumberProfile" />
 
             <Button
                 android:id="@+id/changeProfilePhoto"
