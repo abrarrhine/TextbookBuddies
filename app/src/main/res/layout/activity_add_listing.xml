@@ -22,6 +22,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
     <EditText
         android:id="@+id/bkAddclasses"
         android:layout_width="310dp"
@@ -106,26 +113,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btsubmit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="80dp"
-        android:text="Submit"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavView_Bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bkAddphonenumber" />
+            <Button
+                android:id="@+id/btsubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="76dp"
+                android:text="Submit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_bookimg" />
 
-    <Button
-        android:id="@+id/btcancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Cancel"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavView_Bar"
-        app:layout_constraintEnd_toStartOf="@+id/btsubmit"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bkAddphonenumber" />
+            <Button
+                android:id="@+id/btcancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Cancel"
+                app:layout_constraintEnd_toStartOf="@+id/btsubmit"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_bookimg" />
+
+            <ImageView
+                android:id="@+id/iv_bookimg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bt_uploadimg"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <Button
+                android:id="@+id/bt_uploadimg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Upload a Book Image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bkAddphonenumber" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
