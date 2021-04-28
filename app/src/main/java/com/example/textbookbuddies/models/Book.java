@@ -35,7 +35,6 @@ public class Book {
     public static final String FIELD_LOCATION = "location";
     public static final String  FIELD_NUMBER = "number";
     public static final String  FIELD_EMAIL = "email";
-    public static final String FIELD_IMAGE = "image";
 
     String bookId;
     String title;
@@ -46,8 +45,6 @@ public class Book {
     Location location;
     String number;
     String email;
-    String image;
-//    FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
 
     public Book(){
@@ -62,20 +59,6 @@ public class Book {
         this.price = jsonObject.getString("price");
         this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
-//        this.image = jsonObject.getString("image");
-    }
-
-    public Book(String bookId, String title, String isbn, String author, String classes, String price, String number, String email, Location onCampus, String image) {
-        this.bookId = bookId;
-        this.title = title;
-        this.isbn = isbn;
-        this.author = author;
-        this.classes = classes;
-        this.price = price;
-        this.number = number;
-        this.email = email;
-        this.location = location;
-        this.image = image;
     }
 
     public Book(String bookId, String title, String isbn, String author, String classes, String price, String number, String email, Location onCampus) {
@@ -104,14 +87,6 @@ public class Book {
 
     public void setBookId(String bookId) {
         this.bookId = bookId;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public String getIsbn() {
@@ -176,20 +151,6 @@ public class Book {
 
     public void setLocation(Location location) {
         this.location = location;
-    }
-
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("title", title);
-        result.put("author", author);
-        result.put("isbn", isbn);
-        result.put("classes", classes);
-        result.put("price", price);
-        result.put("number", number);
-        result.put("email", email);
-        result.put("location", location);
-        result.put("image", image);
-        return result;
     }
 
     public void delete(){

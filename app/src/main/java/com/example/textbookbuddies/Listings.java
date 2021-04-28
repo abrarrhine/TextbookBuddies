@@ -42,7 +42,6 @@ public class Listings extends AppCompatActivity {
     RecyclerView bkListings;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
-    FirebaseDatabase firebaseDatabase;
     List<Book> books;
     String TAG;
     BookAdapter bookAdapter;

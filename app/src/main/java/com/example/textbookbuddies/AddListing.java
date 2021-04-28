@@ -68,22 +68,16 @@ import okhttp3.Headers;
 public class AddListing extends AppCompatActivity {
 
     private static final String TAG = "AddListing";
-    public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
 
     TextView title, author, classes,isbn, price, email, phonenumber;
     Button cancel, submit, uploadimg;
     List<Book> oldbooklist;
     String userId;
-//    StorageReference storageReference;
-//    ImageView bookimg;
 
-    private DatabaseReference firebaseDatabase;
     private DatabaseReference listingsRef;
     private DatabaseReference userBookListRef;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
-    Bitmap bitmap;
-    Bitmap resource;
     Book newbook;
     String key;
 
@@ -91,15 +85,11 @@ public class AddListing extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_listing);
-
-        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         listingsRef = FirebaseDatabase.getInstance().getReference().child("listings");
-
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         userId = firebaseUser.getUid();
         userBookListRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("booklist");
-        String HttpURL = USER_INFO_URL + "/" + userId + ".json";
         oldbooklist = new ArrayList<>();
         title = findViewById(R.id.bkAddtitle);
         author = findViewById(R.id.bkAddauthor);
@@ -110,35 +100,8 @@ public class AddListing extends AppCompatActivity {
         phonenumber = findViewById(R.id.bkAddphonenumber);
         cancel = findViewById(R.id.btcancel);
         submit = findViewById(R.id.btsubmit);
-
         email.setText(firebaseUser.getEmail());
         phonenumber.setText(firebaseUser.getPhoneNumber());
-
-//        bookimg = (ImageView) findViewById(R.id.iv_bookimg);
-        uploadimg = (Button) findViewById(R.id.bt_uploadimg);
-
-//        bookimg.setImageBitmap(resource);
-        bitmap= resource;
-
-//        storageReference = FirebaseStorage.getInstance().getReference();
-//        StorageReference bookref = storageReference.child("users/"+firebaseAuth.getCurrentUser().getUid()+"/booklist/"+bookimg.getImageAlpha()+"/bookimg.jpg");
-
-
-//        bookref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.get().load(uri).into(bookimg);
-//            }
-//        });
-
-//        uploadimg.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //open Gallery
-//                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(openGalleryIntent, 1000);
-//            }
-//        });
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,31 +114,6 @@ public class AddListing extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                AsyncHttpClient client = new AsyncHttpClient();
-//                client.get(HttpURL, new JsonHttpResponseHandler() {
-//                    @Override
-//                    public void onSuccess(int i, Headers headers, JSON json) {
-//                        Log.d(TAG, "onSuccess");
-//                        JSONObject jsonObject = json.jsonObject;
-//                        try {
-//                            JSONArray booklist = jsonObject.getJSONArray("booklist");
-//                            Log.i(TAG, "Results: " + booklist.toString());
-//                            oldbooklist.addAll(Book.fromJSONArray(booklist));
-//                            Log.i(TAG, "Books: " + oldbooklist.size());
-//                            oldbooklist.add(newbook);
-//                            firebaseDatabase.child("users").child(userId).child("booklist").setValue(oldbooklist);
-//                        } catch (JSONException e) {
-//                            Log.e(TAG, "Hit json exception", e);
-//                            addBookList(newbook);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-//                        Log.d(TAG, "onFailure");
-//                    }
-//                });
 
                 // trying to make listings section
                 listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -192,14 +130,10 @@ public class AddListing extends AppCompatActivity {
                                 phonenumber.getText().toString(),
                                 email.getText().toString(),
                                 Location.ON_CAMPUS);
-                                //getImageUri(getApplicationContext(),bitmap).toString());
                         listingsRef.child(key).setValue(newbook);
                     }
-
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) { }
                 });
 
                 userBookListRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -207,15 +141,10 @@ public class AddListing extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         userBookListRef.child(key).setValue(newbook);
                     }
-
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) { }
                 });
-
                 //end
-
                 Intent submitIntent = new Intent(AddListing.this, Listings.class);
                 startActivity(submitIntent);
             }
@@ -248,71 +177,5 @@ public class AddListing extends AppCompatActivity {
                 return false;
             }
         });
-    }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == 1000){
-//            if (resultCode == Activity.RESULT_OK){
-//                Uri imageUri = data.getData();
-//                //profileImage.setImageURI(imageUri);
-//
-//                uploadImageToFirebase(imageUri);
-//
-//            }
-//        }
-//    }
-
-//    private void uploadImageToFirebase(Uri imageUri) {
-//        //Uploads image to Firebase Storage
-//        final StorageReference fileref = storageReference.child("users/"+firebaseAuth.getCurrentUser().getUid()+"/booklist/"+bookimg.getImageAlpha()+"/bookimg.jpg");
-//        fileref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Toast.makeText(AddListing.this, "Book photo uploaded!", Toast.LENGTH_LONG).show();
-//
-//                fileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        Picasso.get().load(uri).into(bookimg);
-//                    }
-//                });
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(AddListing.this, "Sorry! Book photo was not uploaded!Try again!", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//
-//    }
-
-    public void addBookList(Book newbook){
-        firebaseDatabase.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                    HashMap oldUser = (HashMap) task.getResult().getValue();
-                    ArrayList<Book> newBookList = new ArrayList<Book>();
-                    newBookList.add(newbook);
-                    oldUser.put("booklist", newBookList);
-                    firebaseDatabase.child("users").child(userId).setValue(oldUser);
-                }
-            }
-        });
-    }
-
-//    Source: https://stackoverflow.com/questions/42200448/how-to-get-uri-on-imageview-with-glide
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(AddListing.this.getContentResolver(), inImage, UUID.randomUUID().toString() + ".jpg", "drawing");
-        return Uri.parse(path);
     }
 }
