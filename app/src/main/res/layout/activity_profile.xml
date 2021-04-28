@@ -175,21 +175,6 @@
                 app:layout_constraintStart_toEndOf="@+id/nameProfile"
                 app:layout_constraintTop_toBottomOf="@+id/profilePic" />
 
-<<<<<<< HEAD
-=======
-            <TextView
-                android:id="@+id/cClassesOtherPersonText"
-                android:layout_width="110dp"
-                android:layout_height="29dp"
-                android:layout_marginTop="8dp"
-                android:text="0000000000"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/cClassesText"
-                app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextProfile" />
-
->>>>>>> 2c84c524b44266e1d8051f47f6ea57773f75d14e
             <Button
                 android:id="@+id/editPassword"
                 android:layout_width="wrap_content"

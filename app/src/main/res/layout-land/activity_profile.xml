@@ -32,8 +32,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="90dp"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            android:paddingBottom="90dp">
+            android:paddingBottom="90dp"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/linearLayout"
@@ -59,13 +59,14 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="176dp"
+                    android:layout_marginStart="128dp"
                     android:text="@string/hello"
                     android:textColor="@color/white"
-                    android:textSize="25sp"
+                    android:textSize="35sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_btn_back"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.508" />
 
                 <TextView
                     android:id="@+id/tv_username_top"
@@ -74,7 +75,7 @@
                     android:layout_marginStart="16dp"
                     android:text="@string/someone"
                     android:textColor="@color/white"
-                    android:textSize="25sp"
+                    android:textSize="35sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView2"
                     app:layout_constraintTop_toTopOf="parent"
@@ -111,9 +112,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
-
             <TextView
                 android:id="@+id/phoneNumberProfile"
                 android:layout_width="wrap_content"
@@ -136,18 +134,6 @@
                 android:textSize="24sp"
                 app:layout_constraintStart_toEndOf="@+id/phoneNumberProfile"
                 app:layout_constraintTop_toBottomOf="@+id/emailEditTextProfile" />
-
-            <TextView
-                android:id="@+id/cClassesText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:text="Current Classes: "
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/phoneNumberProfile" />
 
             <TextView
                 android:id="@+id/emailEditTextProfile"
@@ -207,28 +193,16 @@
                 app:layout_constraintStart_toEndOf="@+id/nameProfile"
                 app:layout_constraintTop_toBottomOf="@+id/profilePic" />
 
-            <TextView
-                android:id="@+id/cClassesOtherPersonText"
-                android:layout_width="110dp"
-                android:layout_height="29dp"
-                android:layout_marginTop="8dp"
-                android:text="0000000000"
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/cClassesText"
-                app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextProfile" />
-
             <Button
                 android:id="@+id/editPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/change_password_"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.029"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cClassesOtherPersonText" />
+                app:layout_constraintTop_toBottomOf="@+id/phoneNumberTextProfile" />
 
             <Button
                 android:id="@+id/changeProfilePhoto"
@@ -236,8 +210,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/upload_change_profile_photo"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.035"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/edit_phone_number"
                 app:layout_constraintTop_toBottomOf="@+id/edit_phone_number" />
 
             <Button
@@ -245,9 +219,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/change_phone_number"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.031"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/editPassword"
                 app:layout_constraintTop_toBottomOf="@+id/editPassword" />
 
 
