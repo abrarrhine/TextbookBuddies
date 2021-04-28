@@ -17,10 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.models.User;
 import com.example.textbookbuddies.search.Search;
 import com.example.textbookbuddies.ui.login.LoginActivity;
@@ -41,27 +43,37 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
+
 public class Profile extends AppCompatActivity {
 
     private static final String TAG = "Profile";
     //    private FirebaseUser user;
-    private Button editProfileButton;
     private DatabaseReference reference;
 //    private String userID;
     TextView userEmail;
+    TextView tv_username_top;
     TextView userFullName;
     TextView userPhoneNumber;
     Button changePic;
+    Button editPassword;
+    Button edit_phone_number;
     ImageView profileImage;
+    ImageView iv_btn_back;
+    TextView tv_logout;
+    LinearLayout ll_logout;
 
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     StorageReference storageReference;
+    private DatabaseReference firebaseDatabase;
 
 
     public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
 
     private Toolbar mToolbar;
+
+    private final static int MY_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +83,12 @@ public class Profile extends AppCompatActivity {
 
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
@@ -93,12 +111,12 @@ public class Profile extends AppCompatActivity {
         userEmail.setText(firebaseUser.getEmail());
         userPhoneNumber.setText(firebaseUser.getPhoneNumber());
 
-        editProfileButton = (Button) findViewById(R.id.editProfileButton);
-        editProfileButton.setOnClickListener(new View.OnClickListener() {
+        editPassword = (Button) findViewById(R.id.editPassword);
+        editPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent editProfileIntent = new Intent(Profile.this, EditProfile.class);
-                startActivity(editProfileIntent);
+                Intent intent = new Intent(Profile.this, ChangePassword.class);
+                startActivity(intent);
             }
         });
 
@@ -112,11 +130,30 @@ public class Profile extends AppCompatActivity {
         });
 
         userFullName = (TextView) findViewById(R.id.fullNameProfile);
-        userPhoneNumber = (TextView) findViewById(R.id.phoneNumberTextProfile);
+
+        tv_username_top = (TextView) findViewById(R.id.tv_username_top);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         String Uid = firebaseUser.getUid();
+
+        edit_phone_number = (Button) findViewById(R.id.edit_phone_number);
+        userPhoneNumber = (TextView) findViewById(R.id.phoneNumberTextProfile);
+
+        edit_phone_number.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Profile.this, ChangePhoneNumber.class);
+
+                //startActivity(i);
+                startActivityForResult(i, MY_REQUEST_CODE);
+
+                //String number = userPhoneNumber.getText().toString();
+                //userPhoneNumber.setText(number);
+
+            }
+        });
 
         String HttpURL = USER_INFO_URL + "/" + Uid + ".json";
         Log.d(TAG, HttpURL);
@@ -132,8 +169,10 @@ public class Profile extends AppCompatActivity {
                     String phoneNumber = jsonObject.getString("phonenumber");
                     Log.i(TAG, "Results: " + firstName);
                     userFullName.setText(firstName + " " + lastName);
-                    userFullName.setText(firstName + " " + lastName);
+                    tv_username_top.setText(firstName + " " + lastName + "!");
                     userPhoneNumber.setText(phoneNumber);
+                    //Book book = Parcels.unwrap(getIntent().getParcelableExtra("book"));
+                    //book.getClasses();
 
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
@@ -143,6 +182,35 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onFailure(int i, Headers headers, String s, Throwable throwable) {
                 Log.d(TAG, "onFailure");
+            }
+        });
+
+        iv_btn_back = (ImageView) findViewById(R.id.iv_btn_back);
+
+        iv_btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        ll_logout = (LinearLayout) findViewById(R.id.ll_logout);
+        ll_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Profile.this, LoginActivity.class);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(intent);
+            }
+        });
+
+        tv_logout = (TextView) findViewById(R.id.tv_logout);
+        tv_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Profile.this, LoginActivity.class);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(intent);
             }
         });
 
@@ -179,6 +247,7 @@ public class Profile extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if (requestCode == 1000){
             if (resultCode == Activity.RESULT_OK){
                 Uri imageUri = data.getData();
@@ -186,6 +255,13 @@ public class Profile extends AppCompatActivity {
 
                 uploadImageToFirebase(imageUri);
 
+            }
+        }
+        else if (requestCode == MY_REQUEST_CODE){
+            if (resultCode == Activity.RESULT_OK){
+                if (data != null){
+                    userPhoneNumber.setText(data.getStringExtra("newNumber"));
+                }
             }
         }
     }
@@ -233,4 +309,23 @@ public class Profile extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void updatePhone(String newNumber) {
+
+        userPhoneNumber = (TextView) findViewById(R.id.phoneNumberTextProfile);
+        userPhoneNumber.setText(newNumber);
+    }
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == MY_REQUEST_CODE) {
+                if (data != null){
+                    userPhoneNumber.setText(data.getStringExtra("newNumber"));
+                }
+
+            }
+        }
+    }*/
 }

@@ -52,6 +52,9 @@
     <string name="contact_">Contact:</string>
     <string name="class_">Class:</string>
     <string name="change_email"><u>Change email</u></string>
+    <string name="change_phone_number">Change Phone Number</string>
+    <string name="change_password_">Change Password</string>
+    <string name="upload_change_profile_photo">Upload/Change Profile photo</string>
 
     <!-- Types of food I could think of in 5 minutes -->
     <string-array name="classes">
