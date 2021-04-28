@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.textbookbuddies.BottomNavigationViewHelper;
 import com.example.textbookbuddies.FAQ;
 import com.example.textbookbuddies.Listings;
+import com.example.textbookbuddies.Profile;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.adapters.*;
 import com.example.textbookbuddies.models.*;
@@ -268,21 +269,6 @@ public class Search extends AppCompatActivity implements
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
     }
 
-
-
-    // handle button activities
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_logout) {
-            // do something here
-            Intent intent5 = new Intent(Search.this, LoginActivity.class);
-            FirebaseAuth.getInstance().signOut();
-            startActivity(intent5);
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
 }
