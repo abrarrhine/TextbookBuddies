@@ -172,14 +172,14 @@ public class Search extends AppCompatActivity implements
         });
     }
 
-    private Book convertMapToBook(Object obj) {
-        if (obj instanceof Map) {
-            Map map = (HashMap<String, Object>) obj;
-            return new Book((String) map.get("title"), (String) map.get("isbn"), (String) map.get("author"), (String) map.get("classes"),
-                    (String) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"), (String) map.get("image"));
-        }
-        return null;
-    }
+//    private Book convertMapToBook(Object obj) {
+//        if (obj instanceof Map) {
+//            Map map = (HashMap<String, Object>) obj;
+//            return new Book((String) map.get("bookId"),(String) map.get("title"), (String) map.get("isbn"), (String) map.get("author"), (String) map.get("classes"),
+//                    (String) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"));
+//        }
+//        return null;
+//    }
 
 
     @Override

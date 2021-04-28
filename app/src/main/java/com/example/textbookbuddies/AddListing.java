@@ -74,15 +74,18 @@ public class AddListing extends AppCompatActivity {
     Button cancel, submit, uploadimg;
     List<Book> oldbooklist;
     String userId;
-    StorageReference storageReference;
-    ImageView bookimg;
+//    StorageReference storageReference;
+//    ImageView bookimg;
 
     private DatabaseReference firebaseDatabase;
     private DatabaseReference listingsRef;
+    private DatabaseReference userBookListRef;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     Bitmap bitmap;
     Bitmap resource;
+    Book newbook;
+    String key;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +94,11 @@ public class AddListing extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         listingsRef = FirebaseDatabase.getInstance().getReference().child("listings");
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         userId = firebaseUser.getUid();
+        userBookListRef = FirebaseDatabase.getInstance().getReference().child("users").child(userId).child("booklist");
         String HttpURL = USER_INFO_URL + "/" + userId + ".json";
         oldbooklist = new ArrayList<>();
         title = findViewById(R.id.bkAddtitle);
@@ -109,31 +114,31 @@ public class AddListing extends AppCompatActivity {
         email.setText(firebaseUser.getEmail());
         phonenumber.setText(firebaseUser.getPhoneNumber());
 
-        bookimg = (ImageView) findViewById(R.id.iv_bookimg);
+//        bookimg = (ImageView) findViewById(R.id.iv_bookimg);
         uploadimg = (Button) findViewById(R.id.bt_uploadimg);
 
-        bookimg.setImageBitmap(resource);
+//        bookimg.setImageBitmap(resource);
         bitmap= resource;
 
-        storageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference bookref = storageReference.child("users/"+firebaseAuth.getCurrentUser().getUid()+"/booklist/"+bookimg.getImageAlpha()+"/bookimg.jpg");
+//        storageReference = FirebaseStorage.getInstance().getReference();
+//        StorageReference bookref = storageReference.child("users/"+firebaseAuth.getCurrentUser().getUid()+"/booklist/"+bookimg.getImageAlpha()+"/bookimg.jpg");
 
 
-        bookref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(bookimg);
-            }
-        });
+//        bookref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.get().load(uri).into(bookimg);
+//            }
+//        });
 
-        uploadimg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //open Gallery
-                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(openGalleryIntent, 1000);
-            }
-        });
+//        uploadimg.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //open Gallery
+//                Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(openGalleryIntent, 1000);
+//            }
+//        });
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,47 +151,61 @@ public class AddListing extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Book newbook = new Book(
-                        title.getText().toString(),
-                        isbn.getText().toString(),
-                        author.getText().toString(),
-                        classes.getText().toString(),
-                        price.getText().toString(),
-                        phonenumber.getText().toString(),
-                        email.getText().toString(),
-                        Location.ON_CAMPUS,
-                        getImageUri(getApplicationContext(),bitmap).toString());
 
-                AsyncHttpClient client = new AsyncHttpClient();
-                client.get(HttpURL, new JsonHttpResponseHandler() {
-                    @Override
-                    public void onSuccess(int i, Headers headers, JSON json) {
-                        Log.d(TAG, "onSuccess");
-                        JSONObject jsonObject = json.jsonObject;
-                        try {
-                            JSONArray booklist = jsonObject.getJSONArray("booklist");
-                            Log.i(TAG, "Results: " + booklist.toString());
-                            oldbooklist.addAll(Book.fromJSONArray(booklist));
-                            Log.i(TAG, "Books: " + oldbooklist.size());
-                            oldbooklist.add(newbook);
-                            firebaseDatabase.child("users").child(userId).child("booklist").setValue(oldbooklist);
-                        } catch (JSONException e) {
-                            Log.e(TAG, "Hit json exception", e);
-                            addBookList(newbook);
-                        }
-                    }
+//                AsyncHttpClient client = new AsyncHttpClient();
+//                client.get(HttpURL, new JsonHttpResponseHandler() {
+//                    @Override
+//                    public void onSuccess(int i, Headers headers, JSON json) {
+//                        Log.d(TAG, "onSuccess");
+//                        JSONObject jsonObject = json.jsonObject;
+//                        try {
+//                            JSONArray booklist = jsonObject.getJSONArray("booklist");
+//                            Log.i(TAG, "Results: " + booklist.toString());
+//                            oldbooklist.addAll(Book.fromJSONArray(booklist));
+//                            Log.i(TAG, "Books: " + oldbooklist.size());
+//                            oldbooklist.add(newbook);
+//                            firebaseDatabase.child("users").child(userId).child("booklist").setValue(oldbooklist);
+//                        } catch (JSONException e) {
+//                            Log.e(TAG, "Hit json exception", e);
+//                            addBookList(newbook);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+//                        Log.d(TAG, "onFailure");
+//                    }
+//                });
 
-                    @Override
-                    public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                        Log.d(TAG, "onFailure");
-                    }
-                });
                 // trying to make listings section
                 listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String key = listingsRef.push().getKey();
+                        key = listingsRef.push().getKey();
+                        newbook = new Book(
+                                key,
+                                title.getText().toString(),
+                                isbn.getText().toString(),
+                                author.getText().toString(),
+                                classes.getText().toString(),
+                                price.getText().toString(),
+                                phonenumber.getText().toString(),
+                                email.getText().toString(),
+                                Location.ON_CAMPUS);
+                                //getImageUri(getApplicationContext(),bitmap).toString());
                         listingsRef.child(key).setValue(newbook);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                userBookListRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        userBookListRef.child(key).setValue(newbook);
                     }
 
                     @Override
@@ -231,44 +250,44 @@ public class AddListing extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == 1000){
+//            if (resultCode == Activity.RESULT_OK){
+//                Uri imageUri = data.getData();
+//                //profileImage.setImageURI(imageUri);
+//
+//                uploadImageToFirebase(imageUri);
+//
+//            }
+//        }
+//    }
 
-        if (requestCode == 1000){
-            if (resultCode == Activity.RESULT_OK){
-                Uri imageUri = data.getData();
-                //profileImage.setImageURI(imageUri);
-
-                uploadImageToFirebase(imageUri);
-
-            }
-        }
-    }
-
-    private void uploadImageToFirebase(Uri imageUri) {
-        //Uploads image to Firebase Storage
-        final StorageReference fileref = storageReference.child("users/"+firebaseAuth.getCurrentUser().getUid()+"/booklist/"+bookimg.getImageAlpha()+"/bookimg.jpg");
-        fileref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Toast.makeText(AddListing.this, "Book photo uploaded!", Toast.LENGTH_LONG).show();
-
-                fileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(bookimg);
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AddListing.this, "Sorry! Book photo was not uploaded!Try again!", Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
+//    private void uploadImageToFirebase(Uri imageUri) {
+//        //Uploads image to Firebase Storage
+//        final StorageReference fileref = storageReference.child("users/"+firebaseAuth.getCurrentUser().getUid()+"/booklist/"+bookimg.getImageAlpha()+"/bookimg.jpg");
+//        fileref.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                Toast.makeText(AddListing.this, "Book photo uploaded!", Toast.LENGTH_LONG).show();
+//
+//                fileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                    @Override
+//                    public void onSuccess(Uri uri) {
+//                        Picasso.get().load(uri).into(bookimg);
+//                    }
+//                });
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(AddListing.this, "Sorry! Book photo was not uploaded!Try again!", Toast.LENGTH_LONG).show();
+//            }
+//        });
+//
+//    }
 
     public void addBookList(Book newbook){
         firebaseDatabase.child("users").child(userId).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

@@ -83,7 +83,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, author, isbn, price, email, phonenumber;
         TextView authorTitle, isbnTitle, priceTitle, contactTitle;
-        ImageView bookimg;
+       // ImageView bookimg;
         Button delete;
         RelativeLayout itemBook;
         public ViewHolder(View v) {
@@ -95,7 +95,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             email = v.findViewById(R.id.bkEmail);
             phonenumber = v.findViewById(R.id.bkPhone);
             itemBook = v.findViewById(R.id.itembook);
-            bookimg = v.findViewById(R.id.bkImage);
+          //  bookimg = v.findViewById(R.id.bkImage);
             delete = v.findViewById(R.id.btdelete);
 
             authorTitle = v.findViewById(R.id.bkAuthorTitle);
@@ -111,7 +111,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             price.setText("$"+book.getPrice());
             email.setText(book.getEmail());
             phonenumber.setText(book.getNumber());
-            Glide.with(context).load(book.getImage()).into(bookimg);
+           // Glide.with(context).load(book.getImage()).into(bookimg);
 
             authorTitle.setText("Author: ");
             isbnTitle.setText("ISBN: ");

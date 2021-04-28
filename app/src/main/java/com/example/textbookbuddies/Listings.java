@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -82,12 +83,18 @@ public class Listings extends AppCompatActivity {
                 Log.d(TAG, "onSuccess");
                 JSONObject jsonObject = json.jsonObject;
                 try {
-                    JSONArray booklist = jsonObject.getJSONArray("booklist");
+                    JSONObject booklist = jsonObject.getJSONObject("booklist");
                     Log.i(TAG, "Results: " + booklist.toString());
-                    books.addAll(Book.fromJSONArray(booklist));
+
+                    Iterator book = booklist.keys();
+                    JSONArray newBookList = new JSONArray();
+                    while (book.hasNext()){
+                        String key = (String) book.next();
+                        newBookList.put(booklist.get(key));
+                    }
+                    books.addAll(Book.fromJSONArray(newBookList));
                     bookAdapter.notifyDataSetChanged();
                     Log.i(TAG, "Books: " + books.size());
-
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
                 }

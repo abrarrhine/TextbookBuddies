@@ -37,6 +37,7 @@ public class Book {
     public static final String  FIELD_EMAIL = "email";
     public static final String FIELD_IMAGE = "image";
 
+    String bookId;
     String title;
     String isbn;
     String author;
@@ -46,13 +47,14 @@ public class Book {
     String number;
     String email;
     String image;
-    FirebaseAuth firebaseAuth;
+//    FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
 
     public Book(){
 
     }
     public Book(JSONObject jsonObject) throws JSONException {
+        this.bookId = jsonObject.getString("bookId");
         this.title = jsonObject.getString("title");
         this.isbn = jsonObject.getString("isbn");
         this.author = jsonObject.getString("author");
@@ -60,22 +62,11 @@ public class Book {
         this.price = jsonObject.getString("price");
         this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
-        this.image = jsonObject.getString("image");
+//        this.image = jsonObject.getString("image");
     }
 
-//    public Book(String title, String isbn, String author, String classes, String price, String number, String email, Location location, int image) {
-//        this.title = title;
-//        this.isbn = isbn;
-//        this.author = author;
-//        this.classes = classes;
-//        this.price = price;
-//        this.number = number;
-//        this.email = email;
-//        this.location = location;
-//        this.image = image;
-//    }
-
-    public Book(String title, String isbn, String author, String classes, String price, String number, String email, Location onCampus, String image) {
+    public Book(String bookId, String title, String isbn, String author, String classes, String price, String number, String email, Location onCampus, String image) {
+        this.bookId = bookId;
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -87,12 +78,32 @@ public class Book {
         this.image = image;
     }
 
+    public Book(String bookId, String title, String isbn, String author, String classes, String price, String number, String email, Location onCampus) {
+        this.bookId = bookId;
+        this.title = title;
+        this.isbn = isbn;
+        this.author = author;
+        this.classes = classes;
+        this.price = price;
+        this.number = number;
+        this.email = email;
+        this.location = location;
+    }
+
     public static List<Book> fromJSONArray(JSONArray movieJsonArray) throws JSONException {
         List<Book> books = new ArrayList<>();
         for (int i=0; i<movieJsonArray.length(); i++){
             books.add(new Book(movieJsonArray.getJSONObject(i)));
         }
         return books;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     public String getImage() {
@@ -182,40 +193,13 @@ public class Book {
     }
 
     public void delete(){
-        firebaseAuth = FirebaseAuth.getInstance();
-        firebaseUser = firebaseAuth.getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String Uid = firebaseUser.getUid();
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        Query listingsQuery = ref.child("listings").orderByChild("title").equalTo(this.getTitle());
-        Query userListingsQuery = ref.child("users").child(Uid).child("booklist").orderByChild("title").equalTo(this.getTitle());
-
-        listingsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-                    appleSnapshot.getRef().removeValue();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled", databaseError.toException());
-            }
-        });
-
-        userListingsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot appleSnapshot: dataSnapshot.getChildren()) {
-                    appleSnapshot.getRef().removeValue();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled", databaseError.toException());
-            }
-        });
+        DatabaseReference listings = ref.child("listings").child(bookId);
+        DatabaseReference userListings = ref.child("users").child(Uid).child("booklist").child(bookId);
+        listings.removeValue();
+        userListings.removeValue();
     }
 }
