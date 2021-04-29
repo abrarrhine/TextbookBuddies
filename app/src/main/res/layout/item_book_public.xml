@@ -24,12 +24,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="4dp"
         android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@+id/bkDetailedImage"
+        android:layout_marginTop="4dp"
         android:layout_toEndOf="@+id/bkDetailedImage"
+        android:layout_toRightOf="@+id/bkDetailedImage"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textColor="#730606"
         android:textSize="16sp"
         tools:text="Learning C# by Developing Games with Unity 2019" />
 
@@ -54,10 +55,11 @@
         android:layout_below="@+id/bkTitle"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@+id/bkDetailedImage"
-        android:textSize="14sp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:text="Author: " />
+        android:text="Author: "
+        android:textColor="#0C0C0C"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/bkEmail"
@@ -78,9 +80,10 @@
         android:layout_below="@+id/bkEmail"
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@+id/bkAuthorTitle"
-        android:textSize="14sp"
         android:ellipsize="end"
         android:maxLines="1"
+        android:textColor="#0467B5"
+        android:textSize="14sp"
         tools:text="434-555-0000" />
 
     <TextView
@@ -90,8 +93,9 @@
         android:layout_below="@+id/bkPriceTitle"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@+id/bkDetailedImage"
-        android:textSize="14sp"
-        android:text="Contact:" />
+        android:text="Contact:"
+        android:textColor="#000000"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/bkIsbn"
@@ -122,8 +126,9 @@
         android:layout_below="@+id/bkIsbnTitle"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@+id/bkDetailedImage"
-        android:textSize="14sp"
-        android:text="Price:" />
+        android:text="Price:"
+        android:textColor="#000000"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/bkIsbnTitle"
@@ -132,7 +137,8 @@
         android:layout_below="@+id/bkAuthorTitle"
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@+id/bkDetailedImage"
-        android:textSize="14sp"
-        android:text="ISBN:" />
+        android:text="ISBN:"
+        android:textColor="#000000"
+        android:textSize="14sp" />
 
 </RelativeLayout>
