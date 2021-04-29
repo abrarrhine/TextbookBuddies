@@ -70,7 +70,7 @@ public class Search extends AppCompatActivity implements
     private DatabaseReference databaseReference;
 
     private FilterDialogFragment mFilterDialog;
-    private BookAdapter bookAdapter;
+    private BookAdapterPublic bookAdapterPublic;
 
     private List<Book> books;
 
@@ -157,7 +157,7 @@ public class Search extends AppCompatActivity implements
                         BookTitleCompare btc = new BookTitleCompare();
                         Collections.sort(books, btc);
 
-                        BookAdapter ba = new BookAdapter(Search.this, books);
+                        BookAdapterPublic ba = new BookAdapterPublic(Search.this, books);
                         booksRecycler.setAdapter(ba);
                     }
                 }
@@ -219,7 +219,7 @@ public class Search extends AppCompatActivity implements
                 Collections.sort(myList, btc);
             }
         }
-        BookAdapter ba = new BookAdapter(this, myList);
+        BookAdapterPublic ba = new BookAdapterPublic(this, myList);
         booksRecycler.setAdapter(ba);
     }
 
