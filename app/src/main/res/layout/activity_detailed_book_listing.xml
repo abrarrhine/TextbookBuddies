@@ -81,17 +81,19 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/white">
+                    android:background="@color/orange">
 
                     <ImageView
-                        android:layout_width="173dp"
-                        android:layout_height="157dp"
+                        android:id="@+id/detailed_bkImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        app:srcCompat="@drawable/ic_book" />
+                        app:tint="@color/black"
+                        app:srcCompat="@drawable/ic_baseline_image_100"/>
                 </LinearLayout>
 
 

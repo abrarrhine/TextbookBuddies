@@ -33,9 +33,9 @@ public class Book implements Comparable<Book>, Parcelable {
     public static final String  FIELD_AUTHOR = "author";
     public static final String  FIELD_CLASSES = "classes";
     public static final String  FIELD_PRICE = "price";
-    public static final String FIELD_LOCATION = "location";
     public static final String  FIELD_NUMBER = "number";
     public static final String  FIELD_EMAIL = "email";
+    public static final String  FIELD_IMGURI = "imgUri";
 
     String bookId;
     FirebaseUser firebaseUser;
@@ -47,6 +47,7 @@ public class Book implements Comparable<Book>, Parcelable {
     private String priceString;
     private String number;
     private String email;
+    private String photo = "none";
 
     public Book(){
 
@@ -60,10 +61,11 @@ public class Book implements Comparable<Book>, Parcelable {
         this.priceDouble = jsonObject.getDouble("priceDouble");
         this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
+        this.photo = jsonObject.getString("imgUri");
 
     }
 
-    public Book(String bookId,String title, String isbn, String author, String classes, double priceDouble, String number, String email) {
+    public Book(String bookId,String title, String isbn, String author, String classes, double priceDouble, String number, String email, String photo) {
         this.bookId = bookId;
         this.title = title;
         this.isbn = isbn;
@@ -72,54 +74,13 @@ public class Book implements Comparable<Book>, Parcelable {
         this.priceDouble = priceDouble;
         this.number = number;
         this.email = email;
+        this.photo = photo;
     }
 
-    protected Book(Parcel in) {
-        bookId = in.readString();
-        title = in.readString();
-        isbn = in.readString();
-        author = in.readString();
-        classes = in.readString();
-        priceDouble = in.readDouble();
-        priceString = in.readString();
-        number = in.readString();
-        email = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(bookId);
-        dest.writeString(title);
-        dest.writeString(isbn);
-        dest.writeString(author);
-        dest.writeString(classes);
-        dest.writeDouble(priceDouble);
-        dest.writeString(priceString);
-        dest.writeString(number);
-        dest.writeString(email);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<Book> CREATOR = new Creator<Book>() {
-        @Override
-        public Book createFromParcel(Parcel in) {
-            return new Book(in);
-        }
-
-        @Override
-        public Book[] newArray(int size) {
-            return new Book[size];
-        }
-    };
-
-    public static List<Book> fromJSONArray(JSONArray movieJsonArray) throws JSONException {
+    public static List<Book> fromJSONArray(JSONArray bookJsonArray) throws JSONException {
         List<Book> books = new ArrayList<>();
-        for (int i=0; i<movieJsonArray.length(); i++){
-            books.add(new Book(movieJsonArray.getJSONObject(i)));
+        for (int i=0; i<bookJsonArray.length(); i++){
+            books.add(new Book(bookJsonArray.getJSONObject(i)));
         }
         return books;
     }
@@ -196,6 +157,17 @@ public class Book implements Comparable<Book>, Parcelable {
         this.title = title;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String imgUri) {
+        this.photo = imgUri;
+    }
+
+    public int compareTo(Book book) {
+        return this.title.compareTo(book.getTitle());
+    }
     public void delete() {
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         String Uid = firebaseUser.getUid();
@@ -208,8 +180,45 @@ public class Book implements Comparable<Book>, Parcelable {
 
     }
 
+    protected Book(Parcel in) {
+        title = in.readString();
+        isbn = in.readString();
+        author = in.readString();
+        classes = in.readString();
+        priceDouble = in.readDouble();
+        priceString = in.readString();
+        number = in.readString();
+        email = in.readString();
+        photo = in.readString();
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
+
     @Override
-    public int compareTo(Book o) {
+    public int describeContents() {
         return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(isbn);
+        dest.writeString(author);
+        dest.writeString(classes);
+        dest.writeDouble(priceDouble);
+        dest.writeString(priceString);
+        dest.writeString(number);
+        dest.writeString(email);
+        dest.writeString(photo);
     }
 }

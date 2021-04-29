@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.textbookbuddies.DetailedBookListing;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.models.Book;
@@ -70,8 +72,8 @@ public class BookAdapterPublic extends RecyclerView.Adapter<BookAdapterPublic.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, author, isbn, price, email, phonenumber;
+        ImageView imageView;
         TextView authorTitle, isbnTitle, priceTitle, contactTitle;
-        Button delete;
         RelativeLayout itembook_public;
         public ViewHolder(View v) {
             super(v);
@@ -81,6 +83,7 @@ public class BookAdapterPublic extends RecyclerView.Adapter<BookAdapterPublic.Vi
             price = v.findViewById(R.id.bkPrice);
             email = v.findViewById(R.id.bkEmail);
             phonenumber = v.findViewById(R.id.bkPhone);
+            imageView = v.findViewById(R.id.bkImage);
             itembook_public = v.findViewById(R.id.itembook_public);
 
             authorTitle = v.findViewById(R.id.bkAuthorTitle);
@@ -90,6 +93,13 @@ public class BookAdapterPublic extends RecyclerView.Adapter<BookAdapterPublic.Vi
         }
 
         public void bind(Book book) {
+
+            if (!book.getPhoto().equals("none")) {
+                Glide.with(imageView.getContext())
+                        .load(book.getPhoto())
+                        .into(imageView);
+            }
+
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             isbn.setText(book.getIsbn());
