@@ -80,7 +80,7 @@ public class AddListing extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
     StorageReference storageReference;
-    Uri imgUri;
+    String photo = "none";
     Bitmap bitmap;
     public static final int GET_FROM_GALLERY = 3;
 
@@ -133,7 +133,7 @@ public class AddListing extends AppCompatActivity {
                         Double.parseDouble(price.getText().toString()),
                         phonenumber.getText().toString(),
                         email.getText().toString(),
-                        imgUri.toString());
+                        photo);
 
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.get(HttpURL, new JsonHttpResponseHandler() {
@@ -266,7 +266,7 @@ public class AddListing extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Uri> task) {
                         if (task.isSuccessful()) {
-                            imgUri = task.getResult();
+                            photo = task.getResult().toString();
                         }
                     }
                 });

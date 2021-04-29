@@ -3,6 +3,7 @@ package com.example.textbookbuddies.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -76,10 +78,11 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
         public void bind(Book book) {
 
-            Glide.with(imageView.getContext())
-                    .load(book.getPhoto())
-                    .into(imageView);
-
+            if (!book.getPhoto().equals("none")) {
+                Glide.with(imageView.getContext())
+                        .load(book.getPhoto())
+                        .into(imageView);
+            }
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             isbn.setText(book.getIsbn());

@@ -2,8 +2,10 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Movie;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -78,9 +80,11 @@ public class DetailedBookListing extends AppCompatActivity {
 
         Book book = Parcels.unwrap(getIntent().getParcelableExtra("book"));
 
-        Glide.with(iv_photo.getContext())
-                .load(book.getPhoto())
-                .into(iv_photo);
+        if (!book.getPhoto().equals("none")) {
+            Glide.with(iv_photo.getContext())
+                    .load(book.getPhoto())
+                    .into(iv_photo);
+        }
         tv_name.setText(book.getTitle());
         tv_isbn.setText(book.getIsbn());
         tv_class.setText(book.getClasses());

@@ -34,7 +34,7 @@ public class Book implements Comparable<Book>, Parcelable {
     private String priceString;
     private String number;
     private String email;
-    private String photo; // uri for image
+    private String photo = "none"; // uri for image
 
     public Book(){
 
