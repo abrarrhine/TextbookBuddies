@@ -100,7 +100,6 @@ public class BookAdapterPublic extends RecyclerView.Adapter<BookAdapterPublic.Vi
             itembook_public.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, book.getTitle(), Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(context, DetailedBookListing.class);
                     i.putExtra("book", Parcels.wrap(book));
                     context.startActivity(i);

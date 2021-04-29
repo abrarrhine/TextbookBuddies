@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.*;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -110,6 +112,7 @@ public class AddListing extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         userBookListRef.child(key).setValue(newbook);
+                        Toast.makeText(AddListing.this, "Book Successfully Added!", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
