@@ -61,7 +61,7 @@ public class Book implements Comparable<Book>, Parcelable {
         this.priceDouble = jsonObject.getDouble("priceDouble");
         this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
-        this.photo = jsonObject.getString("imgUri");
+        this.photo = jsonObject.getString("photo");
 
     }
 

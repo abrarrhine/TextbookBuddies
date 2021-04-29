@@ -7,19 +7,26 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Movie;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.Search;
 import com.example.textbookbuddies.ui.login.LoginActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -99,9 +106,21 @@ public class DetailedBookListing extends AppCompatActivity {
         Book book = Parcels.unwrap(getIntent().getParcelableExtra("book"));
 
         if (!book.getPhoto().equals("none")) {
-            Glide.with(iv_photo.getContext())
-                    .load(book.getPhoto())
-                    .into(iv_photo);
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference profileref = storageReference.child("images/"+book.getPhoto()+"/bookImage.jpg");
+            profileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(iv_photo.getContext()).load(uri).into(iv_photo);
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    e.printStackTrace();
+                }
+            });
         }
         tv_name.setText(book.getTitle());
         tv_isbn.setText(book.getIsbn());

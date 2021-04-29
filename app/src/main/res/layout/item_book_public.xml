@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/itembook_public"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,10 +9,15 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/bkImage"
+        android:id="@+id/bkDetailedImage"
         android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_height="120dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/ic_baseline_image_100"/>
 
     <TextView
         android:id="@+id/bkTitle"
@@ -21,8 +26,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="4dp"
         android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@+id/bkImage"
-        android:layout_toEndOf="@+id/bkImage"
+        android:layout_toRightOf="@+id/bkDetailedImage"
+        android:layout_toEndOf="@+id/bkDetailedImage"
         android:ellipsize="end"
         android:maxLines="1"
         android:textSize="16sp"
@@ -48,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkTitle"
         android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@+id/bkImage"
+        android:layout_toRightOf="@+id/bkDetailedImage"
         android:textSize="14sp"
         android:ellipsize="end"
         android:maxLines="1"
@@ -84,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkPriceTitle"
         android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@+id/bkImage"
+        android:layout_toRightOf="@+id/bkDetailedImage"
         android:textSize="14sp"
         android:text="Contact:" />
 
@@ -116,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkIsbnTitle"
         android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@+id/bkImage"
+        android:layout_toRightOf="@+id/bkDetailedImage"
         android:textSize="14sp"
         android:text="Price:" />
 
@@ -126,7 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bkAuthorTitle"
         android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@+id/bkImage"
+        android:layout_toRightOf="@+id/bkDetailedImage"
         android:textSize="14sp"
         android:text="ISBN:" />
 
