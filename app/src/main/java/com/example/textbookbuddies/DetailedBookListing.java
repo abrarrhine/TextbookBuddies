@@ -2,10 +2,10 @@ package com.example.textbookbuddies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
-import android.content.res.Resources;
+import android.content.res.Configuration;
 import android.graphics.Movie;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -58,7 +58,6 @@ public class DetailedBookListing extends AppCompatActivity {
             }
         });
 
-        ll_logout = (LinearLayout) findViewById(R.id.ll_logout);
         tv_logout = (TextView) findViewById(R.id.tv_logout);
 
         tv_logout.setOnClickListener(new View.OnClickListener() {
@@ -69,14 +68,33 @@ public class DetailedBookListing extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        ll_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(DetailedBookListing.this, LoginActivity.class);
-                FirebaseAuth.getInstance().signOut();
-                startActivity(intent);
-            }
-        });
+
+        int orientation = getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // In landscape
+            ConstraintLayout ll_logout;
+            ll_logout = (ConstraintLayout) findViewById(R.id.ll_logout);
+            ll_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DetailedBookListing.this, LoginActivity.class);
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(intent);
+                }
+            });
+        } else {
+            // In portrait
+            LinearLayout ll_logout;
+            ll_logout = (LinearLayout) findViewById(R.id.ll_logout);
+            ll_logout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(DetailedBookListing.this, LoginActivity.class);
+                    FirebaseAuth.getInstance().signOut();
+                    startActivity(intent);
+                }
+            });
+        }
 
         Book book = Parcels.unwrap(getIntent().getParcelableExtra("book"));
 

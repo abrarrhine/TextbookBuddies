@@ -2,10 +2,6 @@ package com.example.textbookbuddies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-import com.codepath.asynchttpclient.AsyncHttpClient;
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.textbookbuddies.DetailedBookListing;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.models.Book;
@@ -31,16 +21,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.util.List;
 
-import okhttp3.Headers;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
+public class BookAdapterPublic extends RecyclerView.Adapter<BookAdapterPublic.ViewHolder> {
 
     public Context context;
     public List<Book> books;
@@ -50,7 +38,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     public String Uid;
     public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users/";
     public static final String TAG = "BookAdapter";
-    public BookAdapter(Context context, List<Book> books) {
+    public BookAdapterPublic(Context context, List<Book> books) {
         this.context = context;
         this.books = books;
 
@@ -62,14 +50,14 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
     @NonNull
     @Override
-    public BookAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BookAdapterPublic.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Log.i("BookAdapter", "onCreateViewHolder");
-        View bookView = LayoutInflater.from(context).inflate(R.layout.item_book, parent, false);
+        View bookView = LayoutInflater.from(context).inflate(R.layout.item_book_public, parent, false);
         return new ViewHolder((bookView));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BookAdapterPublic.ViewHolder holder, int position) {
         Log.i("BookAdapter", "onBindViewHolder" + position);
         //Get the book at the passed position
         Book book = books.get(position);
@@ -86,8 +74,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         TextView title, author, isbn, price, email, phonenumber;
         ImageView imageView;
         TextView authorTitle, isbnTitle, priceTitle, contactTitle;
-        Button delete;
-        RelativeLayout itemBook;
+        RelativeLayout itembook_public;
         public ViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.bkTitle);
@@ -97,8 +84,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             email = v.findViewById(R.id.bkEmail);
             phonenumber = v.findViewById(R.id.bkPhone);
             imageView = v.findViewById(R.id.bkImage);
-            itemBook = v.findViewById(R.id.itembook);
-            delete = v.findViewById(R.id.btdelete);
+            itembook_public = v.findViewById(R.id.itembook_public);
 
             authorTitle = v.findViewById(R.id.bkAuthorTitle);
             isbnTitle = v.findViewById(R.id.bkIsbnTitle);
@@ -113,6 +99,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                         .load(book.getPhoto())
                         .into(imageView);
             }
+
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             isbn.setText(book.getIsbn());
@@ -120,7 +107,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             email.setText(book.getEmail());
             phonenumber.setText(book.getNumber());
 
-            itemBook.setOnClickListener(new View.OnClickListener() {
+            itembook_public.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, book.getTitle(), Toast.LENGTH_SHORT).show();
@@ -129,64 +116,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                     context.startActivity(i);
                 }
             });
-
-            delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    book.delete();
-                }
-            });
         }
     }
 }
-
-
-//    public class ViewHolder extends RecyclerView.ViewHolder{
-//
-//        TextView tvTitle;
-//        TextView tvOverview;
-//        ImageView ivPoster;
-//        RelativeLayout itemmovie;
-//
-//        public ViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            tvTitle = itemView.findViewById(R.id.tvTitle);
-//            tvOverview = itemView.findViewById(R.id.tvOverview);
-//            ivPoster = itemView.findViewById(R.id.ivPoster);
-//            itemmovie = itemView.findViewById(R.id.itemmovie);
-//            setMode(isDark);
-//        }
-//
-//        public void bind(Movie movie) {
-//            tvTitle.setText(movie.getTitle());
-//            tvOverview.setText(movie.getOverview());
-//
-//            String imageUrl;
-//            //if phone is in landscape mode
-//            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-//                //then imageUrl = backdrop img
-//
-//                imageUrl = movie.getBackdropPath();
-//            }else{
-//                //else imageUrl = poster images
-//
-//                imageUrl = movie.getPosterPath();
-//            }
-//            Glide.with(context).load(imageUrl).into(ivPoster);
-//
-//            //set click listener to whole movie item
-//            itemmovie.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //navigate to a new activity by tapping on movie
-//                    Intent i = new Intent(context, DetailActivity.class);
-//                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    i.putExtra("movie", Parcels.wrap(movie));
-//                    i.putExtra("isDark", isDark);
-//                    context.startActivity(i);
-//                    Toast.makeText(context, movie.getTitle(), Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        }
-//    }
-//}

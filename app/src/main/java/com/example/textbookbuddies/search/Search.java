@@ -16,6 +16,7 @@
 package com.example.textbookbuddies.search;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -69,11 +70,12 @@ public class Search extends AppCompatActivity implements
     private DatabaseReference databaseReference;
 
     private FilterDialogFragment mFilterDialog;
-    private BookAdapter bookAdapter;
+    private BookAdapterPublic bookAdapterPublic;
 
     private List<Book> books;
 
     private SearchViewModel mViewModel;
+    private RecyclerView mBooksRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,8 @@ public class Search extends AppCompatActivity implements
         mViewModel.setFilters(f);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("listings");
         books = new ArrayList<>();
+        mBooksRecycler = findViewById(R.id.recycler_books);
+        mBooksRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         // Filter Dialog
         mFilterDialog = new FilterDialogFragment();
@@ -132,7 +136,6 @@ public class Search extends AppCompatActivity implements
         });
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -154,7 +157,7 @@ public class Search extends AppCompatActivity implements
                         BookTitleCompare btc = new BookTitleCompare();
                         Collections.sort(books, btc);
 
-                        BookAdapter ba = new BookAdapter(Search.this, books);
+                        BookAdapterPublic ba = new BookAdapterPublic(Search.this, books);
                         booksRecycler.setAdapter(ba);
                     }
                 }
@@ -216,7 +219,7 @@ public class Search extends AppCompatActivity implements
                 Collections.sort(myList, btc);
             }
         }
-        BookAdapter ba = new BookAdapter(this, myList);
+        BookAdapterPublic ba = new BookAdapterPublic(this, myList);
         booksRecycler.setAdapter(ba);
     }
 
@@ -257,7 +260,4 @@ public class Search extends AppCompatActivity implements
         // Show the dialog containing filter options
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
     }
-
-
-
 }

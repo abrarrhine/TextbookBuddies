@@ -24,9 +24,6 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".FAQ" />
         <activity android:name=".Listings" />
-        <activity android:name=".EditProfile" >
-
-        </activity>
         <activity android:name=".Profile" />
         <activity android:name=".Signup" />
         <activity
