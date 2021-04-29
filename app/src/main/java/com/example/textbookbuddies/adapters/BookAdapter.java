@@ -3,6 +3,7 @@ package com.example.textbookbuddies.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -83,6 +85,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, author, isbn, price, email, phonenumber;
+        ImageView imageView;
         TextView authorTitle, isbnTitle, priceTitle, contactTitle;
         Button delete;
         RelativeLayout itemBook;
@@ -94,6 +97,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             price = v.findViewById(R.id.bkPrice);
             email = v.findViewById(R.id.bkEmail);
             phonenumber = v.findViewById(R.id.bkPhone);
+            imageView = v.findViewById(R.id.bkImage);
             itemBook = v.findViewById(R.id.itembook);
             delete = v.findViewById(R.id.btdelete);
 
@@ -104,6 +108,12 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
         }
 
         public void bind(Book book) {
+
+            if (!book.getPhoto().equals("none")) {
+                Glide.with(imageView.getContext())
+                        .load(book.getPhoto())
+                        .into(imageView);
+            }
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             isbn.setText(book.getIsbn());
