@@ -75,6 +75,7 @@ public class Search extends AppCompatActivity implements
     private List<Book> books;
 
     private SearchViewModel mViewModel;
+    private RecyclerView mBooksRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,16 +135,6 @@ public class Search extends AppCompatActivity implements
             }
         });
     }
-
-//    private Book convertMapToBook(Object obj) {
-//        if (obj instanceof Map) {
-//            Map map = (HashMap<String, Object>) obj;
-//            return new Book((String) map.get("bookId"),(String) map.get("title"), (String) map.get("isbn"), (String) map.get("author"), (String) map.get("classes"),
-//                    (String) map.get("price"), (String) map.get("number"), (String) map.get("email"), (Location) map.get("location"));
-//        }
-//        return null;
-//    }
-
 
     @Override
     public void onStart() {
@@ -268,7 +259,4 @@ public class Search extends AppCompatActivity implements
         // Show the dialog containing filter options
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
     }
-
-
-
 }
