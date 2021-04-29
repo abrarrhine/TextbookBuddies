@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.textbookbuddies.AddListing;
 import com.example.textbookbuddies.DetailedBookListing;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.models.Book;
@@ -123,7 +124,6 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             itemBook.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, book.getTitle(), Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(context, DetailedBookListing.class);
                     i.putExtra("book", Parcels.wrap(book));
                     context.startActivity(i);
@@ -134,6 +134,8 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
                     book.delete();
+                    Toast.makeText(context, "Book Successfully Deleted!", Toast.LENGTH_SHORT).show();
+
                 }
             });
         }

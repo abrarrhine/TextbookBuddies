@@ -17,7 +17,6 @@
 <!--        app:titleTextColor="@android:color/white" />-->
 
 
-
     <ScrollView
         android:id="@+id/scroll_view_play"
         android:layout_width="match_parent"
@@ -26,7 +25,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -210,6 +208,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavView_Bar"
         android:layout_width="420dp"

@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.*;
 import com.example.textbookbuddies.ui.login.LoginActivity;
@@ -142,6 +144,7 @@ public class AddListing extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         userBookListRef.child(key).setValue(newbook);
+                        Toast.makeText(AddListing.this, "Book Successfully Added!", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
