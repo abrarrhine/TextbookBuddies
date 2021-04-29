@@ -7,18 +7,26 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Movie;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.Search;
 import com.example.textbookbuddies.ui.login.LoginActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -30,6 +38,7 @@ public class DetailedBookListing extends AppCompatActivity {
     TextView tv_contact;
     TextView tv_email;
     TextView tv_price;
+    ImageView iv_photo;
     ImageView btn_back;
 
     TextView tv_logout;
@@ -46,6 +55,7 @@ public class DetailedBookListing extends AppCompatActivity {
         tv_contact = (TextView)findViewById(R.id.tv_contact);
         tv_email = (TextView)findViewById(R.id.tv_email);
         tv_price = (TextView)findViewById(R.id.tv_price);
+        iv_photo = (ImageView) findViewById(R.id.detailed_bkImage);
         btn_back = (ImageView) findViewById(R.id.btn_back);
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +104,24 @@ public class DetailedBookListing extends AppCompatActivity {
         }
 
         Book book = Parcels.unwrap(getIntent().getParcelableExtra("book"));
+
+        if (!book.getPhoto().equals("none")) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            StorageReference profileref = storageReference.child("images/"+book.getPhoto()+"/bookImage.jpg");
+            profileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Glide.with(iv_photo.getContext()).load(uri).into(iv_photo);
+
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        }
         tv_name.setText(book.getTitle());
         tv_isbn.setText(book.getIsbn());
         tv_class.setText(book.getClasses());

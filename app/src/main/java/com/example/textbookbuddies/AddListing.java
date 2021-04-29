@@ -3,18 +3,28 @@ package com.example.textbookbuddies;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.*;
+import com.example.textbookbuddies.ui.login.LoginActivity;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,21 +34,38 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Random;
+
 import okhttp3.Headers;
 
 public class AddListing extends AppCompatActivity {
 
     private static final String TAG = "AddListing";
     public static final String USER_INFO_URL = "https://textbook-buddies-31189-default-rtdb.firebaseio.com/users";
-
-    TextView title, author, classes,isbn, price, email, phonenumber;
-    Button cancel, submit, uploadimg;
+    TextView title, author,isbn, price, email, phonenumber, classes;
+    ImageView image;
+    Button cancel, submit, upload;
     List<Book> oldbooklist;
     String userId;
 
@@ -47,6 +74,11 @@ public class AddListing extends AppCompatActivity {
     private DatabaseReference userBookListRef;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
+    StorageReference storageReference;
+    String photo = "none";
+    Bitmap bitmap;
+    public static final int GET_FROM_GALLERY = 3;
+
     Book newbook;
     String key;
 
@@ -57,6 +89,8 @@ public class AddListing extends AppCompatActivity {
 
         firebaseDatabase = FirebaseDatabase.getInstance().getReference();
         listingsRef = FirebaseDatabase.getInstance().getReference().child("listings");
+        storageReference = FirebaseStorage.getInstance().getReference();
+
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
         userId = firebaseUser.getUid();
@@ -69,11 +103,15 @@ public class AddListing extends AppCompatActivity {
         price = findViewById(R.id.bkAddprice);
         email = findViewById(R.id.bkAddemail);
         phonenumber = findViewById(R.id.bkAddphonenumber);
+        image = findViewById(R.id.iv_bookimg);
         cancel = findViewById(R.id.btcancel);
         submit = findViewById(R.id.btsubmit);
+        upload = findViewById(R.id.bt_uploadimg);
 
         email.setText(firebaseUser.getEmail());
         phonenumber.setText(firebaseUser.getPhoneNumber());
+
+        key = listingsRef.push().getKey();
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,7 +129,6 @@ public class AddListing extends AppCompatActivity {
                 listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        key = listingsRef.push().getKey();
                         newbook = new Book(
                                 key,
                                 title.getText().toString(),
@@ -100,7 +137,8 @@ public class AddListing extends AppCompatActivity {
                                 classes.getText().toString(),
                                 Double.valueOf(price.getText().toString()),
                                 phonenumber.getText().toString(),
-                                email.getText().toString());
+                                email.getText().toString(),
+                                photo);
                         listingsRef.child(key).setValue(newbook);
                     }
 
@@ -123,6 +161,14 @@ public class AddListing extends AppCompatActivity {
 
                 Intent submitIntent = new Intent(AddListing.this, Listings.class);
                 startActivity(submitIntent);
+            }
+        });
+
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.INTERNAL_CONTENT_URI), GET_FROM_GALLERY);
             }
         });
 
@@ -153,5 +199,29 @@ public class AddListing extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //Detects request codes
+        if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
+            Uri uri = data.getData();
+
+            Random random = new Random();
+            int rand = random.nextInt(1000000);
+            final StorageReference fileref = storageReference.child("images/book" + rand + "/bookImage.jpg");
+            fileref.putFile(uri);
+
+            photo = "book" + rand;
+            Toast.makeText(AddListing.this, "Image uploaded!", Toast.LENGTH_LONG).show();
+
+        }
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+        //Uploads image to Firebase Storage
+
     }
 }

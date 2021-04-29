@@ -2,22 +2,30 @@ package com.example.textbookbuddies.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.textbookbuddies.DetailedBookListing;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.models.Book;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.common.net.InternetDomainName;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
@@ -70,8 +78,8 @@ public class BookAdapterPublic extends RecyclerView.Adapter<BookAdapterPublic.Vi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, author, isbn, price, email, phonenumber;
+        ImageView imageView;
         TextView authorTitle, isbnTitle, priceTitle, contactTitle;
-        Button delete;
         RelativeLayout itembook_public;
         public ViewHolder(View v) {
             super(v);
@@ -81,6 +89,7 @@ public class BookAdapterPublic extends RecyclerView.Adapter<BookAdapterPublic.Vi
             price = v.findViewById(R.id.bkPrice);
             email = v.findViewById(R.id.bkEmail);
             phonenumber = v.findViewById(R.id.bkPhone);
+            imageView = v.findViewById(R.id.bkDetailedImage);
             itembook_public = v.findViewById(R.id.itembook_public);
 
             authorTitle = v.findViewById(R.id.bkAuthorTitle);
@@ -90,6 +99,19 @@ public class BookAdapterPublic extends RecyclerView.Adapter<BookAdapterPublic.Vi
         }
 
         public void bind(Book book) {
+
+            if (!book.getPhoto().equals("none")) {
+                StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                StorageReference profileref = storageReference.child("images/"+book.getPhoto()+"/bookImage.jpg");
+                profileref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(imageView.getContext()).load(uri).into(imageView);
+
+                    }
+                });
+            }
+
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             isbn.setText(book.getIsbn());
