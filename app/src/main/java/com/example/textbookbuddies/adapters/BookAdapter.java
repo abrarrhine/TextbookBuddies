@@ -59,6 +59,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, author, isbn, price, email, phonenumber;
+        ImageView imageView;
         TextView authorTitle, isbnTitle, priceTitle, contactTitle;
         RelativeLayout itemBook;
         public ViewHolder(View v) {
@@ -69,10 +70,16 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             price = v.findViewById(R.id.bkPrice);
             email = v.findViewById(R.id.bkEmail);
             phonenumber = v.findViewById(R.id.bkPhone);
+            imageView = v.findViewById(R.id.bkImage);
             itemBook = v.findViewById(R.id.itembook);
         }
 
         public void bind(Book book) {
+
+            Glide.with(imageView.getContext())
+                    .load(book.getPhoto())
+                    .into(imageView);
+
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
             isbn.setText(book.getIsbn());

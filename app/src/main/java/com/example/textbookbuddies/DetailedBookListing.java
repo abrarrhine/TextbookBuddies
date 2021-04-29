@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.textbookbuddies.models.Book;
 import com.example.textbookbuddies.search.Search;
 import com.example.textbookbuddies.ui.login.LoginActivity;
@@ -28,6 +29,7 @@ public class DetailedBookListing extends AppCompatActivity {
     TextView tv_contact;
     TextView tv_email;
     TextView tv_price;
+    ImageView iv_photo;
     ImageView btn_back;
 
     TextView tv_logout;
@@ -44,6 +46,7 @@ public class DetailedBookListing extends AppCompatActivity {
         tv_contact = (TextView)findViewById(R.id.tv_contact);
         tv_email = (TextView)findViewById(R.id.tv_email);
         tv_price = (TextView)findViewById(R.id.tv_price);
+        iv_photo = (ImageView) findViewById(R.id.detailed_bkImage);
         btn_back = (ImageView) findViewById(R.id.btn_back);
 
         btn_back.setOnClickListener(new View.OnClickListener() {
@@ -74,6 +77,10 @@ public class DetailedBookListing extends AppCompatActivity {
         });
 
         Book book = Parcels.unwrap(getIntent().getParcelableExtra("book"));
+
+        Glide.with(iv_photo.getContext())
+                .load(book.getPhoto())
+                .into(iv_photo);
         tv_name.setText(book.getTitle());
         tv_isbn.setText(book.getIsbn());
         tv_class.setText(book.getClasses());

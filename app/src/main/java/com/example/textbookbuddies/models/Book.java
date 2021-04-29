@@ -24,6 +24,7 @@ public class Book implements Comparable<Book>, Parcelable {
     public static final String  FIELD_PRICE = "price";
     public static final String  FIELD_NUMBER = "number";
     public static final String  FIELD_EMAIL = "email";
+    public static final String  FIELD_IMGURI = "imgUri";
 
     private String title;
     private String isbn;
@@ -33,6 +34,7 @@ public class Book implements Comparable<Book>, Parcelable {
     private String priceString;
     private String number;
     private String email;
+    private String photo; // uri for image
 
     public Book(){
 
@@ -45,10 +47,11 @@ public class Book implements Comparable<Book>, Parcelable {
         this.priceDouble = jsonObject.getDouble("priceDouble");
         this.number = jsonObject.getString("number");
         this.email = jsonObject.getString("email");
+        this.photo = jsonObject.getString("imgUri");
 
     }
 
-    public Book(String title, String isbn, String author, String classes, double price, String number, String email) {
+    public Book(String title, String isbn, String author, String classes, double price, String number, String email, String imgUri) {
         this.title = title;
         this.isbn = isbn;
         this.author = author;
@@ -56,12 +59,13 @@ public class Book implements Comparable<Book>, Parcelable {
         this.priceDouble = price;
         this.number = number;
         this.email = email;
+        this.photo = imgUri;
     }
 
-    public static List<Book> fromJSONArray(JSONArray movieJsonArray) throws JSONException {
+    public static List<Book> fromJSONArray(JSONArray bookJsonArray) throws JSONException {
         List<Book> books = new ArrayList<>();
-        for (int i=0; i<movieJsonArray.length(); i++){
-            books.add(new Book(movieJsonArray.getJSONObject(i)));
+        for (int i=0; i<bookJsonArray.length(); i++){
+            books.add(new Book(bookJsonArray.getJSONObject(i)));
         }
         return books;
     }
@@ -130,6 +134,14 @@ public class Book implements Comparable<Book>, Parcelable {
         this.title = title;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String imgUri) {
+        this.photo = imgUri;
+    }
+
     public int compareTo(Book book) {
         return this.title.compareTo(book.getTitle());
     }
@@ -143,6 +155,7 @@ public class Book implements Comparable<Book>, Parcelable {
         priceString = in.readString();
         number = in.readString();
         email = in.readString();
+        photo = in.readString();
     }
 
     public static final Creator<Book> CREATOR = new Creator<Book>() {
@@ -172,5 +185,6 @@ public class Book implements Comparable<Book>, Parcelable {
         dest.writeString(priceString);
         dest.writeString(number);
         dest.writeString(email);
+        dest.writeString(photo);
     }
 }

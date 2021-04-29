@@ -39,7 +39,6 @@
         </activity>
         <activity android:name=".ForgotPassword" />
         <activity android:name=".ChangePassword" />
-        <activity android:name=".search.ListingDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -248,6 +248,7 @@ public class Search extends AppCompatActivity implements
                 Filters f = new Filters();
                 f.setSearchBy("title");
                 f.setSortBy("title");
+                currentSearch.setText("");
                 onFilter(f);
         }
     }
