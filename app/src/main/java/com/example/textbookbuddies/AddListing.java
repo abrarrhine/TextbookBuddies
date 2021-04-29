@@ -23,6 +23,8 @@ import com.example.textbookbuddies.search.*;
 import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +40,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +55,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.Random;
+
 import okhttp3.Headers;
 
 public class AddListing extends AppCompatActivity {
@@ -106,6 +111,8 @@ public class AddListing extends AppCompatActivity {
         email.setText(firebaseUser.getEmail());
         phonenumber.setText(firebaseUser.getPhoneNumber());
 
+        key = listingsRef.push().getKey();
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +129,6 @@ public class AddListing extends AppCompatActivity {
                 listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        key = listingsRef.push().getKey();
                         newbook = new Book(
                                 key,
                                 title.getText().toString(),
@@ -158,7 +164,6 @@ public class AddListing extends AppCompatActivity {
             }
         });
 
-        storageReference = FirebaseStorage.getInstance().getReference().child("images/pic1.jpg");
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,43 +205,23 @@ public class AddListing extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
         //Detects request codes
         if(requestCode==GET_FROM_GALLERY && resultCode == Activity.RESULT_OK) {
             Uri uri = data.getData();
-            bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] bytedata = baos.toByteArray();
 
-                UploadTask uploadTask = storageReference.putBytes(bytedata);
-                final StorageReference ref = storageReference;
-                Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
-                    @Override
-                    public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                        if (!task.isSuccessful()) {
-                            throw task.getException();
-                        }
+            Random random = new Random();
+            int rand = random.nextInt(1000000);
+            final StorageReference fileref = storageReference.child("images/book" + rand + "/bookImage.jpg");
+            fileref.putFile(uri);
 
-                        // Continue with the task to get the download URL
-                        return ref.getDownloadUrl();
-                    }
-                }).addOnCompleteListener(new OnCompleteListener<Uri>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Uri> task) {
-                        if (task.isSuccessful()) {
-                            photo = task.getResult().toString();
-                        }
-                    }
-                });
-                image.setImageBitmap(bitmap);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            photo = "book" + rand;
+            Toast.makeText(AddListing.this, "Image uploaded!", Toast.LENGTH_LONG).show();
+
         }
+    }
+
+    private void uploadImageToFirebase(Uri imageUri) {
+        //Uploads image to Firebase Storage
+
     }
 }
