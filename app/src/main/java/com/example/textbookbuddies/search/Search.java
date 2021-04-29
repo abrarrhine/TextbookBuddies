@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -42,7 +43,9 @@ import com.example.textbookbuddies.Profile;
 import com.example.textbookbuddies.R;
 import com.example.textbookbuddies.adapters.*;
 import com.example.textbookbuddies.models.*;
+import com.example.textbookbuddies.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -84,6 +87,7 @@ public class Search extends AppCompatActivity implements
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         currentSearch = (EditText) findViewById(R.id.text_current_search);
         booksRecycler = findViewById(R.id.recycler_books);
@@ -252,11 +256,26 @@ public class Search extends AppCompatActivity implements
                 f.setSearchBy("title");
                 f.setSortBy("title");
                 onFilter(f);
+
+
         }
     }
 
     public void onFilterClicked() {
         // Show the dialog containing filter options
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_logout) {
+            // do something here
+            Intent intent5 = new Intent(Search.this, LoginActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(intent5);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
