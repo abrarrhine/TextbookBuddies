@@ -16,6 +16,7 @@
 package com.example.textbookbuddies.search;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -74,6 +75,7 @@ public class Search extends AppCompatActivity implements
     private List<Book> books;
 
     private SearchViewModel mViewModel;
+    private RecyclerView mBooksRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,8 @@ public class Search extends AppCompatActivity implements
         mViewModel.setFilters(f);
         databaseReference = FirebaseDatabase.getInstance().getReference().child("listings");
         books = new ArrayList<>();
+        mBooksRecycler = findViewById(R.id.recycler_books);
+        mBooksRecycler.setLayoutManager(new LinearLayoutManager(this));
 
         // Filter Dialog
         mFilterDialog = new FilterDialogFragment();
@@ -131,7 +135,6 @@ public class Search extends AppCompatActivity implements
             }
         });
     }
-
 
     @Override
     public void onStart() {
@@ -256,7 +259,4 @@ public class Search extends AppCompatActivity implements
         // Show the dialog containing filter options
         mFilterDialog.show(getSupportFragmentManager(), FilterDialogFragment.TAG);
     }
-
-
-
 }

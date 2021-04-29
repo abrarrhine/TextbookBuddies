@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -41,7 +42,6 @@ public class Listings extends AppCompatActivity {
     RecyclerView bkListings;
     FirebaseAuth firebaseAuth;
     FirebaseUser firebaseUser;
-    FirebaseDatabase firebaseDatabase;
     List<Book> books;
     String TAG;
     BookAdapter bookAdapter;
@@ -75,7 +75,35 @@ public class Listings extends AppCompatActivity {
         HttpURL = USER_INFO_URL + "/" + Uid + ".json";
         Log.d(TAG, HttpURL);
 
-        refresh();
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(HttpURL, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int i, Headers headers, JSON json) {
+                Log.d(TAG, "onSuccess");
+                JSONObject jsonObject = json.jsonObject;
+                try {
+                    JSONObject booklist = jsonObject.getJSONObject("booklist");
+                    Log.i(TAG, "Results: " + booklist.toString());
+
+                    Iterator book = booklist.keys();
+                    JSONArray newBookList = new JSONArray();
+                    while (book.hasNext()){
+                        String key = (String) book.next();
+                        newBookList.put(booklist.get(key));
+                    }
+                    books.addAll(Book.fromJSONArray(newBookList));
+                    bookAdapter.notifyDataSetChanged();
+                    Log.i(TAG, "Books: " + books.size());
+                } catch (JSONException e) {
+                    Log.e(TAG, "Hit json exception", e);
+                }
+            }
+
+            @Override
+            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
+                Log.d(TAG, "onFailure");
+            }
+        });
         addBookButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,30 +167,7 @@ public class Listings extends AppCompatActivity {
     }
 
     public void refresh(){
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(HttpURL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray booklist = jsonObject.getJSONArray("booklist");
-//                            jsonObject.getString()
-                    Log.i(TAG, "Results: " + booklist.toString());
-                    books.clear();
-                    books.addAll(Book.fromJSONArray(booklist));
-                    bookAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "Books: " + books.size());
-
-                } catch (JSONException e) {
-                    Log.e(TAG, "Hit json exception", e);
-                }
-            }
-
-            @Override
-            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure");
-            }
-        });
+        Intent thisIntent = new Intent(Listings.this, Listings.class);
+        startActivity(thisIntent);
     }
 }
